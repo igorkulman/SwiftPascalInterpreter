@@ -59,8 +59,7 @@ public class Interpreter {
         
         // if the character is a digit, convert it to int, create an integer token and move position
         if CharacterSet.decimalDigits.contains(currentCharacter.unicodeScalars.first!) {
-            advance()
-            return .integer(currentCharacter.int)
+            return getInteger()
         }
         
         if currentCharacter == "+" {
@@ -86,7 +85,16 @@ public class Interpreter {
         fatalError("Error parsing input")
     }
     
-    func eatInteger() -> Int {
+    private func getInteger() -> Token {
+        var lexem = ""
+        while let character = currentCharacter, CharacterSet.alphanumerics.contains(character.unicodeScalars.first!) {
+            lexem = lexem + String(character)
+            advance()
+        }
+        return .integer(Int(lexem)!)
+    }
+    
+    private func eatInteger() -> Int {
         switch currentToken! {
         case .integer(let value):
             currentToken = getNextToken()
@@ -96,7 +104,7 @@ public class Interpreter {
         }
     }
     
-    func eatOperation() -> Operation {
+    private func eatOperation() -> Operation {
         switch currentToken! {
         case .operation(let operation):
             currentToken = getNextToken()

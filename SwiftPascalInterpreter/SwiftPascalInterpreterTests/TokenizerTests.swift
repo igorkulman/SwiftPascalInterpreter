@@ -58,7 +58,7 @@ class TokenizerTests: XCTestCase {
         let eof = interpeter.getNextToken()
         
         XCTAssert(left == .integer(3))
-        XCTAssert(operation == .operation(.divide))
+        XCTAssert(operation == .operation(.divided))
         XCTAssert(right == .integer(4))
         XCTAssert(eof == .eof)
     }
@@ -125,6 +125,19 @@ class TokenizerTests: XCTestCase {
         XCTAssert(left == .integer(3))
         XCTAssert(operation == .operation(.plus))
         XCTAssert(right == .integer(4))
+        XCTAssert(eof == .eof)
+    }
+    
+    func testMultiDigitStrings() {
+        let interpeter = Interpreter(" 13+ 154 ")
+        let left = interpeter.getNextToken()
+        let operation = interpeter.getNextToken()
+        let right = interpeter.getNextToken()
+        let eof = interpeter.getNextToken()
+        
+        XCTAssert(left == .integer(13))
+        XCTAssert(operation == .operation(.plus))
+        XCTAssert(right == .integer(154))
         XCTAssert(eof == .eof)
     }
 }
