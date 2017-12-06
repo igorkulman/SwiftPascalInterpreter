@@ -32,7 +32,20 @@ class TokenizerTests: XCTestCase {
         let eof = interpeter.getNextToken()
 
         XCTAssert(left == .integer(3))
-        XCTAssert(operation == .plus)
+        XCTAssert(operation == .operation(.plus))
+        XCTAssert(right == .integer(4))
+        XCTAssert(eof == .eof)
+    }
+    
+    func testMinusPlusInteger() {
+        let interpeter = Interpreter("3 -4")
+        let left = interpeter.getNextToken()
+        let operation = interpeter.getNextToken()
+        let right = interpeter.getNextToken()
+        let eof = interpeter.getNextToken()
+        
+        XCTAssert(left == .integer(3))
+        XCTAssert(operation == .operation(.minus))
         XCTAssert(right == .integer(4))
         XCTAssert(eof == .eof)
     }
@@ -45,7 +58,7 @@ class TokenizerTests: XCTestCase {
         let eof = interpeter.getNextToken()
         
         XCTAssert(left == .integer(3))
-        XCTAssert(operation == .plus)
+        XCTAssert(operation == .operation(.plus))
         XCTAssert(right == .integer(4))
         XCTAssert(eof == .eof)
     }
@@ -58,7 +71,7 @@ class TokenizerTests: XCTestCase {
         let eof = interpeter.getNextToken()
         
         XCTAssert(left == .integer(3))
-        XCTAssert(operation == .plus)
+        XCTAssert(operation == .operation(.plus))
         XCTAssert(right == .integer(4))
         XCTAssert(eof == .eof)
     }
@@ -71,7 +84,7 @@ class TokenizerTests: XCTestCase {
         let eof = interpeter.getNextToken()
         
         XCTAssert(left == .integer(3))
-        XCTAssert(operation == .plus)
+        XCTAssert(operation == .operation(.plus))
         XCTAssert(right == .integer(4))
         XCTAssert(eof == .eof)
     }
@@ -84,7 +97,7 @@ class TokenizerTests: XCTestCase {
         let eof = interpeter.getNextToken()
         
         XCTAssert(left == .integer(3))
-        XCTAssert(operation == .plus)
+        XCTAssert(operation == .operation(.plus))
         XCTAssert(right == .integer(4))
         XCTAssert(eof == .eof)
     }

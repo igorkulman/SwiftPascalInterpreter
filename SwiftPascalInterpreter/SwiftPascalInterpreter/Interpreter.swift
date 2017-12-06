@@ -66,7 +66,13 @@ public class Interpreter {
         // if the character is +, create a plus token and move position
         if currentCharacter == "+" {
             advance()
-            return .plus
+            return .operation(.plus)
+        }
+        
+        // if the character is -, create a plus token and move position
+        if currentCharacter == "-" {
+            advance()
+            return .operation(.minus)
         }
         
         fatalError("Error parsing input")
@@ -82,11 +88,11 @@ public class Interpreter {
         }
     }
     
-    func eatPlus() {
+    func eatOperation() -> Operation {
         switch currentToken! {
-        case .plus:
+        case .operation(let operation):
             currentToken = getNextToken()
-            return
+            return operation
         default:
             fatalError("Expected plus, got \(currentToken!)")
         }
@@ -100,12 +106,16 @@ public class Interpreter {
         let left = eatInteger()
         
         // next token should be the + operation
-        eatPlus()
+        let operation = eatOperation()
         
         // last token should be the second single digit number
         let right = eatInteger()
         
-        let result = left + right
-        return result
+        switch operation {
+        case .plus:
+            return left + right
+        case .minus:
+            return left - right
+        }
     }
 }

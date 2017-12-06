@@ -17,8 +17,8 @@ extension Character {
 extension Token: Equatable {
     public static func ==(lhs: Token, rhs: Token) -> Bool {
         switch (lhs, rhs) {
-        case (.plus, .plus):
-            return true
+        case (.operation(let left), .operation(let right)):
+            return left == right
         case (.eof, .eof):
             return true
         case (.integer(let left), .integer(let right)):
@@ -27,5 +27,15 @@ extension Token: Equatable {
             return false
         }
     }
+}
 
+extension Operation: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .minus:
+            return "minus"
+        case .plus:
+            return "plus"
+        }
+    }
 }
