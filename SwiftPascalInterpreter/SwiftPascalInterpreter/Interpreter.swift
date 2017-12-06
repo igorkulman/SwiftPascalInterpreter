@@ -10,11 +10,36 @@ import Foundation
 
 public class Interpreter {
     private let text: String
-    private var textPosition: Int = 0
+    private var currentPosition: Int
     private var currentToken: Token?
+    private var currentCharacter: Character?
     
     public init(_ text: String) {
         self.text = text
+        currentPosition = 0
+        currentCharacter = text.isEmpty ? nil : text[text.startIndex]
+    }
+    
+    /**
+     Skips all the whitespace
+     */
+    private func skipWhitestace() {
+        while let character = currentCharacter, CharacterSet.whitespaces.contains(character.unicodeScalars.first!) {
+            advance()
+        }
+    }
+    
+    /**
+     Advances by one character forward, sets the current character (if still any available)
+     */
+    private func advance() {
+        currentPosition = currentPosition + 1
+        guard currentPosition < text.count else {
+            currentCharacter = nil
+            return
+        }
+        
+        currentCharacter = text[text.index(text.startIndex, offsetBy: currentPosition)]
     }
     
     /**
@@ -22,26 +47,25 @@ public class Interpreter {
      
      - Returns: Next token in text
      */
-    func getNextToken() -> Token {
+    public func getNextToken() -> Token {
+        
+        // first skip all the whitespace
+        skipWhitestace()
         
         // current position in text must be within the text, otherwise it is the end of input
-        guard textPosition < text.count else {
+        guard let currentCharacter = currentCharacter else {
             return .eof
         }
         
-        // get character at the current text position and decide what token to create
-        let index = text.index(text.startIndex, offsetBy: textPosition)
-        let currentCharacter = text[index]
-        
         // if the character is a digit, convert it to int, create an integer token and move position
         if CharacterSet.decimalDigits.contains(currentCharacter.unicodeScalars.first!) {
-            textPosition = textPosition + 1
+            advance()
             return .integer(currentCharacter.int)
         }
         
         // if the character is +, create a plus token and move position
         if currentCharacter == "+" {
-            textPosition = textPosition + 1
+            advance()
             return .plus
         }
         
