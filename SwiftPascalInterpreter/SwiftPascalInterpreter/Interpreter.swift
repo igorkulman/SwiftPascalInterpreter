@@ -114,19 +114,53 @@ public class Interpreter {
         }
     }
     
+    func term() -> Int {
+        return eatInteger()
+    }
+    
     public func expr() -> Int {
-        // start with teh frist token
+        // start with the first token
         currentToken = getNextToken()
         
-        // current token should be a single digit number
-        let left = eatInteger()
+        var result = term()
         
+        while let token = currentToken {
+            switch token {
+            case .operation(let operation):
+                eatOperation()
+                switch operation {
+                case .plus:
+                    result = result + term()
+                    break
+                case .minus:
+                    result = result - term()
+                    break
+                case .times:
+                    result = result * term()
+                    break
+                case .divided:
+                    result = result / term()
+                    break
+                }
+                break
+            case .eof:
+                return result
+            default:
+                fatalError("Syntax error")
+            }
+        }
+        
+        fatalError("Syntax error")
+        
+       /* // current token should be a single digit number
+        let left = eatInteger()
+         
         // next token should be the + operation
         let operation = eatOperation()
-        
+         
         // last token should be the second single digit number
         let right = eatInteger()
-        
+         
         switch operation {
         case .plus:
             return left + right
@@ -136,6 +170,6 @@ public class Interpreter {
             return left * right
         case .divided:
             return left / right
-        }
+        }*/
     }
 }
