@@ -36,6 +36,10 @@ extension Operation: CustomStringConvertible {
             return "minus"
         case .plus:
             return "plus"
+        case .times:
+            return "times"
+        case .divided:
+            return "divide"
         }
     }
 }

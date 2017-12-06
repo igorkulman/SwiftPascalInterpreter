@@ -63,16 +63,24 @@ public class Interpreter {
             return .integer(currentCharacter.int)
         }
         
-        // if the character is +, create a plus token and move position
         if currentCharacter == "+" {
             advance()
             return .operation(.plus)
         }
         
-        // if the character is -, create a plus token and move position
         if currentCharacter == "-" {
             advance()
             return .operation(.minus)
+        }
+        
+        if currentCharacter == "*" {
+            advance()
+            return .operation(.times)
+        }
+        
+        if currentCharacter == "/" {
+            advance()
+            return .operation(.divided)
         }
         
         fatalError("Error parsing input")
@@ -116,6 +124,10 @@ public class Interpreter {
             return left + right
         case .minus:
             return left - right
+        case .times:
+            return left * right
+        case .divided:
+            return left / right
         }
     }
 }
