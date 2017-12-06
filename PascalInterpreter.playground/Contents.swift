@@ -41,7 +41,14 @@ class Interpreter {
         
         // get character at the current text position and decide what token to create
         let index = text.index(text.startIndex, offsetBy: textPosition)
-        let currentCharacter = text[index]
+        var currentCharacter = text[index]
+        
+        // skip whitespace
+        while CharacterSet.whitespacesAndNewlines.contains(currentCharacter.unicodeScalars.first!) {
+            textPosition = textPosition + 1
+            let index = text.index(text.startIndex, offsetBy: textPosition)
+            currentCharacter = text[index]
+        }
         
         // if the character is a digit, convert it to int, create an integer token and move position
         if CharacterSet.decimalDigits.contains(currentCharacter.unicodeScalars.first!) {
@@ -102,10 +109,11 @@ extension Character {
     }
 }
 
-let interpeter = Interpreter("3+4")
+let interpeter = Interpreter("3 +4")
 /* interpeter.getNextToken()
  interpeter.getNextToken()
  interpeter.getNextToken()
  interpeter.getNextToken() */
 
 interpeter.expr()
+
