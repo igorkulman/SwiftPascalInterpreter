@@ -15,8 +15,14 @@ public enum Operation {
     case div
 }
 
+public enum Parenthesis {
+    case left
+    case right
+}
+
 public enum Token {
     case integer(Int)
     case operation(Operation)
     case eof
+    case parenthesis(Parenthesis)
 }

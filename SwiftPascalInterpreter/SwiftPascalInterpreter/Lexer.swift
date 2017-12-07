@@ -84,6 +84,16 @@ public class Lexer {
             return .operation(.div)
         }
 
+        if currentCharacter == "(" {
+            advance()
+            return .parenthesis(.left)
+        }
+
+        if currentCharacter == ")" {
+            advance()
+            return .parenthesis(.right)
+        }
+
         fatalError("Error parsing input")
     }
 

@@ -140,4 +140,19 @@ class LexerTests: XCTestCase {
         XCTAssert(right == .integer(154))
         XCTAssert(eof == .eof)
     }
+
+    func testParentheses() {
+        let lexer = Lexer("(1+(3*5))")
+
+        XCTAssert(lexer.getNextToken() == .parenthesis(.left))
+        XCTAssert(lexer.getNextToken() == .integer(1))
+        XCTAssert(lexer.getNextToken() == .operation(.plus))
+        XCTAssert(lexer.getNextToken() == .parenthesis(.left))
+        XCTAssert(lexer.getNextToken() == .integer(3))
+        XCTAssert(lexer.getNextToken() == .operation(.mult))
+        XCTAssert(lexer.getNextToken() == .integer(5))
+        XCTAssert(lexer.getNextToken() == .parenthesis(.right))
+        XCTAssert(lexer.getNextToken() == .parenthesis(.right))
+        XCTAssert(lexer.getNextToken() == .eof)
+    }
 }

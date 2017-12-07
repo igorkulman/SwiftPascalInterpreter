@@ -23,6 +23,8 @@ extension Token: Equatable {
             return true
         case let (.integer(left), .integer(right)):
             return left == right
+        case let (.parenthesis(left), .parenthesis(right)):
+            return left == right
         default:
             return false
         }
