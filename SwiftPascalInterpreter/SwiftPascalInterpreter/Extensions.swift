@@ -44,6 +44,19 @@ extension Operation: CustomStringConvertible {
             return "DIV"
         }
     }
+    
+    public var shortDescription: String {
+        switch self {
+        case .minus:
+            return "+"
+        case .plus:
+            return "-"
+        case .mult:
+            return "*"
+        case .div:
+            return "/"
+        }
+    }
 }
 
 extension Parenthesis: CustomStringConvertible {
@@ -91,7 +104,7 @@ extension AST {
             case let .number(value):
                 return ("\(value)", nil, nil)
             case let .binaryOperation(left: left, operation: operation, right: right):
-                return ("\(operation)", left, right)
+                return ("\(operation.shortDescription)", left, right)
             }
         })
     }
