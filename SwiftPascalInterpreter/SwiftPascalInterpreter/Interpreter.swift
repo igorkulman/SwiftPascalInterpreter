@@ -9,106 +9,32 @@
 import Foundation
 
 public class Interpreter {
-    private let lexer: Lexer
-    private var currentToken: Token
+    private let parser: Parser
 
     public init(_ text: String) {
-        lexer = Lexer(text)
-        currentToken = lexer.getNextToken()
+        parser = Parser(text)
     }
 
-    private func eatInteger() {
-        switch currentToken {
-        case .integer:
-            currentToken = lexer.getNextToken()
-        default:
-            fatalError("Expected integer, got \(currentToken)")
-        }
+    public func eval() -> Int {
+        let node = parser.expr()
+        return visit(node)
     }
 
-    private func eatOperation(_ operation: Operation) {
-        switch currentToken {
-        case .operation(operation):
-            currentToken = lexer.getNextToken()
-        default:
-            fatalError("Expected \(operation), got \(currentToken)")
-        }
-    }
-
-    private func eatParenthesis(_ parenthesis: Parenthesis) {
-        switch currentToken {
-        case .parenthesis(parenthesis):
-            currentToken = lexer.getNextToken()
-        default:
-            fatalError("Expected \(parenthesis), got \(currentToken)")
-        }
-    }
-
-    /**
-     Factor for the grammar described in the `expr` method
-
-     Returns: Int value
-     */
-    func factor() -> Int {
-        let token = currentToken
-        switch token {
-        case let .integer(value):
-            eatInteger()
+    private func visit(_ node: AST) -> Int {
+        switch node {
+        case let .number(value):
             return value
-        case .parenthesis(.left):
-            eatParenthesis(.left)
-            let result = expr()
-            eatParenthesis(.right)
-            return result
-        default:
-            fatalError("Syntax error")
-        }
-    }
-
-    /**
-     Term for the grammar described in the `expr` method
-
-     Returns: Int value
-     */
-    func term() -> Int {
-        var result = factor()
-
-        while [.operation(.mult), .operation(.div)].contains(currentToken) {
-            if currentToken == .operation(.mult) {
-                eatOperation(.mult)
-                result *= term()
-            } else if currentToken == .operation(.div) {
-                eatOperation(.div)
-                result /= term()
+        case let .binaryOperation(left: left, operation: operation, right: right):
+            switch operation {
+            case .plus:
+                return visit(left) + visit(right)
+            case .minus:
+                return visit(left) - visit(right)
+            case .mult:
+                return visit(left) * visit(right)
+            case .div:
+                return visit(left) / visit(right)
             }
         }
-
-        return result
-    }
-
-    /**
-     Arithmetic expression parser
-
-     expr   : term (PLUS | MINUS) term)*
-     term   : factor ((MUL | DIV) factor)*
-     factor : INTEGER | LPAREN factor RPAREN
-
-     Returns: Int value
-     */
-    public func expr() -> Int {
-
-        var result = term()
-
-        while [.operation(.plus), .operation(.minus)].contains(currentToken) {
-            if currentToken == .operation(.plus) {
-                eatOperation(.plus)
-                result += term()
-            } else if currentToken == .operation(.minus) {
-                eatOperation(.minus)
-                result -= term()
-            }
-        }
-
-        return result
     }
 }
