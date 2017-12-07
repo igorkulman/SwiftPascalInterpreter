@@ -26,7 +26,7 @@ public class Interpreter {
         }
     }
 
-    private func eatOperation() {
+    private func eatOperation(_ operation: Operation) {
         switch currentToken {
         case .operation:
             currentToken = lexer.getNextToken()
@@ -36,7 +36,7 @@ public class Interpreter {
     }
 
     /**
-     Factor
+     Factor for the grammar described in the `expr` method
 
      Returns: Int value
      */
@@ -52,9 +52,31 @@ public class Interpreter {
     }
 
     /**
+     Term for the grammar described in the `expr` method
+
+     Returns: Int value
+     */
+    func term() -> Int {
+        var result = factor()
+
+        while [.operation(.mult), .operation(.div)].contains(currentToken) {
+            if currentToken == .operation(.mult) {
+                eatOperation(.mult)
+                result *= term()
+            } else if currentToken == .operation(.div) {
+                eatOperation(.div)
+                result /= term()
+            }
+        }
+
+        return result
+    }
+
+    /**
      Arithmetic expression parser
 
-     expr   : factor ((MUL | DIV | PLUS | MINUS) factor)*
+     expr   : term (PLUS | MINUS) term)*
+     term   : factor ((MUL | DIV) factor)*
      factor : INTEGER
 
      Returns: Int value
@@ -63,22 +85,13 @@ public class Interpreter {
 
         var result = factor()
 
-        while [.operation(.plus), .operation(.minus), .operation(.mult), .operation(.div)].contains(currentToken) {
-            switch currentToken {
-            case let .operation(operation):
-                eatOperation()
-                switch operation {
-                case .plus:
-                    result += factor()
-                case .minus:
-                    result -= factor()
-                case .mult:
-                    result *= factor()
-                case .div:
-                    result /= factor()
-                }
-            default:
-                fatalError("Syntax error")
+        while [.operation(.plus), .operation(.minus)].contains(currentToken) {
+            if currentToken == .operation(.plus) {
+                eatOperation(.plus)
+                result += term()
+            } else if currentToken == .operation(.minus) {
+                eatOperation(.minus)
+                result -= term()
             }
         }
 
