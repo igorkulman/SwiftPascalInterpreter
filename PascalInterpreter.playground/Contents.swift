@@ -15,3 +15,6 @@ lexer.getNextToken()
 
 let interpeter = Interpreter("2 * (7 + 3) ")
 interpeter.expr()
+
+let parser = Parser("2*7+3")
+print(parser.expr().asString)

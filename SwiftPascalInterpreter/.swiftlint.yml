@@ -1,0 +1,4 @@
+disabled_rules:
+    - line_length
+    - large_tuple
+    - function_body_length

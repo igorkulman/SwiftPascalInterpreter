@@ -15,6 +15,9 @@
 		F3474F661FD872C0003336FA /* InterpreterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3474F651FD872C0003336FA /* InterpreterTests.swift */; };
 		F360340F1FD8589600CC81C3 /* SwiftPascalInterpreter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F36034051FD8589600CC81C3 /* SwiftPascalInterpreter.framework */; };
 		F36034161FD8589600CC81C3 /* SwiftPascalInterpreter.h in Headers */ = {isa = PBXBuildFile; fileRef = F36034081FD8589600CC81C3 /* SwiftPascalInterpreter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3A550021FD9BBEF003476D9 /* AST.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A550011FD9BBEF003476D9 /* AST.swift */; };
+		F3A550041FD9BC2A003476D9 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A550031FD9BC2A003476D9 /* Parser.swift */; };
+		F3A550061FD9C209003476D9 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A550051FD9C209003476D9 /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +42,9 @@
 		F36034091FD8589600CC81C3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F360340E1FD8589600CC81C3 /* SwiftPascalInterpreterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftPascalInterpreterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F36034151FD8589600CC81C3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F3A550011FD9BBEF003476D9 /* AST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AST.swift; sourceTree = "<group>"; };
+		F3A550031FD9BC2A003476D9 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		F3A550051FD9C209003476D9 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +72,7 @@
 				F36034081FD8589600CC81C3 /* SwiftPascalInterpreter.h */,
 				F36034091FD8589600CC81C3 /* Info.plist */,
 				F3474F5E1FD858FD003336FA /* Extensions.swift */,
+				F3A550051FD9C209003476D9 /* Utils.swift */,
 			);
 			name = "Supporting files";
 			sourceTree = "<group>";
@@ -99,8 +106,10 @@
 		F36034071FD8589600CC81C3 /* SwiftPascalInterpreter */ = {
 			isa = PBXGroup;
 			children = (
+				F3A550011FD9BBEF003476D9 /* AST.swift */,
 				F3474F581FD858BA003336FA /* Interpreter.swift */,
 				F30E36511FD9291900DF63C4 /* Lexer.swift */,
+				F3A550031FD9BC2A003476D9 /* Parser.swift */,
 				F3474F5A1FD858D0003336FA /* Token.swift */,
 				F3474F5D1FD858E9003336FA /* Supporting files */,
 			);
@@ -248,7 +257,10 @@
 			files = (
 				F3474F591FD858BA003336FA /* Interpreter.swift in Sources */,
 				F3474F5F1FD858FD003336FA /* Extensions.swift in Sources */,
+				F3A550041FD9BC2A003476D9 /* Parser.swift in Sources */,
+				F3A550061FD9C209003476D9 /* Utils.swift in Sources */,
 				F30E36521FD9291900DF63C4 /* Lexer.swift in Sources */,
+				F3A550021FD9BBEF003476D9 /* AST.swift in Sources */,
 				F3474F5B1FD858D0003336FA /* Token.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

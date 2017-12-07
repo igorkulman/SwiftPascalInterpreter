@@ -83,3 +83,16 @@ extension Interpreter: CustomStringConvertible {
         return "Interpreter"
     }
 }
+
+extension AST {
+    public var asString: String {
+        return treeString(self, using: { node in
+            switch node {
+            case let .number(value):
+                return ("\(value)", nil, nil)
+            case let .binaryOperation(left: left, operation: operation, right: right):
+                return ("\(operation)", left, right)
+            }
+        })
+    }
+}
