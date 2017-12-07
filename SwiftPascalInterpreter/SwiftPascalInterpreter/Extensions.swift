@@ -15,13 +15,13 @@ extension Character {
 }
 
 extension Token: Equatable {
-    public static func ==(lhs: Token, rhs: Token) -> Bool {
+    public static func == (lhs: Token, rhs: Token) -> Bool {
         switch (lhs, rhs) {
-        case (.operation(let left), .operation(let right)):
+        case let (.operation(left), .operation(right)):
             return left == right
         case (.eof, .eof):
             return true
-        case (.integer(let left), .integer(let right)):
+        case let (.integer(left), .integer(right)):
             return left == right
         default:
             return false

@@ -18,7 +18,7 @@ class InterpreterTests: XCTestCase {
         let result = interpeter.expr()
         XCTAssert(result == 3)
     }
-    
+
     func testMultipleIntegers() {
         let interpeter = Interpreter("1+2*3")
         let result = interpeter.expr()

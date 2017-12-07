@@ -10,88 +10,78 @@ import Foundation
 
 public class Interpreter {
     private let lexer: Lexer
-    private var currentToken: Token?
-    
+    private var currentToken: Token
+
     public init(_ text: String) {
         lexer = Lexer(text)
+        currentToken = lexer.getNextToken()
     }
-    
-    private func eatInteger() -> Int {
-        switch currentToken! {
-        case .integer(let value):
+
+    private func eatInteger() {
+        switch currentToken {
+        case .integer:
             currentToken = lexer.getNextToken()
+        default:
+            fatalError("Expected integer, got \(currentToken)")
+        }
+    }
+
+    private func eatOperation() {
+        switch currentToken {
+        case .operation:
+            currentToken = lexer.getNextToken()
+        default:
+            fatalError("Expected plus, got \(currentToken)")
+        }
+    }
+
+    /**
+     Factor
+
+     Returns: Int value
+     */
+    func factor() -> Int {
+        let token = currentToken
+        eatInteger()
+        switch token {
+        case let .integer(value):
             return value
         default:
-            fatalError("Expected integer, got \(currentToken!)")
+            fatalError("Syntax error")
         }
     }
-    
-    private func eatOperation() -> Operation {
-        switch currentToken! {
-        case .operation(let operation):
-            currentToken = lexer.getNextToken()
-            return operation
-        default:
-            fatalError("Expected plus, got \(currentToken!)")
-        }
-    }
-    
-    func term() -> Int {
-        return eatInteger()
-    }
-    
+
+    /**
+     Arithmetic expression parser
+
+     expr   : factor ((MUL | DIV | PLUS | MINUS) factor)*
+     factor : INTEGER
+
+     Returns: Int value
+     */
     public func expr() -> Int {
-        // start with the first token
-        currentToken = lexer.getNextToken()
-        
-        var result = term()
-        
-        while let token = currentToken {
-            switch token {
-            case .operation(let operation):
+
+        var result = factor()
+
+        while [.operation(.plus), .operation(.minus), .operation(.mult), .operation(.div)].contains(currentToken) {
+            switch currentToken {
+            case let .operation(operation):
                 eatOperation()
                 switch operation {
                 case .plus:
-                    result = result + term()
-                    break
+                    result += factor()
                 case .minus:
-                    result = result - term()
-                    break
+                    result -= factor()
                 case .mult:
-                    result = result * term()
-                    break
+                    result *= factor()
                 case .div:
-                    result = result / term()
-                    break
+                    result /= factor()
                 }
-                break
-            case .eof:
-                return result
             default:
                 fatalError("Syntax error")
             }
         }
-        
-        fatalError("Syntax error")
-        
-       /* // current token should be a single digit number
-        let left = eatInteger()
-         
-        // next token should be the + operation
-        let operation = eatOperation()
-         
-        // last token should be the second single digit number
-        let right = eatInteger()
-         
-        switch operation {
-        case .plus:
-            return left + right
-        case .minus:
-            return left - right
-        case .times:
-            return left * right
-        case .divided:
-            return left / right
-        }*/
+
+        return result
     }
 }
