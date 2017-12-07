@@ -3,10 +3,12 @@
 import Foundation
 import SwiftPascalInterpreter
 
-let interpeter = Interpreter("3+4")
+let interpeter = Interpreter("3+2*9")
 /* interpeter.getNextToken()
  interpeter.getNextToken()
  interpeter.getNextToken()
- interpeter.getNextToken() */
+ interpeter.getNextToken()*/
 
 interpeter.expr()
+
+

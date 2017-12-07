@@ -12,7 +12,7 @@ import Foundation
 import XCTest
 @testable import SwiftPascalInterpreter
 
-class ParserTests: XCTestCase {
+class InterpreterTests: XCTestCase {
     func testSingleInteger() {
         let interpeter = Interpreter("3")
         let result = interpeter.expr()

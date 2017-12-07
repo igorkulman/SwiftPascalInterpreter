@@ -11,8 +11,8 @@ import Foundation
 public enum Operation {
     case plus
     case minus
-    case times
-    case divided
+    case mult
+    case div
 }
 
 public enum Token {

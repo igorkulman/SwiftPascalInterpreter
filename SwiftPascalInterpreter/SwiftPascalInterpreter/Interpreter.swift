@@ -9,95 +9,17 @@
 import Foundation
 
 public class Interpreter {
-    private let text: String
-    private var currentPosition: Int
+    private let lexer: Lexer
     private var currentToken: Token?
-    private var currentCharacter: Character?
     
     public init(_ text: String) {
-        self.text = text
-        currentPosition = 0
-        currentCharacter = text.isEmpty ? nil : text[text.startIndex]
-    }
-    
-    /**
-     Skips all the whitespace
-     */
-    private func skipWhitestace() {
-        while let character = currentCharacter, CharacterSet.whitespaces.contains(character.unicodeScalars.first!) {
-            advance()
-        }
-    }
-    
-    /**
-     Advances by one character forward, sets the current character (if still any available)
-     */
-    private func advance() {
-        currentPosition = currentPosition + 1
-        guard currentPosition < text.count else {
-            currentCharacter = nil
-            return
-        }
-        
-        currentCharacter = text[text.index(text.startIndex, offsetBy: currentPosition)]
-    }
-    
-    /**
-     Basic lexical analyzer converting program text into token, reads the text at current position and returns next token
-     
-     - Returns: Next token in text
-     */
-    public func getNextToken() -> Token {
-        
-        // first skip all the whitespace
-        skipWhitestace()
-        
-        // current position in text must be within the text, otherwise it is the end of input
-        guard let currentCharacter = currentCharacter else {
-            return .eof
-        }
-        
-        // if the character is a digit, convert it to int, create an integer token and move position
-        if CharacterSet.decimalDigits.contains(currentCharacter.unicodeScalars.first!) {
-            return getInteger()
-        }
-        
-        if currentCharacter == "+" {
-            advance()
-            return .operation(.plus)
-        }
-        
-        if currentCharacter == "-" {
-            advance()
-            return .operation(.minus)
-        }
-        
-        if currentCharacter == "*" {
-            advance()
-            return .operation(.times)
-        }
-        
-        if currentCharacter == "/" {
-            advance()
-            return .operation(.divided)
-        }
-        
-        fatalError("Error parsing input")
-    }
-    
-    private func getInteger() -> Token {
-        var lexem = ""
-        while let character = currentCharacter, CharacterSet.alphanumerics.contains(character.unicodeScalars.first!) {
-            lexem = lexem + String(character)
-            advance()
-        }
-        return .integer(Int(lexem)!)
+        lexer = Lexer(text)
     }
     
     private func eatInteger() -> Int {
         switch currentToken! {
         case .integer(let value):
-            currentToken = getNextToken()
+            currentToken = lexer.getNextToken()
             return value
         default:
             fatalError("Expected integer, got \(currentToken!)")
@@ -107,7 +29,7 @@ public class Interpreter {
     private func eatOperation() -> Operation {
         switch currentToken! {
         case .operation(let operation):
-            currentToken = getNextToken()
+            currentToken = lexer.getNextToken()
             return operation
         default:
             fatalError("Expected plus, got \(currentToken!)")
@@ -120,7 +42,7 @@ public class Interpreter {
     
     public func expr() -> Int {
         // start with the first token
-        currentToken = getNextToken()
+        currentToken = lexer.getNextToken()
         
         var result = term()
         
@@ -135,10 +57,10 @@ public class Interpreter {
                 case .minus:
                     result = result - term()
                     break
-                case .times:
+                case .mult:
                     result = result * term()
                     break
-                case .divided:
+                case .div:
                     result = result / term()
                     break
                 }
