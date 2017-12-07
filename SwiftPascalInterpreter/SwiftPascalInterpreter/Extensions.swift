@@ -48,9 +48,9 @@ extension Operation: CustomStringConvertible {
     public var shortDescription: String {
         switch self {
         case .minus:
-            return "+"
-        case .plus:
             return "-"
+        case .plus:
+            return "+"
         case .mult:
             return "*"
         case .div:
@@ -111,15 +111,14 @@ extension AST {
 }
 
 extension AST: Equatable {
-    public static func ==(lhs: AST, rhs: AST) -> Bool {
+    public static func == (lhs: AST, rhs: AST) -> Bool {
         switch (lhs, rhs) {
-        case (.number(let left), .number(let right)):
+        case let (.number(left), .number(right)):
             return left == right
-        case (.binaryOperation(left: let leftLeft, operation: let leftOperation, right: let leftRight), .binaryOperation(left: let rightLeft, operation: let rightOperation, right: let rightRight)):
+        case let (.binaryOperation(left: leftLeft, operation: leftOperation, right: leftRight), .binaryOperation(left: rightLeft, operation: rightOperation, right: rightRight)):
             return leftLeft == rightLeft && leftOperation == rightOperation && leftRight == rightRight
         default:
             return false
         }
     }
-
 }
