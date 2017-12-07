@@ -7,13 +7,32 @@
 //
 
 import Foundation
-import XCTest
 @testable import SwiftPascalInterpreter
+import XCTest
 
 class ParserTests: XCTestCase {
     func testNumber() {
         let node = AST.number(1)
         let parser = Parser("1")
+        let result = parser.expr()
+        XCTAssert(result == node)
+    }
+
+    func testBinaryOperation() {
+        let three = AST.number(3)
+        let two = AST.number(2)
+        let multiplication = AST.binaryOperation(left: three, operation: .mult, right: two)
+        let node = AST.binaryOperation(left: multiplication, operation: .div, right: two)
+        let parser = Parser("3 * 2 / 2")
+        let result = parser.expr()
+        XCTAssert(result == node)
+    }
+
+    func testBinaryOperationOnSamePriority() {
+        let one = AST.number(1)
+        let sum = AST.binaryOperation(left: one, operation: .plus, right: one)
+        let node = AST.binaryOperation(left: sum, operation: .plus, right: one)
+        let parser = Parser("1 + 1 + 1")
         let result = parser.expr()
         XCTAssert(result == node)
     }

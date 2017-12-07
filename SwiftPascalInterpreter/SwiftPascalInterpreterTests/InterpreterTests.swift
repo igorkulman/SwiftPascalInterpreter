@@ -7,28 +7,27 @@
 //
 
 import Foundation
-
 import Foundation
-import XCTest
 @testable import SwiftPascalInterpreter
+import XCTest
 
 class InterpreterTests: XCTestCase {
     func testSingleInteger() {
         let interpeter = Interpreter("3")
-        let result = interpeter.expr()
+        let result = interpeter.eval()
         XCTAssert(result == 3)
     }
 
     func testMultipleIntegers() {
         let interpeter = Interpreter("1+2*3")
-        let result = interpeter.expr()
+        let result = interpeter.eval()
         XCTAssert(result == 7)
     }
 
     func testParentheses() {
-        XCTAssert(Interpreter("2 * (7 + 3)").expr() == 20)
-        XCTAssert(Interpreter("7 + 3 * (10 / (12 / (3 + 1) - 1))").expr() == 22)
-        XCTAssert(Interpreter("7 + 3 * (10 / (12 / (3 + 1) - 1)) / (2 + 3) - 5 - 3 + (8)").expr() == 10)
-        XCTAssert(Interpreter("7 + (((3 + 2)))").expr() == 12)
+        XCTAssert(Interpreter("2 * (7 + 3)").eval() == 20)
+        XCTAssert(Interpreter("7 + 3 * (10 / (12 / (3 + 1) - 1))").eval() == 22)
+        XCTAssert(Interpreter("7 + 3 * (10 / (12 / (3 + 1) - 1)) / (2 + 3) - 5 - 3 + (8)").eval() == 10)
+        XCTAssert(Interpreter("7 + (((3 + 2)))").eval() == 12)
     }
 }
