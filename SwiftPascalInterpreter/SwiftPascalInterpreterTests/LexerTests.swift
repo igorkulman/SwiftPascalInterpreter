@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import XCTest
 @testable import SwiftPascalInterpreter
+import XCTest
 
 class LexerTests: XCTestCase {
 

@@ -20,11 +20,11 @@ func treeString<T>(_ node: T, using nodeInfo: (T) -> (String, T?, T?)) -> String
     // recurse to sub nodes to obtain line blocks on left and right
     let leftTextBlock = leftNode == nil ? []
         : treeString(leftNode!, using: nodeInfo)
-            .components(separatedBy: "\n")
+        .components(separatedBy: "\n")
 
     let rightTextBlock = rightNode == nil ? []
         : treeString(rightNode!, using: nodeInfo)
-            .components(separatedBy: "\n")
+        .components(separatedBy: "\n")
 
     // count common and maximum number of sub node lines
     let commonLines = min(leftTextBlock.count, rightTextBlock.count)
@@ -64,7 +64,7 @@ func treeString<T>(_ node: T, using nodeInfo: (T) -> (String, T?, T?)) -> String
     //   * can be offset to the left if lower subNodes of right node
     //     have no overlap with subNodes of left node
     let minSpacing = 2
-    let rightNodePosition = zip(leftLineWidths, rightLineIndents[0..<commonLines])
+    let rightNodePosition = zip(leftLineWidths, rightLineIndents[0 ..< commonLines])
         .reduce(firstLeftWidth + minLinkWidth) { max($0, $1.0 + minSpacing + firstRightIndent - $1.1) }
 
     // extend basic link bars (slashes) with underlines to reach left and right
