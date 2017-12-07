@@ -28,10 +28,19 @@ public class Interpreter {
 
     private func eatOperation(_ operation: Operation) {
         switch currentToken {
-        case .operation:
+        case .operation(operation):
             currentToken = lexer.getNextToken()
         default:
-            fatalError("Expected plus, got \(currentToken)")
+            fatalError("Expected \(operation), got \(currentToken)")
+        }
+    }
+
+    private func eatParenthesis(_ parenthesis: Parenthesis) {
+        switch currentToken {
+        case .parenthesis(parenthesis):
+            currentToken = lexer.getNextToken()
+        default:
+            fatalError("Expected \(parenthesis), got \(currentToken)")
         }
     }
 
@@ -42,10 +51,15 @@ public class Interpreter {
      */
     func factor() -> Int {
         let token = currentToken
-        eatInteger()
         switch token {
         case let .integer(value):
+            eatInteger()
             return value
+        case .parenthesis(.left):
+            eatParenthesis(.left)
+            let result = expr()
+            eatParenthesis(.right)
+            return result
         default:
             fatalError("Syntax error")
         }
@@ -77,13 +91,13 @@ public class Interpreter {
 
      expr   : term (PLUS | MINUS) term)*
      term   : factor ((MUL | DIV) factor)*
-     factor : INTEGER
+     factor : INTEGER | LPAREN factor RPAREN
 
      Returns: Int value
      */
     public func expr() -> Int {
 
-        var result = factor()
+        var result = term()
 
         while [.operation(.plus), .operation(.minus)].contains(currentToken) {
             if currentToken == .operation(.plus) {

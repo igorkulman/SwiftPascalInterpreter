@@ -3,7 +3,7 @@
 import Foundation
 import SwiftPascalInterpreter
 
-let interpeter = Interpreter("3+2*9")
+let interpeter = Interpreter("2 * (7 + 3) ")
 /* interpeter.getNextToken()
  interpeter.getNextToken()
  interpeter.getNextToken()

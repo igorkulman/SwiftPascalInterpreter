@@ -24,4 +24,11 @@ class InterpreterTests: XCTestCase {
         let result = interpeter.expr()
         XCTAssert(result == 7)
     }
+
+    func testParentheses() {
+        XCTAssert(Interpreter("2 * (7 + 3)").expr() == 20)
+        XCTAssert(Interpreter("7 + 3 * (10 / (12 / (3 + 1) - 1))").expr() == 22)
+        XCTAssert(Interpreter("7 + 3 * (10 / (12 / (3 + 1) - 1)) / (2 + 3) - 5 - 3 + (8)").expr() == 10)
+        XCTAssert(Interpreter("7 + (((3 + 2)))").expr() == 12)
+    }
 }
