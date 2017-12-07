@@ -17,4 +17,4 @@ let interpeter = Interpreter("7 + 3 * (10 / (12 / (3 + 1) - 1)) / (2 + 3) - 5 - 
 interpeter.eval()
 
 let parser = Parser("2 * (7 + 3) ")
-print(parser.expr().asString)
+print(parser.expr())

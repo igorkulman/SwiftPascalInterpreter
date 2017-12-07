@@ -97,8 +97,8 @@ extension Interpreter: CustomStringConvertible {
     }
 }
 
-extension AST {
-    public var asString: String {
+extension AST: CustomStringConvertible {
+    public var description: String {
         return treeString(self, using: { node in
             switch node {
             case let .number(value):
