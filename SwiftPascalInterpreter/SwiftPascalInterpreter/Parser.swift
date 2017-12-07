@@ -71,17 +71,17 @@ public class Parser {
      Returns: Int value
      */
     private func term() -> AST {
-        var node = factor()
+        let node = factor()
 
         while [.operation(.mult), .operation(.div)].contains(currentToken) {
             let token = currentToken
             if token == .operation(.mult) {
                 eatOperation(.mult)
+                return .binaryOperation(left: node, operation: .mult, right: factor())
             } else if token == .operation(.div) {
                 eatOperation(.div)
+                return .binaryOperation(left: node, operation: .div, right: factor())
             }
-
-            node = AST.binaryOperation(left: node, operation: token == .operation(.mult) ? .mult : .div, right: factor())
         }
 
         return node
@@ -98,17 +98,17 @@ public class Parser {
      */
     public func expr() -> AST {
 
-        var node = term()
+        let node = term()
 
         while [.operation(.plus), .operation(.minus)].contains(currentToken) {
             let token = currentToken
             if token == .operation(.plus) {
                 eatOperation(.plus)
+                return .binaryOperation(left: node, operation: .plus, right: term())
             } else if token == .operation(.minus) {
                 eatOperation(.minus)
+                return .binaryOperation(left: node, operation: .minus, right: term())
             }
-
-            node = AST.binaryOperation(left: node, operation: token == .operation(.plus) ? .plus : .minus, right: term())
         }
 
         return node

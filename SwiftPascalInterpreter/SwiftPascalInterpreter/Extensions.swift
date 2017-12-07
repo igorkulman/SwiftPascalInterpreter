@@ -44,7 +44,7 @@ extension Operation: CustomStringConvertible {
             return "DIV"
         }
     }
-    
+
     public var shortDescription: String {
         switch self {
         case .minus:
