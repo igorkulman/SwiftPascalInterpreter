@@ -35,13 +35,39 @@ extension Operation: CustomStringConvertible {
     public var description: String {
         switch self {
         case .minus:
-            return "minus"
+            return "MINUS"
         case .plus:
-            return "plus"
+            return "PLUS"
         case .mult:
-            return "mult"
+            return "MULT"
         case .div:
-            return "div"
+            return "DIV"
+        }
+    }
+}
+
+extension Parenthesis: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .left:
+            return "LPAREN"
+        case .right:
+            return "RPAREN"
+        }
+    }
+}
+
+extension Token: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .eof:
+            return "EOF"
+        case let .integer(value):
+            return "INTEGER(\(value))"
+        case let .operation(operation):
+            return operation.description
+        case let .parenthesis(parenthesis):
+            return parenthesis.description
         }
     }
 }
