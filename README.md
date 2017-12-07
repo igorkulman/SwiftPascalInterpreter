@@ -10,3 +10,5 @@ One day hopefully a simple Swift interpreter for the Pascal language inspired by
 ## Try it out
 
 There is a Swift playground in the project where you can try out the lexer and the interpreter
+
+![Playground](https://github.com/igorkulman/SwiftPascalInterpreter/raw/master/playground.png)
