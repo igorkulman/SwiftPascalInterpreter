@@ -1,9 +1,11 @@
-# Pascal interpreted written in Swift
-Simple Swift interpreter for the Pascal language inspired by the [Let’s Build A Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/) article series.
+# Pascal interpreter written in Swift
+One day hopefully a simple Swift interpreter for the Pascal language inspired by the [Let’s Build A Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/) article series.
 
 ## Implemented
 
-- arithmetic expressions parsing and evaluation
+  - [x] arithmetic expressions parsing and evaluation
+  - [ ] Pascal programs parsing and evaluation 
+
 
 ## Try it out
 
