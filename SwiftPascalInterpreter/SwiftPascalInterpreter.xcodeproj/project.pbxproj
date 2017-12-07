@@ -15,6 +15,7 @@
 		F3474F661FD872C0003336FA /* InterpreterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3474F651FD872C0003336FA /* InterpreterTests.swift */; };
 		F360340F1FD8589600CC81C3 /* SwiftPascalInterpreter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F36034051FD8589600CC81C3 /* SwiftPascalInterpreter.framework */; };
 		F36034161FD8589600CC81C3 /* SwiftPascalInterpreter.h in Headers */ = {isa = PBXBuildFile; fileRef = F36034081FD8589600CC81C3 /* SwiftPascalInterpreter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F39F82B51FD938D20078BA04 /* ParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F82B41FD938D20078BA04 /* ParserTests.swift */; };
 		F3A550021FD9BBEF003476D9 /* AST.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A550011FD9BBEF003476D9 /* AST.swift */; };
 		F3A550041FD9BC2A003476D9 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A550031FD9BC2A003476D9 /* Parser.swift */; };
 		F3A550061FD9C209003476D9 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A550051FD9C209003476D9 /* Utils.swift */; };
@@ -42,6 +43,7 @@
 		F36034091FD8589600CC81C3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F360340E1FD8589600CC81C3 /* SwiftPascalInterpreterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftPascalInterpreterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F36034151FD8589600CC81C3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F39F82B41FD938D20078BA04 /* ParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTests.swift; sourceTree = "<group>"; };
 		F3A550011FD9BBEF003476D9 /* AST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AST.swift; sourceTree = "<group>"; };
 		F3A550031FD9BC2A003476D9 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		F3A550051FD9C209003476D9 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				F3474F621FD85991003336FA /* Supporting files */,
 				F3474F651FD872C0003336FA /* InterpreterTests.swift */,
 				F3474F601FD8597A003336FA /* LexerTests.swift */,
+				F39F82B41FD938D20078BA04 /* ParserTests.swift */,
 			);
 			path = SwiftPascalInterpreterTests;
 			sourceTree = "<group>";
@@ -271,6 +274,7 @@
 			files = (
 				F3474F611FD8597A003336FA /* LexerTests.swift in Sources */,
 				F3474F661FD872C0003336FA /* InterpreterTests.swift in Sources */,
+				F39F82B51FD938D20078BA04 /* ParserTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -109,3 +109,17 @@ extension AST {
         })
     }
 }
+
+extension AST: Equatable {
+    public static func ==(lhs: AST, rhs: AST) -> Bool {
+        switch (lhs, rhs) {
+        case (.number(let left), .number(let right)):
+            return left == right
+        case (.binaryOperation(left: let leftLeft, operation: let leftOperation, right: let leftRight), .binaryOperation(left: let rightLeft, operation: let rightOperation, right: let rightRight)):
+            return leftLeft == rightLeft && leftOperation == rightOperation && leftRight == rightRight
+        default:
+            return false
+        }
+    }
+
+}
