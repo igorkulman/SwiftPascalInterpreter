@@ -71,3 +71,15 @@ extension Token: CustomStringConvertible {
         }
     }
 }
+
+extension Lexer: CustomStringConvertible {
+    public var description: String {
+        return "Lexer"
+    }
+}
+
+extension Interpreter: CustomStringConvertible {
+    public var description: String {
+        return "Interpreter"
+    }
+}
