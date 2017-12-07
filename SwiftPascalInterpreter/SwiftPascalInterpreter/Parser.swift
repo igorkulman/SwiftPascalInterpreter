@@ -46,7 +46,7 @@ public class Parser {
 
     /**
      Factor for the grammar described in the `expr` method
-     
+
      Returns: Int value
      */
     private func factor() -> AST {
@@ -67,20 +67,20 @@ public class Parser {
 
     /**
      Term for the grammar described in the `expr` method
-     
+
      Returns: Int value
      */
     private func term() -> AST {
-        let node = factor()
+        var node = factor()
 
         while [.operation(.mult), .operation(.div)].contains(currentToken) {
             let token = currentToken
             if token == .operation(.mult) {
                 eatOperation(.mult)
-                return .binaryOperation(left: node, operation: .mult, right: factor())
+                node = .binaryOperation(left: node, operation: .mult, right: factor())
             } else if token == .operation(.div) {
                 eatOperation(.div)
-                return .binaryOperation(left: node, operation: .div, right: factor())
+                node = .binaryOperation(left: node, operation: .div, right: factor())
             }
         }
 
@@ -89,25 +89,25 @@ public class Parser {
 
     /**
      Arithmetic expression parser
-     
+
      expr   : term (PLUS | MINUS) term)*
      term   : factor ((MUL | DIV) factor)*
      factor : INTEGER | LPAREN factor RPAREN
-     
+
      Returns: Int value
      */
     public func expr() -> AST {
 
-        let node = term()
+        var node = term()
 
         while [.operation(.plus), .operation(.minus)].contains(currentToken) {
             let token = currentToken
             if token == .operation(.plus) {
                 eatOperation(.plus)
-                return .binaryOperation(left: node, operation: .plus, right: term())
+                node = .binaryOperation(left: node, operation: .plus, right: term())
             } else if token == .operation(.minus) {
                 eatOperation(.minus)
-                return .binaryOperation(left: node, operation: .minus, right: term())
+                node = .binaryOperation(left: node, operation: .minus, right: term())
             }
         }
 
