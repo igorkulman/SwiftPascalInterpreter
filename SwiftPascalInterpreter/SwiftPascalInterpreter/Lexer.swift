@@ -28,7 +28,7 @@ public class Lexer {
      Skips all the whitespace
      */
     private func skipWhitestace() {
-        while let character = currentCharacter, CharacterSet.whitespaces.contains(character.unicodeScalars.first!) {
+        while let character = currentCharacter, CharacterSet.whitespacesAndNewlines.contains(character.unicodeScalars.first!) {
             advance()
         }
     }
