@@ -21,3 +21,6 @@ print(parser.expr())
 
 let rpn = RPN("(5 + 3) * 12 / 3")
 rpn.eval()
+
+let ln = LISPNotation("(2 + 3 * 5)")
+ln.eval()

@@ -97,6 +97,24 @@ extension Interpreter: CustomStringConvertible {
     }
 }
 
+extension Parser: CustomStringConvertible {
+    public var description: String {
+        return "Parser"
+    }
+}
+
+extension RPN: CustomStringConvertible {
+    public var description: String {
+        return "Reverse polish notation"
+    }
+}
+
+extension LISPNotation: CustomStringConvertible {
+    public var description: String {
+        return "LISP notation"
+    }
+}
+
 extension AST: CustomStringConvertible {
     public var description: String {
         return treeString(self, using: { node in
