@@ -30,4 +30,10 @@ class InterpreterTests: XCTestCase {
         XCTAssert(Interpreter("7 + 3 * (10 / (12 / (3 + 1) - 1)) / (2 + 3) - 5 - 3 + (8)").eval() == 10)
         XCTAssert(Interpreter("7 + (((3 + 2)))").eval() == 12)
     }
+
+    func testUnaryOperations() {
+        let interpeter = Interpreter("5 - - -2")
+        let result = interpeter.eval()
+        XCTAssert(result == 3)
+    }
 }

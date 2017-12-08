@@ -155,4 +155,15 @@ class LexerTests: XCTestCase {
         XCTAssert(lexer.getNextToken() == .parenthesis(.right))
         XCTAssert(lexer.getNextToken() == .eof)
     }
+
+    func testUnaryOperators() {
+        let lexer = Lexer("5 - - - 2")
+
+        XCTAssert(lexer.getNextToken() == .integer(5))
+        XCTAssert(lexer.getNextToken() == .operation(.minus))
+        XCTAssert(lexer.getNextToken() == .operation(.minus))
+        XCTAssert(lexer.getNextToken() == .operation(.minus))
+        XCTAssert(lexer.getNextToken() == .integer(2))
+        XCTAssert(lexer.getNextToken() == .eof)
+    }
 }

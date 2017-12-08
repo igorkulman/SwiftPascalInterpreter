@@ -46,6 +46,12 @@ public class Parser {
             let result = expr()
             eat(.parenthesis(.right))
             return result
+        case .operation(.plus):
+            eat(.operation(.plus))
+            return .unaryOperation(operation: .plus, child: factor())
+        case .operation(.minus):
+            eat(.operation(.minus))
+            return .unaryOperation(operation: .minus, child: factor())
         default:
             fatalError("Syntax error")
         }
@@ -78,7 +84,7 @@ public class Parser {
 
      expr   : term (PLUS | MINUS) term)*
      term   : factor ((MUL | DIV) factor)*
-     factor : INTEGER | LPAREN factor RPAREN
+     factor : (PLUS | MINUS) factor | INTEGER | LPAREN factor RPAREN
 
      Returns: AST node
      */

@@ -24,6 +24,15 @@ public class Interpreter {
         switch node {
         case let .number(value):
             return value
+        case let .unaryOperation(operation: operation, child: child):
+            switch operation {
+            case .plus:
+                return +visit(child)
+            case .minus:
+                return -visit(child)
+            default:
+                fatalError("Unsupported unary operation \(operation)")
+            }
         case let .binaryOperation(left: left, operation: operation, right: right):
             switch operation {
             case .plus:

@@ -56,4 +56,15 @@ class ParserTests: XCTestCase {
         let result = parser.expr()
         XCTAssert(result == node)
     }
+
+    func testUnaryOperatorNodesNodes() {
+        let five = AST.number(5)
+        let two = AST.number(2)
+        let un1 = AST.unaryOperation(operation: .minus, child: two)
+        let un2 = AST.unaryOperation(operation: .minus, child: un1)
+        let node = AST.binaryOperation(left: five, operation: .minus, right: un2)
+        let parser = Parser("5 - - - 2")
+        let result = parser.expr()
+        XCTAssert(result == node)
+    }
 }

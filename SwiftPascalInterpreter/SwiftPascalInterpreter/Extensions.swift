@@ -121,6 +121,8 @@ extension AST: CustomStringConvertible {
             switch node {
             case let .number(value):
                 return ("\(value)", nil, nil)
+            case let .unaryOperation(operation: operation, child: child):
+                return ("u\(operation.shortDescription)", child, nil)
             case let .binaryOperation(left: left, operation: operation, right: right):
                 return ("\(operation.shortDescription)", left, right)
             }
@@ -133,6 +135,8 @@ extension AST: Equatable {
         switch (lhs, rhs) {
         case let (.number(left), .number(right)):
             return left == right
+        case let (.unaryOperation(operation: leftOperation, child: leftChild), .unaryOperation(operation: rightOperation, child: rightChild)):
+            return leftOperation == rightOperation && leftChild == rightChild
         case let (.binaryOperation(left: leftLeft, operation: leftOperation, right: leftRight), .binaryOperation(left: rightLeft, operation: rightOperation, right: rightRight)):
             return leftLeft == rightLeft && leftOperation == rightOperation && leftRight == rightRight
         default:
