@@ -1,4 +1,6 @@
+excluded:
+        SwiftPascalInterpreter/Utils.swift
 disabled_rules:
-    - line_length
-    - large_tuple
-    - function_body_length
+        - identifier_name
+        - cyclomatic_complexity
+        - line_length

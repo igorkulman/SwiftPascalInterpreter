@@ -25,4 +25,10 @@ public enum Token {
     case operation(Operation)
     case eof
     case parenthesis(Parenthesis)
+    case begin
+    case end
+    case id(String)
+    case dot
+    case assign
+    case semi
 }

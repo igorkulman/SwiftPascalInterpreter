@@ -10,38 +10,73 @@ import Foundation
 
 public class Interpreter {
     private let parser: Parser
+    private var globalScope: [String: Int] = [:]
 
     public init(_ text: String) {
         parser = Parser(text)
     }
 
-    public func eval() -> Int {
-        let node = parser.expr()
-        return visit(node)
-    }
-
-    private func visit(_ node: AST) -> Int {
+    @discardableResult private func visit(_ node: AST) -> Int? {
         switch node {
         case let .number(value):
             return value
         case let .unaryOperation(operation: operation, child: child):
+            guard let result = visit(child) else {
+                fatalError("Cannot use unary \(operation) on non number")
+            }
             switch operation {
             case .plus:
-                return +visit(child)
+                return +result
             case .minus:
-                return -visit(child)
+                return -result
             }
         case let .binaryOperation(left: left, operation: operation, right: right):
+            guard let leftResult = visit(left), let rightResult = visit(right) else {
+                fatalError("Cannot use binary \(operation) on non numbers")
+            }
             switch operation {
             case .plus:
-                return visit(left) + visit(right)
+                return leftResult + rightResult
             case .minus:
-                return visit(left) - visit(right)
+                return leftResult - rightResult
             case .mult:
-                return visit(left) * visit(right)
+                return leftResult * rightResult
             case .div:
-                return visit(left) / visit(right)
+                return leftResult / rightResult
             }
+        case let .compound(children):
+            for chid in children {
+                visit(chid)
+            }
+            return nil
+        case let .assignment(left, right):
+            switch left {
+            case let .variable(name):
+                globalScope[name] = visit(right)!
+                return nil
+            default:
+                fatalError("Assignment left side is not a variable")
+            }
+        case let .variable(name):
+            guard let value = globalScope[name] else {
+                fatalError("Variable \(name) not found")
+            }
+            return value
+        case .noOp:
+            return nil
         }
+    }
+
+    public func interpret() {
+        let tree = parser.parse()
+        visit(tree)
+    }
+
+    func getState() -> [String: Int] {
+        return globalScope
+    }
+
+    public func printState() {
+        print(globalScope)
     }
 }

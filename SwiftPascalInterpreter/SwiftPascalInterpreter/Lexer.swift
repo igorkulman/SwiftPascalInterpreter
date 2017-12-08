@@ -16,6 +16,8 @@ public class Lexer {
     private var currentPosition: Int
     private var currentCharacter: Character?
 
+    private let reservedWords: [String: Token] = ["BEGIN": .begin, "END": .end]
+
     public init(_ text: String) {
         self.text = text
         currentPosition = 0
@@ -26,7 +28,7 @@ public class Lexer {
      Skips all the whitespace
      */
     private func skipWhitestace() {
-        while let character = currentCharacter, CharacterSet.whitespaces.contains(character.unicodeScalars.first!) {
+        while let character = currentCharacter, CharacterSet.whitespacesAndNewlines.contains(character.unicodeScalars.first!) {
             advance()
         }
     }
@@ -42,6 +44,40 @@ public class Lexer {
         }
 
         currentCharacter = text[text.index(text.startIndex, offsetBy: currentPosition)]
+    }
+
+    /**
+     Returns the next character without advancing
+
+     Returns: Character if not at the end of the text, nil otherwise
+     */
+    private func peek() -> Character? {
+        let peekPosition = currentPosition + 1
+
+        guard peekPosition < text.count else {
+            return nil
+        }
+
+        return text[text.index(text.startIndex, offsetBy: peekPosition)]
+    }
+
+    /**
+     Handles identifies and reserved keywords
+
+     Returns: Token
+     */
+    private func id() -> Token {
+        var lexem = ""
+        while let character = currentCharacter, CharacterSet.alphanumerics.contains(character.unicodeScalars.first!) {
+            lexem += String(character)
+            advance()
+        }
+
+        if let token = reservedWords[lexem] {
+            return token
+        }
+
+        return .id(lexem)
     }
 
     /**
@@ -62,6 +98,26 @@ public class Lexer {
         // if the character is a digit, convert it to int, create an integer token and move position
         if CharacterSet.decimalDigits.contains(currentCharacter.unicodeScalars.first!) {
             return getInteger()
+        }
+
+        if CharacterSet.alphanumerics.contains(currentCharacter.unicodeScalars.first!) {
+            return id()
+        }
+
+        if currentCharacter == ":" && peek() == "=" {
+            advance()
+            advance()
+            return .assign
+        }
+
+        if currentCharacter == "." {
+            advance()
+            return .dot
+        }
+
+        if currentCharacter == ";" {
+            advance()
+            return .semi
         }
 
         if currentCharacter == "+" {
@@ -102,7 +158,7 @@ public class Lexer {
      */
     private func getInteger() -> Token {
         var lexem = ""
-        while let character = currentCharacter, CharacterSet.alphanumerics.contains(character.unicodeScalars.first!) {
+        while let character = currentCharacter, CharacterSet.decimalDigits.contains(character.unicodeScalars.first!) {
             lexem += String(character)
             advance()
         }

@@ -24,4 +24,8 @@ public enum AST {
     case number(Int)
     indirect case unaryOperation(operation: UnaryOperation, child: AST)
     indirect case binaryOperation(left: AST, operation: BinaryOperation, right: AST)
+    indirect case compound(children: [AST])
+    indirect case assignment(left: AST, right: AST)
+    case variable(String)
+    case noOp
 }

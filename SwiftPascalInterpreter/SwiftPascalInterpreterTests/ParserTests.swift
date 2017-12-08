@@ -11,60 +11,40 @@ import Foundation
 import XCTest
 
 class ParserTests: XCTestCase {
-    func testNumber() {
-        let node = AST.number(1)
-        let parser = Parser("1")
-        let result = parser.expr()
-        XCTAssert(result == node)
-    }
-
-    func testBinaryOperation() {
-        let three = AST.number(3)
+    func testBasicCompoundStatement() {
+        let a = AST.variable("a")
         let two = AST.number(2)
-        let multiplication = AST.binaryOperation(left: three, operation: .mult, right: two)
-        let node = AST.binaryOperation(left: multiplication, operation: .div, right: two)
-        let parser = Parser("3 * 2 / 2")
-        let result = parser.expr()
+        let assignment = AST.assignment(left: a, right: two)
+        let empty = AST.noOp
+        let node = AST.compound(children: [assignment, empty])
+        let parser = Parser("BEGIN a := 2; END.")
+        let result = parser.parse()
         XCTAssert(result == node)
     }
 
-    func testBinaryOperationOnSamePriority() {
-        let one = AST.number(1)
-        let sum = AST.binaryOperation(left: one, operation: .plus, right: one)
-        let node = AST.binaryOperation(left: sum, operation: .plus, right: one)
-        let parser = Parser("1 + 1 + 1")
-        let result = parser.expr()
-        XCTAssert(result == node)
-    }
+    func testMoreComplexExpression() {
+        let program =
+        """
+        BEGIN
+            BEGIN
+                number := 2;
+                a := number;
+            END;
+            x := 11;
+        END.
+        """
 
-    func testBinaryOperationOnTwoNumberAndParentheses() {
-        let one = AST.number(1)
+        let parser = Parser(program)
+        let result = parser.parse()
+        let empty = AST.noOp
+        let eleven = AST.number(11)
+        let x = AST.variable("x")
+        let xAssignment = AST.assignment(left: x, right: eleven)
         let two = AST.number(2)
-        let node = AST.binaryOperation(left: one, operation: .plus, right: two)
-        let parser = Parser("1+(2)")
-        let result = parser.expr()
-        XCTAssert(result == node)
-    }
-
-    func testMultipleNodes() {
-        let three = AST.number(3)
-        let seven = AST.number(7)
-        let two = AST.number(2)
-        let multiplication = AST.binaryOperation(left: two, operation: .mult, right: seven)
-        let node = AST.binaryOperation(left: multiplication, operation: .plus, right: three)
-        let parser = Parser("2*7+3")
-        let result = parser.expr()
-        XCTAssert(result == node)
-    }
-
-    func testUnaryOperatorNodesNodes() {
-        let five = AST.number(5)
-        let two = AST.number(2)
-        let un1 = AST.unaryOperation(operation: .minus, child: two)
-        let un2 = AST.unaryOperation(operation: .minus, child: un1)
-        let node = AST.binaryOperation(left: five, operation: .minus, right: un2)
-        let parser = Parser("5 - - - 2")
-        let result = parser.expr()
+        let number = AST.variable("number")
+        let a = AST.variable("a")
+        let compound = AST.compound(children: [AST.assignment(left: number, right: two), AST.assignment(left: a, right: number), empty])
+        let node = AST.compound(children: [compound, xAssignment, empty])
         XCTAssert(result == node)
     }
 }
