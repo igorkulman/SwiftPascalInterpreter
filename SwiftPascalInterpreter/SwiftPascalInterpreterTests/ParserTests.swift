@@ -29,8 +29,6 @@ class ParserTests: XCTestCase {
             BEGIN
                 number := 2;
                 a := number;
-                b := 10 * a + 10 * number / 4;
-                c := a - - b
             END;
             x := 11;
         END.
@@ -38,5 +36,15 @@ class ParserTests: XCTestCase {
 
         let parser = Parser(program)
         let result = parser.parse()
+        let empty = AST.noOp
+        let eleven = AST.number(11)
+        let x = AST.variable("x")
+        let xAssignment = AST.assignment(left: x, right: eleven)
+        let two = AST.number(2)
+        let number = AST.variable("number")
+        let a = AST.variable("a")
+        let compound = AST.compound(children: [AST.assignment(left: number, right: two), AST.assignment(left: a, right: number), empty])
+        let node = AST.compound(children: [compound, xAssignment, empty])
+        XCTAssert(result == node)
     }
 }
