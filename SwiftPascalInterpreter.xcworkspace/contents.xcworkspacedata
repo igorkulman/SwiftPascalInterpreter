@@ -5,6 +5,6 @@
       location = "group:SwiftPascalInterpreter/SwiftPascalInterpreter.xcodeproj">
    </FileRef>
    <FileRef
-      location = "container:PascalInterpreter.playground">
+      location = "container:Playground.playground">
    </FileRef>
 </Workspace>
