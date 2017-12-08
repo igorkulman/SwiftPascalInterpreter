@@ -30,8 +30,6 @@ public class Interpreter {
                 return +visit(child)
             case .minus:
                 return -visit(child)
-            default:
-                fatalError("Unsupported unary operation \(operation)")
             }
         case let .binaryOperation(left: left, operation: operation, right: right):
             switch operation {

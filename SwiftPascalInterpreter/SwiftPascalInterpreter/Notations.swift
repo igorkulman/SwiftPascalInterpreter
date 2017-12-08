@@ -32,9 +32,9 @@ public class RPN: Notation {
         case let .number(value):
             return "\(value)"
         case let .unaryOperation(operation: operation, child: child):
-            return "\(visit(child)) \(operation.shortDescription)"
+            return "\(visit(child)) \(operation.description)"
         case let .binaryOperation(left: left, operation: operation, right: right):
-            return "\(visit(left)) \(visit(right)) \(operation.shortDescription)"
+            return "\(visit(left)) \(visit(right)) \(operation.description)"
         }
     }
 }
@@ -59,9 +59,9 @@ public class LISPNotation: Notation {
         case let .number(value):
             return "\(value)"
         case let .unaryOperation(operation: operation, child: child):
-            return "(\(operation.shortDescription) \(visit(child)))"
+            return "(\(operation.description) \(visit(child)))"
         case let .binaryOperation(left: left, operation: operation, right: right):
-            return "(\(operation.shortDescription) \(visit(left)) \(visit(right)))"
+            return "(\(operation.description) \(visit(left)) \(visit(right)))"
         }
     }
 }
