@@ -4,7 +4,9 @@ One day hopefully a simple Swift interpreter for the Pascal language inspired by
 ## Implemented so far
 
   - lexer for arithmetic expressions
+  - lexer for basic Pascal program structure
   - parser for arithmetic expressions
+  - parser for basic Pascal program structure
   - interpreter for arithmetic expressions
 
 
