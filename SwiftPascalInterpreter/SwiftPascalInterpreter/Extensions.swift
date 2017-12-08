@@ -21,7 +21,9 @@ extension Token: Equatable {
             return left == right
         case (.eof, .eof):
             return true
-        case let (.integer(left), .integer(right)):
+        case let (.constant(.integer(left)), .constant(.integer(right))):
+            return left == right
+        case let (.constant(.real(left)), .constant(.real(right))):
             return left == right
         case let (.parenthesis(left), .parenthesis(right)):
             return left == right
@@ -37,6 +39,18 @@ extension Token: Equatable {
             return true
         case let (.id(left), .id(right)):
             return left == right
+        case (.program, .program):
+            return true
+        case (.varDef, .varDef):
+            return true
+        case (.colon, .colon):
+            return true
+        case (.coma, .coma):
+            return true
+        case (.integer, .integer):
+            return true
+        case (.real, .real):
+            return true
         default:
             return false
         }
@@ -52,8 +66,10 @@ extension Operation: CustomStringConvertible {
             return "PLUS"
         case .mult:
             return "MULT"
-        case .div:
+        case .integerDiv:
             return "DIV"
+        case .floatDiv:
+            return "FDIV"
         }
     }
 }
@@ -100,8 +116,10 @@ extension Token: CustomStringConvertible {
         switch self {
         case .eof:
             return "EOF"
-        case let .integer(value):
-            return "INTEGER(\(value))"
+        case let .constant(.integer(value)):
+            return "INTEGER_CONST(\(value))"
+        case let .constant(.real(value)):
+            return "REAL_CONST(\(value))"
         case let .operation(operation):
             return operation.description
         case let .parenthesis(parenthesis):
@@ -118,6 +136,18 @@ extension Token: CustomStringConvertible {
             return "SEMI"
         case .dot:
             return "DOT"
+        case .program:
+            return "PROGRAM"
+        case .varDef:
+            return "VAR"
+        case .colon:
+            return ":"
+        case .coma:
+            return ","
+        case .integer:
+            return "INTEGER"
+        case .real:
+            return "REAL"
         }
     }
 }

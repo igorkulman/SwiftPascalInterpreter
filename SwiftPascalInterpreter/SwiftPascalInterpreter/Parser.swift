@@ -49,8 +49,8 @@ public class Parser {
         case .operation(.minus):
             eat(.operation(.minus))
             return .unaryOperation(operation: .minus, child: factor())
-        case let .integer(value):
-            eat(.integer(value))
+        case let .constant(.integer(value)):
+            eat(.constant(.integer(value)))
             return .number(value)
         case .parenthesis(.left):
             eat(.parenthesis(.left))
@@ -70,13 +70,13 @@ public class Parser {
     private func term() -> AST {
         var node = factor()
 
-        while [.operation(.mult), .operation(.div)].contains(currentToken) {
+        while [.operation(.mult), .operation(.floatDiv)].contains(currentToken) {
             let token = currentToken
             if token == .operation(.mult) {
                 eat(.operation(.mult))
                 node = .binaryOperation(left: node, operation: .mult, right: factor())
-            } else if token == .operation(.div) {
-                eat(.operation(.div))
+            } else if token == .operation(.floatDiv) {
+                eat(.operation(.floatDiv))
                 node = .binaryOperation(left: node, operation: .div, right: factor())
             }
         }

@@ -12,7 +12,8 @@ public enum Operation {
     case plus
     case minus
     case mult
-    case div
+    case integerDiv
+    case floatDiv
 }
 
 public enum Parenthesis {
@@ -20,8 +21,12 @@ public enum Parenthesis {
     case right
 }
 
-public enum Token {
+public enum Constant {
     case integer(Int)
+    case real(Double)
+}
+
+public enum Token {
     case operation(Operation)
     case eof
     case parenthesis(Parenthesis)
@@ -31,4 +36,11 @@ public enum Token {
     case dot
     case assign
     case semi
+    case program
+    case varDef
+    case colon
+    case coma
+    case integer
+    case real
+    case constant(Constant)
 }

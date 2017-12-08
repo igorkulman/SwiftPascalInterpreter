@@ -16,7 +16,15 @@ public class Lexer {
     private var currentPosition: Int
     private var currentCharacter: Character?
 
-    private let reservedWords: [String: Token] = ["BEGIN": .begin, "END": .end]
+    private let keywords: [String: Token] = [
+        "PROGRAM": .program,
+        "VAR": .varDef,
+        "DIV": .operation(.integerDiv),
+        "INTEGER": .integer,
+        "REAL": .real,
+        "BEGIN": .begin,
+        "END": .end
+    ]
 
     public init(_ text: String) {
         self.text = text
@@ -73,7 +81,7 @@ public class Lexer {
             advance()
         }
 
-        if let token = reservedWords[lexem] {
+        if let token = keywords[lexem] {
             return token
         }
 
@@ -137,7 +145,7 @@ public class Lexer {
 
         if currentCharacter == "/" {
             advance()
-            return .operation(.div)
+            return .operation(.floatDiv)
         }
 
         if currentCharacter == "(" {
@@ -162,6 +170,6 @@ public class Lexer {
             lexem += String(character)
             advance()
         }
-        return .integer(Int(lexem)!)
+        return .constant(.integer(Int(lexem)!))
     }
 }
