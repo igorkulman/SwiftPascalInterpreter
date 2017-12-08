@@ -142,26 +142,7 @@ extension Parser: CustomStringConvertible {
 
 extension AST: CustomStringConvertible {
     public var description: String {
-        return treeString(self, using: { node in
-            switch node {
-            case let .number(value):
-                return ("\(value)", nil, nil)
-            case let .unaryOperation(operation: operation, child: child):
-                return ("u\(operation.description)", child, nil)
-            case let .binaryOperation(left: left, operation: operation, right: right):
-                return ("\(operation.description)", left, right)
-            case .noOp:
-                return ("noOp", nil, nil)
-            case let .variable(value):
-                return (value, nil, nil)
-            case let .compound(children: children):
-                let first = children.count > 0 ? children[0] : nil
-                let second = children.count > 1 ? children[1] : nil
-                return ("compound", first, second)
-            case let .assignment(left: left, right: right):
-                return (":=", left, right)
-            }
-        })
+        return treeLines().joined(separator: "\n")
     }
 }
 
@@ -184,10 +165,8 @@ extension AST: Equatable {
             if left.count != right.count {
                 return false
             }
-            for i in 0 ... left.count - 1 {
-                if left[i] != right[i] {
-                    return false
-                }
+            for i in 0 ... left.count - 1 where left[i] != right[i] {
+                return false
             }
             return true
         case let (.variable(left), .variable(right)):
@@ -196,4 +175,53 @@ extension AST: Equatable {
             return false
         }
     }
+}
+
+extension AST {
+    var children: [AST] {
+        switch self {
+        case .number:
+            return []
+        case let .unaryOperation(operation: _, child: child):
+            return [child]
+        case let .binaryOperation(left: left, operation: _, right: right):
+            return [left, right]
+        case .noOp:
+            return []
+        case .variable:
+            return []
+        case let .compound(children: children):
+            return children
+        case let .assignment(left: left, right: right):
+            return [left, right]
+        }
+    }
+
+    var value: String {
+        switch self {
+        case let .number(value):
+            return "\(value)"
+        case let .unaryOperation(operation: operation, child: _):
+            return "u\(operation.description)"
+        case let .binaryOperation(left: _, operation: operation, right: _):
+            return "\(operation.description)"
+        case .noOp:
+            return "noOp"
+        case let .variable(value):
+            return value
+        case .compound(children: _):
+            return "compound"
+        case .assignment(left: _, right: _):
+            return ":="
+        }
+    }
+
+    func treeLines(_ nodeIndent: String = "", _ childIndent: String = "") -> [String] {
+        return [nodeIndent + value]
+            + children.enumerated().map { ($0 < children.count - 1, $1) }
+            .flatMap { $0 ? $1.treeLines("┣╸", "┃ ") : $1.treeLines("┗╸", "  ") }
+            .map { childIndent + $0 }
+    }
+
+    public func printTree() { print(treeLines().joined(separator: "\n")) }
 }

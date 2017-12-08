@@ -26,7 +26,5 @@ BEGIN
 END.
 """
 
-let parser = Parser("BEGIN a := 2; END.")
+let parser = Parser(program)
 print(parser.parse())
-
-

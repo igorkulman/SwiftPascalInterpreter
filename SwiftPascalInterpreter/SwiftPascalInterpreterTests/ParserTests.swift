@@ -11,7 +11,7 @@ import Foundation
 import XCTest
 
 class ParserTests: XCTestCase {
-    func testBasicExpression() {
+    func testBasicCompoundStatement() {
         let a = AST.variable("a")
         let two = AST.number(2)
         let assignment = AST.assignment(left: a, right: two)
@@ -20,5 +20,23 @@ class ParserTests: XCTestCase {
         let parser = Parser("BEGIN a := 2; END.")
         let result = parser.parse()
         XCTAssert(result == node)
+    }
+
+    func testMoreComplexExpression() {
+        let program =
+        """
+        BEGIN
+            BEGIN
+                number := 2;
+                a := number;
+                b := 10 * a + 10 * number / 4;
+                c := a - - b
+            END;
+            x := 11;
+        END.
+        """
+
+        let parser = Parser(program)
+        let result = parser.parse()
     }
 }

@@ -3,3 +3,4 @@ excluded:
 disabled_rules:
         - identifier_name
         - cyclomatic_complexity
+        - line_length
