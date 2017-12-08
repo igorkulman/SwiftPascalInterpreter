@@ -8,36 +8,6 @@
 
 import Foundation
 
-/**
- Parser for the following grammar
-
- program : compound_statement DOT
-
- compound_statement : BEGIN statement_list END
-
- statement_list : statement
- | statement SEMI statement_list
-
- statement : compound_statement
- | assignment_statement
- | empty
-
- assignment_statement : variable ASSIGN expr
-
- empty :
-
- expr: term ((PLUS | MINUS) term)*
-
- term: factor ((MUL | DIV) factor)*
-
- factor : PLUS factor
- | MINUS factor
- | INTEGER
- | LPAREN expr RPAREN
- | variable
-
- variable: ID
- */
 public class Parser {
     private let lexer: Lexer
     private var currentToken: Token
@@ -232,7 +202,34 @@ public class Parser {
     }
 
     /**
-     Parses the given text and returns an AST
+     Parser for the following grammar
+     
+     program : compound_statement DOT
+     
+     compound_statement : BEGIN statement_list END
+     
+     statement_list : statement
+     | statement SEMI statement_list
+     
+     statement : compound_statement
+     | assignment_statement
+     | empty
+     
+     assignment_statement : variable ASSIGN expr
+     
+     empty :
+     
+     expr: term ((PLUS | MINUS) term)*
+     
+     term: factor ((MUL | DIV) factor)*
+     
+     factor : PLUS factor
+     | MINUS factor
+     | INTEGER
+     | LPAREN expr RPAREN
+     | variable
+     
+     variable: ID
      */
     public func parse() -> AST {
         let node = program()
