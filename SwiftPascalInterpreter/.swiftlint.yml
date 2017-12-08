@@ -4,3 +4,4 @@ disabled_rules:
         - identifier_name
         - cyclomatic_complexity
         - line_length
+        - function_body_length
