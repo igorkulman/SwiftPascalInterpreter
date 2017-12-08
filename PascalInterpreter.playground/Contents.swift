@@ -18,3 +18,6 @@ interpeter.eval()
 
 let parser = Parser("2 * (7 + 3) ")
 print(parser.expr())
+
+let rpn = RPN("(5 + 3) * 12 / 3")
+rpn.eval()

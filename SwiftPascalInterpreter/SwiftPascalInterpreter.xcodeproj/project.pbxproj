@@ -19,6 +19,7 @@
 		F3A550021FD9BBEF003476D9 /* AST.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A550011FD9BBEF003476D9 /* AST.swift */; };
 		F3A550041FD9BC2A003476D9 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A550031FD9BC2A003476D9 /* Parser.swift */; };
 		F3A550061FD9C209003476D9 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A550051FD9C209003476D9 /* Utils.swift */; };
+		F3D503C11FDA834600B27819 /* Notations.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D503C01FDA834600B27819 /* Notations.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		F3A550011FD9BBEF003476D9 /* AST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AST.swift; sourceTree = "<group>"; };
 		F3A550031FD9BC2A003476D9 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		F3A550051FD9C209003476D9 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		F3D503C01FDA834600B27819 /* Notations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notations.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +76,7 @@
 				F36034081FD8589600CC81C3 /* SwiftPascalInterpreter.h */,
 				F36034091FD8589600CC81C3 /* Info.plist */,
 				F3474F5E1FD858FD003336FA /* Extensions.swift */,
+				F3D503C01FDA834600B27819 /* Notations.swift */,
 				F3A550051FD9C209003476D9 /* Utils.swift */,
 			);
 			name = "Supporting files";
@@ -259,6 +262,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F3474F591FD858BA003336FA /* Interpreter.swift in Sources */,
+				F3D503C11FDA834600B27819 /* Notations.swift in Sources */,
 				F3474F5F1FD858FD003336FA /* Extensions.swift in Sources */,
 				F3A550041FD9BC2A003476D9 /* Parser.swift in Sources */,
 				F3A550061FD9C209003476D9 /* Utils.swift in Sources */,
