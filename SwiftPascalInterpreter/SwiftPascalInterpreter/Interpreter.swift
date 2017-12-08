@@ -16,11 +16,12 @@ public class Interpreter {
     }
 
     public func eval() -> Int {
-        let node = parser.expr()
-        return visit(node)
+        /*let node = parser.expr()
+        return visit(node)*/
+        return 0
     }
 
-    private func visit(_ node: AST) -> Int {
+    /*private func visit(_ node: AST) -> Int {
         switch node {
         case let .number(value):
             return value
@@ -43,5 +44,5 @@ public class Interpreter {
                 return visit(left) / visit(right)
             }
         }
-    }
+    }*/
 }

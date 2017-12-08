@@ -140,18 +140,6 @@ extension Parser: CustomStringConvertible {
     }
 }
 
-extension RPN: CustomStringConvertible {
-    public var description: String {
-        return "Reverse polish notation"
-    }
-}
-
-extension LISPNotation: CustomStringConvertible {
-    public var description: String {
-        return "LISP notation"
-    }
-}
-
 extension AST: CustomStringConvertible {
     public var description: String {
         return treeString(self, using: { node in
@@ -162,6 +150,16 @@ extension AST: CustomStringConvertible {
                 return ("u\(operation.description)", child, nil)
             case let .binaryOperation(left: left, operation: operation, right: right):
                 return ("\(operation.description)", left, right)
+            case .noOp:
+                return ("noOp", nil, nil)
+            case let .variable(value):
+                return (value, nil, nil)
+            case let .compound(children: children):
+                let first = children.count > 0 ? children[0] : nil
+                let second = children.count > 1 ? children[1] : nil
+                return ("compound", first, second)
+            case let .assignment(left: left, right: right):
+                return (":=", left, right)
             }
         })
     }
@@ -178,6 +176,22 @@ extension AST: Equatable {
         case let (.binaryOperation(left: leftLeft, operation: leftOperation, right: leftRight),
                   .binaryOperation(left: rightLeft, operation: rightOperation, right: rightRight)):
             return leftLeft == rightLeft && leftOperation == rightOperation && leftRight == rightRight
+        case (.noOp, .noOp):
+            return true
+        case let (.assignment(left: leftLeft, right: leftRight), .assignment(left: rightLeft, right: rightRight)):
+            return leftLeft == rightLeft && leftRight == rightRight
+        case let (.compound(children: left), .compound(children: right)):
+            if left.count != right.count {
+                return false
+            }
+            for i in 0 ... left.count - 1 {
+                if left[i] != right[i] {
+                    return false
+                }
+            }
+            return true
+        case let (.variable(left), .variable(right)):
+            return left == right
         default:
             return false
         }
