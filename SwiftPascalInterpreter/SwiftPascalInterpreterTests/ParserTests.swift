@@ -24,15 +24,15 @@ class ParserTests: XCTestCase {
 
     func testMoreComplexExpression() {
         let program =
-        """
-        BEGIN
+            """
             BEGIN
-                number := 2;
-                a := number;
-            END;
-            x := 11;
-        END.
-        """
+                BEGIN
+                    number := 2;
+                    a := number;
+                END;
+                x := 11;
+            END.
+            """
 
         let parser = Parser(program)
         let result = parser.parse()
