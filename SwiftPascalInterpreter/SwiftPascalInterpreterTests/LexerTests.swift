@@ -166,4 +166,17 @@ class LexerTests: XCTestCase {
         XCTAssert(lexer.getNextToken() == .integer(2))
         XCTAssert(lexer.getNextToken() == .eof)
     }
+
+    func testPascalStructure() {
+        let lexer = Lexer("BEGIN a := 2; END.")
+
+        XCTAssert(lexer.getNextToken() == .begin)
+        XCTAssert(lexer.getNextToken() == .id("a"))
+        XCTAssert(lexer.getNextToken() == .assign)
+        XCTAssert(lexer.getNextToken() == .integer(2))
+        XCTAssert(lexer.getNextToken() == .semi)
+        XCTAssert(lexer.getNextToken() == .end)
+        XCTAssert(lexer.getNextToken() == .dot)
+        XCTAssert(lexer.getNextToken() == .eof)
+    }
 }

@@ -25,6 +25,18 @@ extension Token: Equatable {
             return left == right
         case let (.parenthesis(left), .parenthesis(right)):
             return left == right
+        case (.dot, .dot):
+            return true
+        case (.semi, .semi):
+            return true
+        case (.assign, .assign):
+            return true
+        case (.begin, .begin):
+            return true
+        case (.end, .end):
+            return true
+        case let (.id(left), .id(right)):
+            return left == right
         default:
             return false
         }
@@ -94,6 +106,18 @@ extension Token: CustomStringConvertible {
             return operation.description
         case let .parenthesis(parenthesis):
             return parenthesis.description
+        case .begin:
+            return "BEGIN"
+        case .end:
+            return "END"
+        case let .id(value):
+            return "ID(\(value))"
+        case .assign:
+            return "ASSIGN"
+        case .semi:
+            return "SEMI"
+        case .dot:
+            return "DOT"
         }
     }
 }
@@ -148,9 +172,11 @@ extension AST: Equatable {
         switch (lhs, rhs) {
         case let (.number(left), .number(right)):
             return left == right
-        case let (.unaryOperation(operation: leftOperation, child: leftChild), .unaryOperation(operation: rightOperation, child: rightChild)):
+        case let (.unaryOperation(operation: leftOperation, child: leftChild),
+                  .unaryOperation(operation: rightOperation, child: rightChild)):
             return leftOperation == rightOperation && leftChild == rightChild
-        case let (.binaryOperation(left: leftLeft, operation: leftOperation, right: leftRight), .binaryOperation(left: rightLeft, operation: rightOperation, right: rightRight)):
+        case let (.binaryOperation(left: leftLeft, operation: leftOperation, right: leftRight),
+                  .binaryOperation(left: rightLeft, operation: rightOperation, right: rightRight)):
             return leftLeft == rightLeft && leftOperation == rightOperation && leftRight == rightRight
         default:
             return false
