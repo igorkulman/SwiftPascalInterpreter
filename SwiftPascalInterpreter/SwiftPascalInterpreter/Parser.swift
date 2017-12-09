@@ -9,6 +9,9 @@
 import Foundation
 
 public class Parser {
+
+    // MARK: - Fields
+
     private let lexer: Lexer
     private var currentToken: Token
 
@@ -16,6 +19,8 @@ public class Parser {
         lexer = Lexer(text)
         currentToken = lexer.getNextToken()
     }
+
+    // MARK: - Helpers
 
     /**
      Compares the current token with the given token, if they match, the next token is read,
@@ -27,85 +32,11 @@ public class Parser {
         if currentToken == token {
             currentToken = lexer.getNextToken()
         } else {
-            fatalError("Syntax error, expected token, got \(currentToken)")
+            fatalError("Syntax error, expected \(token), got \(currentToken)")
         }
     }
 
-    /**
-     Rule:
-
-     factor : PLUS  factor
-     | MINUS factor
-     | INTEGER
-     | LPAREN expr RPAREN
-     | variable
-     */
-    private func factor() -> AST {
-        let token = currentToken
-        switch token {
-        case .operation(.plus):
-            eat(.operation(.plus))
-            return .unaryOperation(operation: .plus, child: factor())
-        case .operation(.minus):
-            eat(.operation(.minus))
-            return .unaryOperation(operation: .minus, child: factor())
-        case let .constant(.integer(value)):
-            eat(.constant(.integer(value)))
-            return .number(value)
-        case .parenthesis(.left):
-            eat(.parenthesis(.left))
-            let result = expr()
-            eat(.parenthesis(.right))
-            return result
-        default:
-            return variable()
-        }
-    }
-
-    /**
-     Rule:
-
-     term: factor ((MUL | DIV) factor)*
-     */
-    private func term() -> AST {
-        var node = factor()
-
-        while [.operation(.mult), .operation(.floatDiv)].contains(currentToken) {
-            let token = currentToken
-            if token == .operation(.mult) {
-                eat(.operation(.mult))
-                node = .binaryOperation(left: node, operation: .mult, right: factor())
-            } else if token == .operation(.floatDiv) {
-                eat(.operation(.floatDiv))
-                node = .binaryOperation(left: node, operation: .div, right: factor())
-            }
-        }
-
-        return node
-    }
-
-    /**
-     Rule:
-
-     expr: term ((PLUS | MINUS) term)*
-     */
-    private func expr() -> AST {
-
-        var node = term()
-
-        while [.operation(.plus), .operation(.minus)].contains(currentToken) {
-            let token = currentToken
-            if token == .operation(.plus) {
-                eat(.operation(.plus))
-                node = .binaryOperation(left: node, operation: .plus, right: term())
-            } else if token == .operation(.minus) {
-                eat(.operation(.minus))
-                node = .binaryOperation(left: node, operation: .minus, right: term())
-            }
-        }
-
-        return node
-    }
+    // MARK: - Grammar rules
 
     /**
      Rule:
@@ -116,6 +47,76 @@ public class Parser {
         let node = compoundStatement()
         eat(.dot)
         return node
+    }
+
+    /**
+     block : declarations compound_statement
+     */
+    private func block() -> AST {
+        let decs = declarations()
+        let statement = compoundStatement()
+        return .block(declarations: decs, compound: statement)
+    }
+
+    /**
+     declarations : VAR (variable_declaration SEMI)+
+     | empty
+     */
+    private func declarations() -> [AST] {
+        var declarations: [AST] = []
+
+        if currentToken == .varDef {
+            eat(.varDef)
+            while case .id = currentToken {
+                let declaration = variableDeclaration()
+                declarations.append(contentsOf: declaration)
+                eat(.semi)
+            }
+        }
+
+        return declarations
+    }
+
+    /**
+     variable_declaration : ID (COMMA ID)* COLON type_spec
+     */
+    private func variableDeclaration() -> [AST] {
+        guard case let .id(name) = currentToken else {
+            fatalError()
+        }
+
+        var variableNames = [name]
+        eat(.id(name))
+
+        while currentToken == .coma {
+            eat(.coma)
+            if case let .id(value) = currentToken {
+                variableNames.append(value)
+                eat(.id(value))
+            } else {
+                fatalError("Variable name expected, got \(currentToken)")
+            }
+        }
+
+        eat(.colon)
+
+        let type = typeSpec()
+        return variableNames.map({ .variableDeclaration(name: $0, type: type) })
+    }
+
+    /**
+     type_spec : INTEGER
+     | REAL
+     */
+    private func typeSpec() -> AST {
+        switch currentToken {
+        case .integer:
+            return .type(.integer)
+        case .real:
+            return .type(.real)
+        default:
+            fatalError("Expected type, got \(currentToken)")
+        }
     }
 
     /**
@@ -180,6 +181,61 @@ public class Parser {
     }
 
     /**
+     An empty production
+     */
+    private func empty() -> AST {
+        return .noOp
+    }
+
+    /**
+     Rule:
+
+     expr: term ((PLUS | MINUS) term)*
+     */
+    private func expr() -> AST {
+
+        var node = term()
+
+        while [.plus, .minus].contains(currentToken) {
+            let token = currentToken
+            if token == .plus {
+                eat(.plus)
+                node = .binaryOperation(left: node, operation: .plus, right: term())
+            } else if token == .minus {
+                eat(.minus)
+                node = .binaryOperation(left: node, operation: .minus, right: term())
+            }
+        }
+
+        return node
+    }
+
+    /**
+     Rule:
+
+     term: factor ((MUL | DIV) factor)*
+     */
+    private func term() -> AST {
+        var node = factor()
+
+        while [.mult, .floatDiv, .integerDiv].contains(currentToken) {
+            let token = currentToken
+            if token == .mult {
+                eat(.mult)
+                node = .binaryOperation(left: node, operation: .mult, right: factor())
+            } else if token == .floatDiv {
+                eat(.floatDiv)
+                node = .binaryOperation(left: node, operation: .floatDiv, right: factor())
+            } else if token == .integerDiv {
+                eat(.integerDiv)
+                node = .binaryOperation(left: node, operation: .integerDiv, right: factor())
+            }
+        }
+
+        return node
+    }
+
+    /**
      Rule:
 
      variable : ID
@@ -195,16 +251,51 @@ public class Parser {
     }
 
     /**
-     An empty production
+     Rule:
+
+     factor : PLUS  factor
+     | MINUS factor
+     | INTEGER
+     | LPAREN expr RPAREN
+     | variable
      */
-    private func empty() -> AST {
-        return .noOp
+    private func factor() -> AST {
+        let token = currentToken
+        switch token {
+        case .plus:
+            eat(.plus)
+            return .unaryOperation(operation: .plus, child: factor())
+        case .minus:
+            eat(.minus)
+            return .unaryOperation(operation: .minus, child: factor())
+        case let .integerConst(value):
+            eat(.integerConst(value))
+            return .number(value)
+        case .lparen:
+            eat(.lparen)
+            let result = expr()
+            eat(.rparen)
+            return result
+        default:
+            return variable()
+        }
     }
+
+    // MARK: - Public methods.
 
     /**
      Parser for the following grammar
 
-     program : compound_statement DOT
+     program : PROGRAM variable SEMI block DOT
+
+     block : declarations compound_statement
+
+     declarations : VAR (variable_declaration SEMI)+
+     | empty
+
+     variable_declaration : ID (COMMA ID)* COLON type_spec
+
+     type_spec : INTEGER
 
      compound_statement : BEGIN statement_list END
 
@@ -219,13 +310,14 @@ public class Parser {
 
      empty :
 
-     expr: term ((PLUS | MINUS) term)*
+     expr : term ((PLUS | MINUS) term)*
 
-     term: factor ((MUL | DIV) factor)*
+     term : factor ((MUL | INTEGER_DIV | FLOAT_DIV) factor)*
 
      factor : PLUS factor
      | MINUS factor
-     | INTEGER
+     | INTEGER_CONST
+     | REAL_CONST
      | LPAREN expr RPAREN
      | variable
 

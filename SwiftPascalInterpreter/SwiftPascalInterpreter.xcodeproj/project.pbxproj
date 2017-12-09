@@ -10,12 +10,14 @@
 		F30E36521FD9291900DF63C4 /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30E36511FD9291900DF63C4 /* Lexer.swift */; };
 		F3474F591FD858BA003336FA /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3474F581FD858BA003336FA /* Interpreter.swift */; };
 		F3474F5B1FD858D0003336FA /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3474F5A1FD858D0003336FA /* Token.swift */; };
-		F3474F5F1FD858FD003336FA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3474F5E1FD858FD003336FA /* Extensions.swift */; };
 		F3474F611FD8597A003336FA /* LexerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3474F601FD8597A003336FA /* LexerTests.swift */; };
 		F3474F661FD872C0003336FA /* InterpreterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3474F651FD872C0003336FA /* InterpreterTests.swift */; };
 		F360340F1FD8589600CC81C3 /* SwiftPascalInterpreter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F36034051FD8589600CC81C3 /* SwiftPascalInterpreter.framework */; };
 		F36034161FD8589600CC81C3 /* SwiftPascalInterpreter.h in Headers */ = {isa = PBXBuildFile; fileRef = F36034081FD8589600CC81C3 /* SwiftPascalInterpreter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F39F82B51FD938D20078BA04 /* ParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F82B41FD938D20078BA04 /* ParserTests.swift */; };
+		F3A243991FDC4740001C4FD8 /* Token+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A243981FDC4740001C4FD8 /* Token+Extensions.swift */; };
+		F3A2439B1FDC4766001C4FD8 /* AST+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A2439A1FDC4766001C4FD8 /* AST+Extensions.swift */; };
+		F3A2439E1FDC5B09001C4FD8 /* Naming+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A2439D1FDC5B09001C4FD8 /* Naming+Extensions.swift */; };
 		F3A550021FD9BBEF003476D9 /* AST.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A550011FD9BBEF003476D9 /* AST.swift */; };
 		F3A550041FD9BC2A003476D9 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A550031FD9BC2A003476D9 /* Parser.swift */; };
 		F3A550061FD9C209003476D9 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A550051FD9C209003476D9 /* Utils.swift */; };
@@ -35,7 +37,6 @@
 		F30E36511FD9291900DF63C4 /* Lexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lexer.swift; sourceTree = "<group>"; };
 		F3474F581FD858BA003336FA /* Interpreter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interpreter.swift; sourceTree = "<group>"; };
 		F3474F5A1FD858D0003336FA /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
-		F3474F5E1FD858FD003336FA /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		F3474F601FD8597A003336FA /* LexerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LexerTests.swift; sourceTree = "<group>"; };
 		F3474F651FD872C0003336FA /* InterpreterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterpreterTests.swift; sourceTree = "<group>"; };
 		F36034051FD8589600CC81C3 /* SwiftPascalInterpreter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftPascalInterpreter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,6 +45,9 @@
 		F360340E1FD8589600CC81C3 /* SwiftPascalInterpreterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftPascalInterpreterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F36034151FD8589600CC81C3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F39F82B41FD938D20078BA04 /* ParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTests.swift; sourceTree = "<group>"; };
+		F3A243981FDC4740001C4FD8 /* Token+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Token+Extensions.swift"; sourceTree = "<group>"; };
+		F3A2439A1FDC4766001C4FD8 /* AST+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AST+Extensions.swift"; sourceTree = "<group>"; };
+		F3A2439D1FDC5B09001C4FD8 /* Naming+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Naming+Extensions.swift"; sourceTree = "<group>"; };
 		F3A550011FD9BBEF003476D9 /* AST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AST.swift; sourceTree = "<group>"; };
 		F3A550031FD9BC2A003476D9 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		F3A550051FD9C209003476D9 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
@@ -71,10 +75,9 @@
 		F3474F5D1FD858E9003336FA /* Supporting files */ = {
 			isa = PBXGroup;
 			children = (
+				F3A243971FDC4728001C4FD8 /* Extensions */,
 				F36034081FD8589600CC81C3 /* SwiftPascalInterpreter.h */,
 				F36034091FD8589600CC81C3 /* Info.plist */,
-				F3474F5E1FD858FD003336FA /* Extensions.swift */,
-				F3A550051FD9C209003476D9 /* Utils.swift */,
 			);
 			name = "Supporting files";
 			sourceTree = "<group>";
@@ -108,11 +111,10 @@
 		F36034071FD8589600CC81C3 /* SwiftPascalInterpreter */ = {
 			isa = PBXGroup;
 			children = (
-				F3A550011FD9BBEF003476D9 /* AST.swift */,
+				F3A2439C1FDC47CF001C4FD8 /* Model */,
 				F3474F581FD858BA003336FA /* Interpreter.swift */,
 				F30E36511FD9291900DF63C4 /* Lexer.swift */,
 				F3A550031FD9BC2A003476D9 /* Parser.swift */,
-				F3474F5A1FD858D0003336FA /* Token.swift */,
 				F3474F5D1FD858E9003336FA /* Supporting files */,
 			);
 			path = SwiftPascalInterpreter;
@@ -127,6 +129,26 @@
 				F39F82B41FD938D20078BA04 /* ParserTests.swift */,
 			);
 			path = SwiftPascalInterpreterTests;
+			sourceTree = "<group>";
+		};
+		F3A243971FDC4728001C4FD8 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F3A2439A1FDC4766001C4FD8 /* AST+Extensions.swift */,
+				F3A243981FDC4740001C4FD8 /* Token+Extensions.swift */,
+				F3A550051FD9C209003476D9 /* Utils.swift */,
+				F3A2439D1FDC5B09001C4FD8 /* Naming+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F3A2439C1FDC47CF001C4FD8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F3A550011FD9BBEF003476D9 /* AST.swift */,
+				F3474F5A1FD858D0003336FA /* Token.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -152,6 +174,7 @@
 				F36034021FD8589600CC81C3 /* Headers */,
 				F36034031FD8589600CC81C3 /* Resources */,
 				F30E36531FD92DE500DF63C4 /* SwiftLint */,
+				F3A243961FDC46A3001C4FD8 /* SwiftFotmat */,
 			);
 			buildRules = (
 			);
@@ -249,7 +272,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint autocorrect\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
+		F3A243961FDC46A3001C4FD8 /* SwiftFotmat */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftFotmat;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftformat >/dev/null; then\nswiftformat\nelse\necho \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -259,12 +296,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				F3474F591FD858BA003336FA /* Interpreter.swift in Sources */,
-				F3474F5F1FD858FD003336FA /* Extensions.swift in Sources */,
 				F3A550041FD9BC2A003476D9 /* Parser.swift in Sources */,
 				F3A550061FD9C209003476D9 /* Utils.swift in Sources */,
+				F3A2439B1FDC4766001C4FD8 /* AST+Extensions.swift in Sources */,
 				F30E36521FD9291900DF63C4 /* Lexer.swift in Sources */,
+				F3A243991FDC4740001C4FD8 /* Token+Extensions.swift in Sources */,
 				F3A550021FD9BBEF003476D9 /* AST.swift in Sources */,
 				F3474F5B1FD858D0003336FA /* Token.swift in Sources */,
+				F3A2439E1FDC5B09001C4FD8 /* Naming+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

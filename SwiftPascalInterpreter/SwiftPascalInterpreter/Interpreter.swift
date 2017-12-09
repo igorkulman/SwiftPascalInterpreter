@@ -41,7 +41,9 @@ public class Interpreter {
                 return leftResult - rightResult
             case .mult:
                 return leftResult * rightResult
-            case .div:
+            case .integerDiv:
+                return leftResult / rightResult
+            case .floatDiv:
                 return leftResult / rightResult
             }
         case let .compound(children):
@@ -63,6 +65,8 @@ public class Interpreter {
             }
             return value
         case .noOp:
+            return nil
+        default:
             return nil
         }
     }

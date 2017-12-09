@@ -65,8 +65,7 @@ func treeString<T>(_ node: T, using nodeInfo: (T) -> (String, T?, T?)) -> String
     //     have no overlap with subNodes of left node
     let minSpacing = 2
     let rightNodePosition = zip(leftLineWidths, rightLineIndents[0 ..< commonLines])
-        .reduce(firstLeftWidth + minLinkWidth)
-    { max($0, $1.0 + minSpacing + firstRightIndent - $1.1) }
+        .reduce(firstLeftWidth + minLinkWidth) { max($0, $1.0 + minSpacing + firstRightIndent - $1.1) }
 
     // extend basic link bars (slashes) with underlines to reach left and right
     // top nodes.

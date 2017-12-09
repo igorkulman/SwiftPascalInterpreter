@@ -12,14 +12,19 @@ import Foundation
  Basic lexical analyzer converting program text into tokens
  */
 public class Lexer {
+
+    // MARK: - Fields
+
     private let text: String
     private var currentPosition: Int
     private var currentCharacter: Character?
 
+    // MARK: - Constants
+
     private let keywords: [String: Token] = [
         "PROGRAM": .program,
         "VAR": .varDef,
-        "DIV": .operation(.integerDiv),
+        "DIV": .integerDiv,
         "INTEGER": .integer,
         "REAL": .real,
         "BEGIN": .begin,
@@ -31,6 +36,8 @@ public class Lexer {
         currentPosition = 0
         currentCharacter = text.isEmpty ? nil : text[text.startIndex]
     }
+
+    // MARK: - Stream helpers
 
     /**
      Skips all the whitespace
@@ -79,6 +86,33 @@ public class Lexer {
         return text[text.index(text.startIndex, offsetBy: peekPosition)]
     }
 
+    // MARK: - Parsing helpers
+
+    /**
+     Reads a possible multidigit integer starting at the current position
+     */
+    private func number() -> Token {
+        var lexem = ""
+        while let character = currentCharacter, CharacterSet.decimalDigits.contains(character.unicodeScalars.first!) {
+            lexem += String(character)
+            advance()
+        }
+
+        if let character = currentCharacter, character == "." {
+            lexem += "."
+            advance()
+
+            while let character = currentCharacter, CharacterSet.decimalDigits.contains(character.unicodeScalars.first!) {
+                lexem += String(character)
+                advance()
+            }
+
+            return .realConst(Double(lexem)!)
+        }
+
+        return .integerConst(Int(lexem)!)
+    }
+
     /**
      Handles identifies and reserved keywords
 
@@ -97,6 +131,8 @@ public class Lexer {
 
         return .id(lexem)
     }
+
+    // MARK: - Public methods
 
     /**
      Reads the text at current position and returns next token
@@ -155,61 +191,37 @@ public class Lexer {
 
             if currentCharacter == "+" {
                 advance()
-                return .operation(.plus)
+                return .plus
             }
 
             if currentCharacter == "-" {
                 advance()
-                return .operation(.minus)
+                return .minus
             }
 
             if currentCharacter == "*" {
                 advance()
-                return .operation(.mult)
+                return .mult
             }
 
             if currentCharacter == "/" {
                 advance()
-                return .operation(.floatDiv)
+                return .floatDiv
             }
 
             if currentCharacter == "(" {
                 advance()
-                return .parenthesis(.left)
+                return .lparen
             }
 
             if currentCharacter == ")" {
                 advance()
-                return .parenthesis(.right)
+                return .rparen
             }
 
             fatalError("Error parsing input")
         }
 
         return .eof
-    }
-
-    /**
-     Reads a possible multidigit integer starting at the current position
-     */
-    private func number() -> Token {
-        var lexem = ""
-        while let character = currentCharacter, CharacterSet.decimalDigits.contains(character.unicodeScalars.first!) {
-            lexem += String(character)
-            advance()
-        }
-
-        if let character = currentCharacter, character == "." {
-            advance()
-
-            while let character = currentCharacter, CharacterSet.decimalDigits.contains(character.unicodeScalars.first!) {
-                lexem += String(character)
-                advance()
-            }
-
-            return .constant(.real(Double(lexem)!))
-        }
-
-        return .constant(.integer(Int(lexem)!))
     }
 }

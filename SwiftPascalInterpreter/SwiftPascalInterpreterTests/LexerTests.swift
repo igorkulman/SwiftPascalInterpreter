@@ -31,9 +31,9 @@ class LexerTests: XCTestCase {
         let right = lexer.getNextToken()
         let eof = lexer.getNextToken()
 
-        XCTAssert(left == .constant(.integer(3)))
-        XCTAssert(operation == .operation(.plus))
-        XCTAssert(right == .constant(.integer(4)))
+        XCTAssert(left == .integerConst(3))
+        XCTAssert(operation == .plus)
+        XCTAssert(right == .integerConst(4))
         XCTAssert(eof == .eof)
     }
 
@@ -44,9 +44,9 @@ class LexerTests: XCTestCase {
         let right = lexer.getNextToken()
         let eof = lexer.getNextToken()
 
-        XCTAssert(left == .constant(.integer(3)))
-        XCTAssert(operation == .operation(.mult))
-        XCTAssert(right == .constant(.integer(4)))
+        XCTAssert(left == .integerConst(3))
+        XCTAssert(operation == .mult)
+        XCTAssert(right == .integerConst(4))
         XCTAssert(eof == .eof)
     }
 
@@ -57,9 +57,9 @@ class LexerTests: XCTestCase {
         let right = lexer.getNextToken()
         let eof = lexer.getNextToken()
 
-        XCTAssert(left == .constant(.integer(3)))
-        XCTAssert(operation == .operation(.floatDiv))
-        XCTAssert(right == .constant(.integer(4)))
+        XCTAssert(left == .integerConst(3))
+        XCTAssert(operation == .floatDiv)
+        XCTAssert(right == .integerConst(4))
         XCTAssert(eof == .eof)
     }
 
@@ -70,9 +70,9 @@ class LexerTests: XCTestCase {
         let right = lexer.getNextToken()
         let eof = lexer.getNextToken()
 
-        XCTAssert(left == .constant(.integer(3)))
-        XCTAssert(operation == .operation(.integerDiv))
-        XCTAssert(right == .constant(.integer(4)))
+        XCTAssert(left == .integerConst(3))
+        XCTAssert(operation == .integerDiv)
+        XCTAssert(right == .integerConst(4))
         XCTAssert(eof == .eof)
     }
 
@@ -83,9 +83,9 @@ class LexerTests: XCTestCase {
         let right = lexer.getNextToken()
         let eof = lexer.getNextToken()
 
-        XCTAssert(left == .constant(.integer(3)))
-        XCTAssert(operation == .operation(.minus))
-        XCTAssert(right == .constant(.integer(4)))
+        XCTAssert(left == .integerConst(3))
+        XCTAssert(operation == .minus)
+        XCTAssert(right == .integerConst(4))
         XCTAssert(eof == .eof)
     }
 
@@ -96,9 +96,9 @@ class LexerTests: XCTestCase {
         let right = lexer.getNextToken()
         let eof = lexer.getNextToken()
 
-        XCTAssert(left == .constant(.integer(3)))
-        XCTAssert(operation == .operation(.plus))
-        XCTAssert(right == .constant(.integer(4)))
+        XCTAssert(left == .integerConst(3))
+        XCTAssert(operation == .plus)
+        XCTAssert(right == .integerConst(4))
         XCTAssert(eof == .eof)
     }
 
@@ -109,9 +109,9 @@ class LexerTests: XCTestCase {
         let right = lexer.getNextToken()
         let eof = lexer.getNextToken()
 
-        XCTAssert(left == .constant(.integer(3)))
-        XCTAssert(operation == .operation(.plus))
-        XCTAssert(right == .constant(.integer(4)))
+        XCTAssert(left == .integerConst(3))
+        XCTAssert(operation == .plus)
+        XCTAssert(right == .integerConst(4))
         XCTAssert(eof == .eof)
     }
 
@@ -122,9 +122,9 @@ class LexerTests: XCTestCase {
         let right = lexer.getNextToken()
         let eof = lexer.getNextToken()
 
-        XCTAssert(left == .constant(.integer(3)))
-        XCTAssert(operation == .operation(.plus))
-        XCTAssert(right == .constant(.integer(4)))
+        XCTAssert(left == .integerConst(3))
+        XCTAssert(operation == .plus)
+        XCTAssert(right == .integerConst(4))
         XCTAssert(eof == .eof)
     }
 
@@ -135,9 +135,9 @@ class LexerTests: XCTestCase {
         let right = lexer.getNextToken()
         let eof = lexer.getNextToken()
 
-        XCTAssert(left == .constant(.integer(3)))
-        XCTAssert(operation == .operation(.plus))
-        XCTAssert(right == .constant(.integer(4)))
+        XCTAssert(left == .integerConst(3))
+        XCTAssert(operation == .plus)
+        XCTAssert(right == .integerConst(4))
         XCTAssert(eof == .eof)
     }
 
@@ -148,35 +148,35 @@ class LexerTests: XCTestCase {
         let right = lexer.getNextToken()
         let eof = lexer.getNextToken()
 
-        XCTAssert(left == .constant(.integer(13)))
-        XCTAssert(operation == .operation(.plus))
-        XCTAssert(right == .constant(.integer(154)))
+        XCTAssert(left == .integerConst(13))
+        XCTAssert(operation == .plus)
+        XCTAssert(right == .integerConst(154))
         XCTAssert(eof == .eof)
     }
 
     func testParentheses() {
         let lexer = Lexer("(1+(3*5))")
 
-        XCTAssert(lexer.getNextToken() == .parenthesis(.left))
-        XCTAssert(lexer.getNextToken() == .constant(.integer(1)))
-        XCTAssert(lexer.getNextToken() == .operation(.plus))
-        XCTAssert(lexer.getNextToken() == .parenthesis(.left))
-        XCTAssert(lexer.getNextToken() == .constant(.integer(3)))
-        XCTAssert(lexer.getNextToken() == .operation(.mult))
-        XCTAssert(lexer.getNextToken() == .constant(.integer(5)))
-        XCTAssert(lexer.getNextToken() == .parenthesis(.right))
-        XCTAssert(lexer.getNextToken() == .parenthesis(.right))
+        XCTAssert(lexer.getNextToken() == .lparen)
+        XCTAssert(lexer.getNextToken() == .integerConst(1))
+        XCTAssert(lexer.getNextToken() == .plus)
+        XCTAssert(lexer.getNextToken() == .lparen)
+        XCTAssert(lexer.getNextToken() == .integerConst(3))
+        XCTAssert(lexer.getNextToken() == .mult)
+        XCTAssert(lexer.getNextToken() == .integerConst(5))
+        XCTAssert(lexer.getNextToken() == .rparen)
+        XCTAssert(lexer.getNextToken() == .rparen)
         XCTAssert(lexer.getNextToken() == .eof)
     }
 
     func testUnaryOperators() {
         let lexer = Lexer("5 - - - 2")
 
-        XCTAssert(lexer.getNextToken() == .constant(.integer(5)))
-        XCTAssert(lexer.getNextToken() == .operation(.minus))
-        XCTAssert(lexer.getNextToken() == .operation(.minus))
-        XCTAssert(lexer.getNextToken() == .operation(.minus))
-        XCTAssert(lexer.getNextToken() == .constant(.integer(2)))
+        XCTAssert(lexer.getNextToken() == .integerConst(5))
+        XCTAssert(lexer.getNextToken() == .minus)
+        XCTAssert(lexer.getNextToken() == .minus)
+        XCTAssert(lexer.getNextToken() == .minus)
+        XCTAssert(lexer.getNextToken() == .integerConst(2))
         XCTAssert(lexer.getNextToken() == .eof)
     }
 
@@ -186,7 +186,7 @@ class LexerTests: XCTestCase {
         XCTAssert(lexer.getNextToken() == .begin)
         XCTAssert(lexer.getNextToken() == .id("a"))
         XCTAssert(lexer.getNextToken() == .assign)
-        XCTAssert(lexer.getNextToken() == .constant(.integer(2)))
+        XCTAssert(lexer.getNextToken() == .integerConst(2))
         XCTAssert(lexer.getNextToken() == .semi)
         XCTAssert(lexer.getNextToken() == .end)
         XCTAssert(lexer.getNextToken() == .dot)
@@ -202,7 +202,7 @@ class LexerTests: XCTestCase {
         let lexer = Lexer("a := 2 { a := 5 }")
         XCTAssert(lexer.getNextToken() == .id("a"))
         XCTAssert(lexer.getNextToken() == .assign)
-        XCTAssert(lexer.getNextToken() == .constant(.integer(2)))
+        XCTAssert(lexer.getNextToken() == .integerConst(2))
         XCTAssert(lexer.getNextToken() == .eof)
     }
 
@@ -210,7 +210,31 @@ class LexerTests: XCTestCase {
         let lexer = Lexer(" { a := 5 }  a := 2  ")
         XCTAssert(lexer.getNextToken() == .id("a"))
         XCTAssert(lexer.getNextToken() == .assign)
-        XCTAssert(lexer.getNextToken() == .constant(.integer(2)))
+        XCTAssert(lexer.getNextToken() == .integerConst(2))
+        XCTAssert(lexer.getNextToken() == .eof)
+    }
+
+    func testTypesAndConstants() {
+        let lexer = Lexer(" a: INTEGER, b: REAL, a:= 2, b:= 3.14 ")
+        XCTAssert(lexer.getNextToken() == .id("a"))
+        XCTAssert(lexer.getNextToken() == .colon)
+        XCTAssert(lexer.getNextToken() == .integer)
+        XCTAssert(lexer.getNextToken() == .coma)
+        XCTAssert(lexer.getNextToken() == .id("b"))
+        XCTAssert(lexer.getNextToken() == .colon)
+        XCTAssert(lexer.getNextToken() == .real)
+        XCTAssert(lexer.getNextToken() == .coma)
+        XCTAssert(lexer.getNextToken() == .id("a"))
+        XCTAssert(lexer.getNextToken() == .assign)
+        XCTAssert(lexer.getNextToken() == .integerConst(2))
+        XCTAssert(lexer.getNextToken() == .coma)
+        XCTAssert(lexer.getNextToken() == .id("b"))
+        XCTAssert(lexer.getNextToken() == .assign)
+        if case let .realConst(value) = lexer.getNextToken() {
+            XCTAssert(abs(3.14 - value) < 0.01)
+        } else {
+            XCTFail()
+        }
         XCTAssert(lexer.getNextToken() == .eof)
     }
 
@@ -258,7 +282,7 @@ class LexerTests: XCTestCase {
         XCTAssert(lexer.getNextToken() == .begin)
         XCTAssert(lexer.getNextToken() == .id("a"))
         XCTAssert(lexer.getNextToken() == .assign)
-        XCTAssert(lexer.getNextToken() == .constant(.integer(2)))
+        XCTAssert(lexer.getNextToken() == .integerConst(2))
         XCTAssert(lexer.getNextToken() == .semi)
         XCTAssert(lexer.getNextToken() == .end)
         XCTAssert(lexer.getNextToken() == .dot)
