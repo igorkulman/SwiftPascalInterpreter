@@ -66,6 +66,6 @@ class InterpreterTests: XCTestCase {
         let interpeter = Interpreter(program)
         interpeter.interpret()
         let state = interpeter.getState()
-        XCTAssert(state == ["b": 25, "number": 2, "a": 2, "x": 11, "c": 27])
+        XCTAssert(state == ["b": 25, "y": 5, "a": 2])
     }
 }
