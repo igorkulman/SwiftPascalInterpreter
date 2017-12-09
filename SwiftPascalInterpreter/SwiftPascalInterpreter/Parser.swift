@@ -41,12 +41,19 @@ public class Parser {
     /**
      Rule:
 
-     program : compound_statement DOT
+     program : PROGRAM variable SEMI block DOT
      */
     private func program() -> AST {
-        let node = compoundStatement()
+        eat(.program)
+        guard case let .id(name) = currentToken else {
+            fatalError("Program must have a name")
+        }
+        eat(.id(name))
+        eat(.semi)
+        let blockNode = block()
+        let programNode = AST.program(name: name, block: blockNode)
         eat(.dot)
-        return node
+        return programNode
     }
 
     /**
@@ -213,22 +220,22 @@ public class Parser {
     /**
      Rule:
 
-     term: factor ((MUL | DIV) factor)*
+     term : factor ((MUL | INTEGER_DIV | FLOAT_DIV) factor)*
      */
     private func term() -> AST {
         var node = factor()
 
-        while [.mult, .floatDiv, .integerDiv].contains(currentToken) {
+        while [.mult, .integerDiv, .floatDiv].contains(currentToken) {
             let token = currentToken
             if token == .mult {
                 eat(.mult)
                 node = .binaryOperation(left: node, operation: .mult, right: factor())
-            } else if token == .floatDiv {
-                eat(.floatDiv)
-                node = .binaryOperation(left: node, operation: .floatDiv, right: factor())
             } else if token == .integerDiv {
                 eat(.integerDiv)
                 node = .binaryOperation(left: node, operation: .integerDiv, right: factor())
+            } else if token == .floatDiv {
+                eat(.floatDiv)
+                node = .binaryOperation(left: node, operation: .floatDiv, right: factor())
             }
         }
 
@@ -253,9 +260,10 @@ public class Parser {
     /**
      Rule:
 
-     factor : PLUS  factor
+     factor : PLUS factor
      | MINUS factor
-     | INTEGER
+     | INTEGER_CONST
+     | REAL_CONST
      | LPAREN expr RPAREN
      | variable
      */
@@ -271,6 +279,9 @@ public class Parser {
         case let .integerConst(value):
             eat(.integerConst(value))
             return .number(value)
+        case let .realConst(value):
+            eat(.realConst(value))
+            return .number(Int(value.rounded(.toNearestOrEven))) //TODO: proper real types
         case .lparen:
             eat(.lparen)
             let result = expr()

@@ -39,6 +39,8 @@ extension AST: Equatable {
             return leftDeclarations == rightDeclarations && leftCompound == rightCompound
         case let (.variableDeclaration(name: leftName, type: leftType), .variableDeclaration(name: rightName, type: rightType)):
             return leftName == rightName && leftType == rightType
+        case let (.program(name: leftName, block: leftBlock), .program(name: rightName, block: rightBlock)):
+            return leftName == rightName && leftBlock == rightBlock
         default:
             return false
         }
@@ -115,6 +117,8 @@ extension AST {
             return []
         case .type:
             return []
+        case let .program(_, block):
+            return [block]
         }
     }
 
@@ -140,6 +144,8 @@ extension AST {
             return "\(name): \(type.description)"
         case let .type(type):
             return type.description
+        case let .program(name, _):
+            return name
         }
     }
 

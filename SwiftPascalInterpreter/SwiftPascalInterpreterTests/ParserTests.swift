@@ -12,12 +12,20 @@ import XCTest
 
 class ParserTests: XCTestCase {
     func testBasicCompoundStatement() {
+        let program =
+        """
+        PROGRAM Part10AST;
+        BEGIN
+        a := 2
+        END.
+        """
+
         let a = AST.variable("a")
         let two = AST.number(2)
         let assignment = AST.assignment(left: a, right: two)
-        let empty = AST.noOp
-        let node = AST.compound(children: [assignment, empty])
-        let parser = Parser("BEGIN a := 2; END.")
+        let block = AST.block(declarations: [], compound: AST.compound(children: [assignment]))
+        let node = AST.program(name: "Part10AST", block: block)
+        let parser = Parser(program)
         let result = parser.parse()
         XCTAssert(result == node)
     }
@@ -25,6 +33,7 @@ class ParserTests: XCTestCase {
     func testMoreComplexExpression() {
         let program =
             """
+            PROGRAM Part10AST;
             BEGIN
                 BEGIN
                     number := 2;
@@ -45,13 +54,15 @@ class ParserTests: XCTestCase {
         let a = AST.variable("a")
         let aAssignment = AST.assignment(left: a, right: AST.binaryOperation(left: number, operation: .plus, right: two))
         let compound = AST.compound(children: [AST.assignment(left: number, right: two), aAssignment, empty])
-        let node = AST.compound(children: [compound, xAssignment, empty])
+        let block = AST.block(declarations: [], compound: AST.compound(children: [compound, xAssignment, empty]))
+        let node = AST.program(name: "Part10AST", block: block)
         XCTAssert(result == node)
     }
 
     func testEvenMoreComplexExpression() {
         let program =
             """
+            PROGRAM Part10AST;
             BEGIN
                 BEGIN
                     number := 2;
@@ -75,7 +86,7 @@ class ParserTests: XCTestCase {
         let plus = AST.binaryOperation(left: AST.binaryOperation(left: AST.number(10), operation: .mult, right: a), operation: .plus, right: division)
         let aAssignment = AST.assignment(left: a, right: plus)
         let compound = AST.compound(children: [AST.assignment(left: number, right: two), AST.assignment(left: a, right: number), aAssignment, empty])
-        let node = AST.compound(children: [compound, xAssignment, empty])
+        let node = AST.program(name: "Part10AST", block: AST.block(declarations: [], compound: AST.compound(children: [compound, xAssignment, empty])))
         XCTAssert(result == node)
     }
 }

@@ -233,7 +233,7 @@ class LexerTests: XCTestCase {
         if case let .realConst(value) = lexer.getNextToken() {
             XCTAssert(abs(3.14 - value) < 0.01)
         } else {
-            XCTFail()
+            XCTFail("Given value differes from expected 3.14")
         }
         XCTAssert(lexer.getNextToken() == .eof)
     }

@@ -15,6 +15,7 @@ lexer.getNextToken()
 
 let program =
 """
+PROGRAM Part10AST;
 BEGIN
     BEGIN
         number := 2;
