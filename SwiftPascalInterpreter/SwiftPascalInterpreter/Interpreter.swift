@@ -66,8 +66,17 @@ public class Interpreter {
             return value
         case .noOp:
             return nil
-        default:
+        case .block(let declarations, let compound):
+            for declaration in declarations {
+                visit(declaration)
+            }
+            return visit(compound)
+        case .variableDeclaration:
             return nil
+        case .type:
+            return nil
+        case let .program(_, block):
+            return visit(block)
         }
     }
 

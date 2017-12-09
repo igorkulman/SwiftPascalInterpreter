@@ -35,7 +35,7 @@ public enum AST {
     case variable(String)
     case noOp
     indirect case block(declarations: [AST], compound: AST)
-    indirect case variableDeclaration(name: String, type: AST)
+    indirect case variableDeclaration(name: AST, type: AST)
     case type(Type)
     indirect case program(name: String, block: AST)
 }

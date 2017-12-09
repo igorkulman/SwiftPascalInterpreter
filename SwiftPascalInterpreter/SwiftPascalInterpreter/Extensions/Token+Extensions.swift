@@ -53,6 +53,8 @@ extension Token: Equatable {
             return true
         case let (.integerConst(left), .integerConst(right)):
             return left == right
+        case let (.realConst(left), .realConst(right)):
+            return left == right
         default:
             return false
         }

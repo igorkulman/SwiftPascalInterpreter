@@ -108,7 +108,7 @@ public class Parser {
         eat(.colon)
 
         let type = typeSpec()
-        return variableNames.map({ .variableDeclaration(name: $0, type: type) })
+        return variableNames.map({ .variableDeclaration(name: .variable($0), type: type) })
     }
 
     /**
@@ -118,8 +118,10 @@ public class Parser {
     private func typeSpec() -> AST {
         switch currentToken {
         case .integer:
+            eat(.integer)
             return .type(.integer)
         case .real:
+            eat(.real)
             return .type(.real)
         default:
             fatalError("Expected type, got \(currentToken)")

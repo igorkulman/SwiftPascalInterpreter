@@ -113,8 +113,8 @@ extension AST {
             var nodes = declarations
             nodes.append(compound)
             return nodes
-        case .variableDeclaration:
-            return []
+        case let .variableDeclaration(name: name, type: type):
+            return [name, type]
         case .type:
             return []
         case let .program(_, block):
@@ -140,8 +140,8 @@ extension AST {
             return ":="
         case .block:
             return "block"
-        case let .variableDeclaration(name, type):
-            return "\(name): \(type.description)"
+        case .variableDeclaration:
+            return "var"
         case let .type(type):
             return type.description
         case let .program(name, _):
