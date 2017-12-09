@@ -33,5 +33,4 @@ print("")
 
 let interpreter = Interpreter(program)
 interpreter.interpret()
-print("Final interpreter memory state:")
 interpreter.printState()

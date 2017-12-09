@@ -75,6 +75,7 @@ public class Interpreter {
                     case .real:
                         fatalError("Cannot assign real value to Int variable \(name)")
                     }
+                    return nil
                 }
                 if globalReals.keys.contains(name) {
                     guard let result = eval(right) else {
@@ -86,8 +87,9 @@ public class Interpreter {
                     case let .real(value):
                         globalReals[name] = value
                     }
+                    return nil
                 }
-                return nil
+                fatalError("Cannot use undeclared variable \(name)")
             default:
                 fatalError("Assignment left side is not a variable")
             }
@@ -134,6 +136,7 @@ public class Interpreter {
     }
 
     public func printState() {
+        print("Final interpreter memory state:")
         print("Int: \(globalIntegers)")
         print("Real: \(globalReals)")
     }

@@ -14,14 +14,14 @@ import XCTest
 class InterpreterTests: XCTestCase {
     func testSimpleProgram() {
         let program =
-        """
-        PROGRAM Part10AST;
-        VAR
-            a: INTEGER;
-        BEGIN
-            a := 2
-        END.
-        """
+            """
+            PROGRAM Part10AST;
+            VAR
+                a: INTEGER;
+            BEGIN
+                a := 2
+            END.
+            """
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
@@ -35,7 +35,7 @@ class InterpreterTests: XCTestCase {
             """
             PROGRAM Part10AST;
             VAR
-                 a, number, b, c: INTEGER;
+                 a, number, b, c, x: INTEGER;
             BEGIN
                 BEGIN
                     number := 2;
@@ -56,22 +56,23 @@ class InterpreterTests: XCTestCase {
 
     func testProgramWithDeclarations() {
         let program =
-        """
-        PROGRAM Part10AST;
-        VAR
-            a, b : INTEGER;
-            y    : REAL;
+            """
+            PROGRAM Part10AST;
+            VAR
+                a, b : INTEGER;
+                y    : REAL;
 
-        BEGIN {Part10AST}
-            a := 2;
-            b := 10 * a + 10 * a DIV 4;
-            y := 20 / 7 + 3.14;
-        END.  {Part10AST}
-        """
+            BEGIN {Part10AST}
+                a := 2;
+                b := 10 * a + 10 * a DIV 4;
+                y := 20 / 7 + 3.14;
+            END.  {Part10AST}
+            """
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
         let (integerState, realState) = interpeter.getState()
-        //XCTAssert((integerState, realState) == ["b": 25, "y": 5, "a": 2])
+        XCTAssert(integerState == ["b": 25, "a": 2])
+        XCTAssert(realState == ["y": 5.9971428571428573])
     }
 }
