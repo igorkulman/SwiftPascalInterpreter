@@ -280,10 +280,10 @@ public class Parser {
             return .unaryOperation(operation: .minus, child: factor())
         case let .integerConst(value):
             eat(.integerConst(value))
-            return .number(value)
+            return .number(.integer(value))
         case let .realConst(value):
             eat(.realConst(value))
-            return .number(Int(value.rounded(.toNearestOrEven))) //TODO: proper real types
+            return .number(.real(value))
         case .lparen:
             eat(.lparen)
             let result = expr()

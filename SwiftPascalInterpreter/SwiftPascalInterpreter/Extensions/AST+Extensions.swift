@@ -11,7 +11,9 @@ import Foundation
 extension AST: Equatable {
     public static func == (lhs: AST, rhs: AST) -> Bool {
         switch (lhs, rhs) {
-        case let (.number(left), .number(right)):
+        case let (.number(.integer(left)), .number(.integer(right))):
+            return left == right
+        case let (.number(.real(left)), .number(.real(right))):
             return left == right
         case let (.unaryOperation(operation: leftOperation, child: leftChild),
                   .unaryOperation(operation: rightOperation, child: rightChild)):
@@ -65,6 +67,17 @@ extension Type: CustomStringConvertible {
             return "INTEGER"
         case .real:
             return "REAL"
+        }
+    }
+}
+
+extension Number: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case let .integer(value):
+            return "INTEGER(\(value))"
+        case let .real(value):
+            return "REAL(\(value))"
         }
     }
 }
@@ -157,4 +170,69 @@ extension AST {
     }
 
     public func printTree() { print(treeLines().joined(separator: "\n")) }
+}
+
+infix operator ‖: MultiplicationPrecedence
+
+extension Number {
+    static func + (left: Number, right: Number) -> Number {
+        switch (left, right) {
+        case let (.integer(left), .integer(right)):
+            return .integer(left + right)
+        case let (.real(left), .real(right)):
+            return .real(left + right)
+        case let (.integer(left), .real(right)):
+            return .real(Double(left) + right)
+        case let (.real(left), .integer(right)):
+            return .real(left + Double(right))
+        }
+    }
+
+    static func - (left: Number, right: Number) -> Number {
+        switch (left, right) {
+        case let (.integer(left), .integer(right)):
+            return .integer(left - right)
+        case let (.real(left), .real(right)):
+            return .real(left - right)
+        case let (.integer(left), .real(right)):
+            return .real(Double(left) - right)
+        case let (.real(left), .integer(right)):
+            return .real(left - Double(right))
+        }
+    }
+
+    static func * (left: Number, right: Number) -> Number {
+        switch (left, right) {
+        case let (.integer(left), .integer(right)):
+            return .integer(left * right)
+        case let (.real(left), .real(right)):
+            return .real(left * right)
+        case let (.integer(left), .real(right)):
+            return .real(Double(left) * right)
+        case let (.real(left), .integer(right)):
+            return .real(left * Double(right))
+        }
+    }
+
+    static func / (left: Number, right: Number) -> Number {
+        switch (left, right) {
+        case let (.integer(left), .integer(right)):
+            return .real(Double(left) / Double(right))
+        case let (.real(left), .real(right)):
+            return .real(left / right)
+        case let (.integer(left), .real(right)):
+            return .real(Double(left) / right)
+        case let (.real(left), .integer(right)):
+            return .real(left / Double(right))
+        }
+    }
+
+    static func ‖ (left: Number, right: Number) -> Number {
+        switch (left, right) {
+        case let (.integer(left), .integer(right)):
+            return .integer(left / right)
+        default:
+            fatalError("Integer division DIV can only be applied to two integers")
+        }
+    }
 }
