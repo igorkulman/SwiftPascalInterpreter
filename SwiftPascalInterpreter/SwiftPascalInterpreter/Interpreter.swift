@@ -27,19 +27,9 @@ public class Interpreter {
             }
             switch operation {
             case .plus:
-                switch result {
-                case let .integer(value):
-                    return .integer(+value)
-                case let .real(value):
-                    return .real(+value)
-                }
+                return +result
             case .minus:
-                switch result {
-                case let .integer(value):
-                    return .integer(-value)
-                case let .real(value):
-                    return .real(-value)
-                }
+                return -result
             }
         case let .binaryOperation(left: left, operation: operation, right: right):
             guard let leftResult = eval(left), let rightResult = eval(right) else {

@@ -175,6 +175,24 @@ extension AST {
 infix operator ‖: MultiplicationPrecedence
 
 extension Number {
+    static prefix func + (left: Number) -> Number {
+        switch left {
+        case let .integer(value):
+            return .integer(+value)
+        case let .real(value):
+            return .real(+value)
+        }
+    }
+
+    static prefix func - (left: Number) -> Number {
+        switch left {
+        case let .integer(value):
+            return .integer(-value)
+        case let .real(value):
+            return .real(-value)
+        }
+    }
+
     static func + (left: Number, right: Number) -> Number {
         switch (left, right) {
         case let (.integer(left), .integer(right)):
