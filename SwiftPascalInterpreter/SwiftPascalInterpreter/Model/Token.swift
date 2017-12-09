@@ -8,27 +8,27 @@
 
 import Foundation
 
-public enum Operation {
+public enum Token {
     case plus
     case minus
     case mult
-    case div
-}
-
-public enum Parenthesis {
-    case left
-    case right
-}
-
-public enum Token {
-    case integer(Int)
-    case operation(Operation)
+    case integerDiv
+    case floatDiv
     case eof
-    case parenthesis(Parenthesis)
+    case lparen
+    case rparen
     case begin
     case end
     case id(String)
     case dot
     case assign
     case semi
+    case program
+    case varDef
+    case colon
+    case coma
+    case integer
+    case real
+    case integerConst(Int)
+    case realConst(Double)
 }

@@ -6,32 +6,42 @@ One day hopefully a simple Swift interpreter for the Pascal language inspired by
 Lexer, parser and interpreter for the following grammar
 
 ````    
-program : compound_statement DOT
-     
+program : PROGRAM variable SEMI block DOT
+
+block : declarations compound_statement
+
+declarations : VAR (variable_declaration SEMI)+
+            | empty
+
+variable_declaration : ID (COMMA ID)* COLON type_spec
+
+type_spec : INTEGER
+
 compound_statement : BEGIN statement_list END
-     
+
 statement_list : statement
-| statement SEMI statement_list
-     
+               | statement SEMI statement_list
+
 statement : compound_statement
-| assignment_statement
-| empty
-     
+          | assignment_statement
+          | empty
+
 assignment_statement : variable ASSIGN expr
-     
+
 empty :
-     
-expr: term ((PLUS | MINUS) term)*
-     
-term: factor ((MUL | DIV) factor)*
-     
+
+expr : term ((PLUS | MINUS) term)*
+
+term : factor ((MUL | INTEGER_DIV | FLOAT_DIV) factor)*
+
 factor : PLUS factor
-| MINUS factor
-| INTEGER
-| LPAREN expr RPAREN
-| variable
-     
-variable: ID     
+       | MINUS factor
+       | INTEGER_CONST
+       | REAL_CONST
+       | LPAREN expr RPAREN
+       | variable
+
+variable: ID
 ````
 
 ## Try it out

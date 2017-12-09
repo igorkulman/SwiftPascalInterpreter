@@ -12,21 +12,35 @@ import Foundation
 import XCTest
 
 class InterpreterTests: XCTestCase {
-    func testSimpleDeclaration() {
-        let interpeter = Interpreter("BEGIN a := 2; END.")
-        interpeter.interpret()
-        let state = interpeter.getState()
-        XCTAssert(state == ["a": 2])
-    }
-
-    func testComplexDeclaration() {
+    func testSimpleProgram() {
         let program =
             """
+            PROGRAM Part10AST;
+            VAR
+                a: INTEGER;
+            BEGIN
+                a := 2
+            END.
+            """
+
+        let interpeter = Interpreter(program)
+        interpeter.interpret()
+        let (integerState, realState) = interpeter.getState()
+        XCTAssert(integerState == ["a": 2])
+        XCTAssert(realState == [:])
+    }
+
+    func testMoreComplexProgram() {
+        let program =
+            """
+            PROGRAM Part10AST;
+            VAR
+                 a, number, b, c, x: INTEGER;
             BEGIN
                 BEGIN
                     number := 2;
                     a := number;
-                    b := 10 * a + 10 * number / 4;
+                    b := 10 * a + 10 * number DIV 4;
                     c := a - - b
                 END;
                 x := 11;
@@ -35,7 +49,30 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
-        let state = interpeter.getState()
-        XCTAssert(state == ["b": 25, "number": 2, "a": 2, "x": 11, "c": 27])
+        let (integerState, realState) = interpeter.getState()
+        XCTAssert(integerState == ["b": 25, "number": 2, "a": 2, "x": 11, "c": 27])
+        XCTAssert(realState == [:])
+    }
+
+    func testProgramWithDeclarations() {
+        let program =
+            """
+            PROGRAM Part10AST;
+            VAR
+                a, b : INTEGER;
+                y    : REAL;
+
+            BEGIN {Part10AST}
+                a := 2;
+                b := 10 * a + 10 * a DIV 4;
+                y := 20 / 7 + 3.14;
+            END.  {Part10AST}
+            """
+
+        let interpeter = Interpreter(program)
+        interpeter.interpret()
+        let (integerState, realState) = interpeter.getState()
+        XCTAssert(integerState == ["b": 25, "a": 2])
+        XCTAssert(realState == ["y": 5.9971428571428573])
     }
 }

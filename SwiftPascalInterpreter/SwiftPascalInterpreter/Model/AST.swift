@@ -12,7 +12,8 @@ public enum BinaryOperation {
     case plus
     case minus
     case mult
-    case div
+    case floatDiv
+    case integerDiv
 }
 
 public enum UnaryOperation {
@@ -20,12 +21,26 @@ public enum UnaryOperation {
     case minus
 }
 
+public enum Type {
+    case integer
+    case real
+}
+
+public enum Number {
+    case integer(Int)
+    case real(Double)
+}
+
 public enum AST {
-    case number(Int)
+    case number(Number)
     indirect case unaryOperation(operation: UnaryOperation, child: AST)
     indirect case binaryOperation(left: AST, operation: BinaryOperation, right: AST)
     indirect case compound(children: [AST])
     indirect case assignment(left: AST, right: AST)
     case variable(String)
     case noOp
+    indirect case block(declarations: [AST], compound: AST)
+    indirect case variableDeclaration(name: AST, type: AST)
+    case type(Type)
+    indirect case program(name: String, block: AST)
 }
