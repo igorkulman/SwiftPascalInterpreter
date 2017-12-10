@@ -14,6 +14,10 @@ import Foundation
 infix operator ‖: MultiplicationPrecedence
 
 extension Number {
+
+    /**
+     Unary plus
+     */
     static prefix func + (left: Number) -> Number {
         switch left {
         case let .integer(value):
@@ -23,6 +27,9 @@ extension Number {
         }
     }
 
+    /**
+     Unary minus
+     */
     static prefix func - (left: Number) -> Number {
         switch left {
         case let .integer(value):
@@ -32,6 +39,13 @@ extension Number {
         }
     }
 
+    /**
+     Binary plus
+
+     Int + Int -> Int
+     Real + Real -> Real
+     Int + Real -> Real
+     */
     static func + (left: Number, right: Number) -> Number {
         switch (left, right) {
         case let (.integer(left), .integer(right)):
@@ -45,6 +59,13 @@ extension Number {
         }
     }
 
+    /**
+     Binary minus
+
+     Int - Int -> Int
+     Real - Real -> Real
+     Int - Real -> Real
+     */
     static func - (left: Number, right: Number) -> Number {
         switch (left, right) {
         case let (.integer(left), .integer(right)):
@@ -58,6 +79,13 @@ extension Number {
         }
     }
 
+    /**
+     Binary multiplication
+
+     Int * Int -> Int
+     Real * Real -> Real
+     Int * Real -> Real
+     */
     static func * (left: Number, right: Number) -> Number {
         switch (left, right) {
         case let (.integer(left), .integer(right)):
@@ -71,6 +99,14 @@ extension Number {
         }
     }
 
+    /**
+     Binary float division
+
+     Int / Int -> Real
+     Real / Real -> Real
+     Int / Real -> Real
+     Real / Int -> Real
+     */
     static func / (left: Number, right: Number) -> Number {
         switch (left, right) {
         case let (.integer(left), .integer(right)):
@@ -84,6 +120,14 @@ extension Number {
         }
     }
 
+    /**
+     Binary integer division
+
+     Int ‖ Int -> Int
+     Real ‖ Real -> error
+     Int ‖ Real -> error
+     Real ‖ Int -> error
+     */
     static func ‖ (left: Number, right: Number) -> Number {
         switch (left, right) {
         case let (.integer(left), .integer(right)):
