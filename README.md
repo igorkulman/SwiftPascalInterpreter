@@ -1,48 +1,23 @@
 # Pascal interpreter written in Swift
-One day hopefully a simple Swift interpreter for the Pascal language inspired by the [Let’s Build A Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/) article series.
+Simple Swift interpreter for the Pascal language inspired by the [Let’s Build A Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/) article series.
 
-## Implemented so far
+## Scructure
 
-Lexer, parser and interpreter for the following grammar
+### Lexer
 
-````    
-program : PROGRAM variable SEMI block DOT
+The [Lexer](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/SwiftPascalInterpreter/SwiftPascalInterpreter/Lexer.swift) reads the Pascal program as `String` (a sequence of characters) and converts it into a sequest of [Tokens](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/SwiftPascalInterpreter/SwiftPascalInterpreter/Model/Token.swift). You can see the result by trying it our in the Playground or on the [unit tests](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/SwiftPascalInterpreter/SwiftPascalInterpreterTests/LexerTests.swift).
 
-block : declarations compound_statement
+### Parser
 
-declarations : VAR (variable_declaration SEMI)+
-            | empty
+The [Parser](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/SwiftPascalInterpreter/SwiftPascalInterpreter/Parser.swift) reads the sequence of tokens produced by the Lexer and builds an [Abstract Syntax Tree representation (AST for short)](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/SwiftPascalInterpreter/SwiftPascalInterpreter/Model/Token.swift) of the Pascal program according to the grammar. 
 
-variable_declaration : ID (COMMA ID)* COLON type_spec
+You can see what the AST looks like in the [unit tests](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/SwiftPascalInterpreter/SwiftPascalInterpreterTests/ParserTests.swift) or in the Playground where you can also use the `printTree()` method on any AST to see its visual representation printed into the console.
 
-type_spec : INTEGER
+### Interpreter
 
-compound_statement : BEGIN statement_list END
+The [Interpreter](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/SwiftPascalInterpreter/SwiftPascalInterpreter/Interpreter.swift) reads the AST representing the Pascal program from Parser and interprets it. It can handle basic Pascal programs with declarations and arithmetics on integers and reals. 
 
-statement_list : statement
-               | statement SEMI statement_list
-
-statement : compound_statement
-          | assignment_statement
-          | empty
-
-assignment_statement : variable ASSIGN expr
-
-empty :
-
-expr : term ((PLUS | MINUS) term)*
-
-term : factor ((MUL | INTEGER_DIV | FLOAT_DIV) factor)*
-
-factor : PLUS factor
-       | MINUS factor
-       | INTEGER_CONST
-       | REAL_CONST
-       | LPAREN expr RPAREN
-       | variable
-
-variable: ID
-````
+At the end of the Pascal program interpretation you can check the resulting memory state (see [unit tests](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/SwiftPascalInterpreter/SwiftPascalInterpreterTests/InterpreterTests.swift)) or print it in the Playground using `printState()`.
 
 ## Try it out
 
