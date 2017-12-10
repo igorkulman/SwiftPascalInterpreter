@@ -1,6 +1,10 @@
 # Pascal interpreter written in Swift
 Simple Swift interpreter for the Pascal language inspired by the [Let’s Build A Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/) article series.
 
+There is a Swift playground in the project where you can try out the lexer, parser and the interpreter. The lexer shows the tokens recognized, the parses prints the abstract syntax tree of the program and interpreter prints the resulting memory state.
+
+![Playground](https://github.com/igorkulman/SwiftPascalInterpreter/raw/master/playground.png)
+
 ## Scructure
 
 ### Lexer
@@ -18,9 +22,3 @@ You can see what the AST looks like in the [unit tests](https://github.com/igork
 The [Interpreter](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/SwiftPascalInterpreter/SwiftPascalInterpreter/Interpreter.swift) reads the AST representing the Pascal program from Parser and interprets it. It can handle basic Pascal programs with declarations and arithmetics on integers and reals. 
 
 At the end of the Pascal program interpretation you can check the resulting memory state (see [unit tests](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/SwiftPascalInterpreter/SwiftPascalInterpreterTests/InterpreterTests.swift)) or print it in the Playground using `printState()`.
-
-## Try it out
-
-There is a Swift playground in the project where you can try out the lexer, parser and the interpreter. The lexer shows the tokens recognized, the parses prints the abstract syntax tree of the program and interpreter prints the resulting memory state.
-
-![Playground](https://github.com/igorkulman/SwiftPascalInterpreter/raw/master/playground.png)
