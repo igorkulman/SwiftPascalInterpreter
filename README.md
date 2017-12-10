@@ -13,13 +13,13 @@ There is a Swift playground in the project where you can try out the lexer, pars
 
 ### Lexer
 
-The [Lexer](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/SwiftPascalInterpreter/Lexer/Lexer.swift) reads the Pascal program as `String` (a sequence of characters) and converts it into a sequence of [Tokens](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/SwiftPascalInterpreter/Lexer/Token.swift). You can see the result by trying it our in the Playground or on the [unit tests](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/SwiftPascalInterpreterTests/LexerTests.swift).
+The [Lexer](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreter/Lexer/Lexer.swift) reads the Pascal program as `String` (a sequence of characters) and converts it into a sequence of [Tokens](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreter/Lexer/Token.swift). You can see the result by trying it our in the Playground or on the [unit tests](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreterTests/LexerTests.swift).
 
 ### Parser
 
-The [Parser](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/SwiftPascalInterpreter/Parser/Parser.swift) reads the sequence of tokens produced by the Lexer and builds an [Abstract Syntax Tree representation (AST for short)](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/SwiftPascalInterpreter/Parser/AST.swift) of the Pascal program according to the [grammar](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/grammar.md). 
+The [Parser](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreter/Parser/Parser.swift) reads the sequence of tokens produced by the Lexer and builds an [Abstract Syntax Tree representation (AST for short)](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreter/Parser/AST.swift) of the Pascal program according to the [grammar](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/grammar.md). 
 
-You can see what the AST looks like in the [unit tests](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/SwiftPascalInterpreterTests/ParserTests.swift) or in the Playground where you can also use the `printTree()` method on any AST to see its visual representation printed into the console.
+You can see what the AST looks like in the [unit tests](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreterTests/ParserTests.swift) or in the Playground where you can also use the `printTree()` method on any AST to see its visual representation printed into the console.
 
 ### Symbol table
 
@@ -27,6 +27,6 @@ The [Symbol table](https://github.com/igorkulman/SwiftPascalInterpreter/blob/sym
 
 ### Interpreter
 
-The [Interpreter](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/SwiftPascalInterpreter/Interpreter/Interpreter.swift) reads the AST representing the Pascal program from Parser and interprets it by walking the AST recursively. It can handle basic Pascal programs with declarations and arithmetics on integers and reals. 
+The [Interpreter](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreter/Interpreter/Interpreter.swift) reads the AST representing the Pascal program from Parser and interprets it by walking the AST recursively. It can handle basic Pascal programs with declarations and arithmetics on integers and reals. 
 
-At the end of the Pascal program interpretation you can check the resulting memory state (see [unit tests](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/SwiftPascalInterpreterTests/InterpreterTests.swift)) or print it in the Playground using `printState()`.
+At the end of the Pascal program interpretation you can check the resulting memory state (see [unit tests](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreterTests/InterpreterTests.swift)) or print it in the Playground using `printState()`.
