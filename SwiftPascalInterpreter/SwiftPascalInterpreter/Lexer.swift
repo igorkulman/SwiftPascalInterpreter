@@ -76,8 +76,8 @@ public class Lexer {
 
      Returns: Character if not at the end of the text, nil otherwise
      */
-    private func peek(_ count: Int) -> Character? {
-        let peekPosition = currentPosition + count
+    private func peek() -> Character? {
+        let peekPosition = currentPosition + 1
 
         guard peekPosition < text.count else {
             return nil
@@ -163,7 +163,7 @@ public class Lexer {
                 return id()
             }
 
-            if currentCharacter == ":" && peek(1) == "=" {
+            if currentCharacter == ":" && peek() == "=" {
                 advance()
                 advance()
                 return .assign
