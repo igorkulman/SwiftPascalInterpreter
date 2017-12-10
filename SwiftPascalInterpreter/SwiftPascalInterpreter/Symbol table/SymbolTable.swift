@@ -12,11 +12,11 @@ public class SymbolTable {
     private var symbols: [String: Symbol] = ["INTEGER": .builtIn(.integer),
                                              "REAL": .builtIn(.real)]
 
-    public init() {
+    init() {
 
     }
 
-    public func define(_ symbol: Symbol) {
+    func define(_ symbol: Symbol) {
         guard case let .variable(name: name, type: _) = symbol else {
             fatalError("Cannot define symbol \(symbol)")
         }
@@ -24,7 +24,7 @@ public class SymbolTable {
         symbols[name] = symbol
     }
 
-    public func lookup(_ name: String) -> Symbol? {
+    func lookup(_ name: String) -> Symbol? {
         print("Lookup: \(name)")
         return symbols[name]
     }
