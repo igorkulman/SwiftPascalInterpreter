@@ -126,4 +126,19 @@ class ParserTests: XCTestCase {
         let node = AST.program(name: "Part10AST", block: AST.block(declarations: [aDec, bDec, yDec], compound: AST.compound(children: [compound, xAssignment, empty])))
         XCTAssert(result == node)
     }
+
+    func testBasicCompoundStatementFail() {
+        let program =
+            """
+            PROGRAM Part10AST;
+            BEGIN
+                a := 2
+            END
+            """
+
+        let parser = Parser(program)
+        expectFatalError(expectedMessage: "Syntax error, expected DOT, got EOF") {
+            _ = parser.parse()
+        }
+    }
 }

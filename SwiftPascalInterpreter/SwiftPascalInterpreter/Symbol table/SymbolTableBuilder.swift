@@ -44,7 +44,7 @@ public class SymbolTableBuilder {
             break
         case let .variable(name):
             guard symbolTable.lookup(name) != nil else {
-                fatalError("Cannot use undeclared variable \(name) in assignment")
+                fatalError("Cannot use undeclared variable \(name)")
             }
         case let .variableDeclaration(name: variable, type: variableType):
             guard case let .variable(name) = variable, case let .type(type) = variableType else {

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F300A0701FDDB05E00E5894D /* FatalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A06F1FDDB05E00E5894D /* FatalError.swift */; };
+		F300A0741FDDB13500E5894D /* XCTestCase+FatalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0711FDDB0EF00E5894D /* XCTestCase+FatalError.swift */; };
 		F30E36521FD9291900DF63C4 /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30E36511FD9291900DF63C4 /* Lexer.swift */; };
 		F33F79BF1FDD8BC9004BC9DE /* Arithmetics.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33F79BE1FDD8BC9004BC9DE /* Arithmetics.swift */; };
 		F33F79C41FDD8F03004BC9DE /* Symbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33F79C31FDD8F03004BC9DE /* Symbol.swift */; };
@@ -40,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F300A06F1FDDB05E00E5894D /* FatalError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FatalError.swift; sourceTree = "<group>"; };
+		F300A0711FDDB0EF00E5894D /* XCTestCase+FatalError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+FatalError.swift"; sourceTree = "<group>"; };
 		F30E36511FD9291900DF63C4 /* Lexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lexer.swift; sourceTree = "<group>"; };
 		F33F79BE1FDD8BC9004BC9DE /* Arithmetics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arithmetics.swift; sourceTree = "<group>"; };
 		F33F79C31FDD8F03004BC9DE /* Symbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbol.swift; sourceTree = "<group>"; };
@@ -128,6 +132,8 @@
 			isa = PBXGroup;
 			children = (
 				F3A243971FDC4728001C4FD8 /* Extensions */,
+				F300A06F1FDDB05E00E5894D /* FatalError.swift */,
+				F3A550051FD9C209003476D9 /* Utils.swift */,
 				F36034081FD8589600CC81C3 /* SwiftPascalInterpreter.h */,
 				F36034091FD8589600CC81C3 /* Info.plist */,
 			);
@@ -137,6 +143,7 @@
 		F3474F621FD85991003336FA /* Supporting files */ = {
 			isa = PBXGroup;
 			children = (
+				F300A0711FDDB0EF00E5894D /* XCTestCase+FatalError.swift */,
 				F36034151FD8589600CC81C3 /* Info.plist */,
 			);
 			name = "Supporting files";
@@ -187,7 +194,6 @@
 		F3A243971FDC4728001C4FD8 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				F3A550051FD9C209003476D9 /* Utils.swift */,
 				F3A2439D1FDC5B09001C4FD8 /* Naming+Extensions.swift */,
 			);
 			path = Extensions;
@@ -343,6 +349,7 @@
 				F3A2439B1FDC4766001C4FD8 /* AST+Extensions.swift in Sources */,
 				F30E36521FD9291900DF63C4 /* Lexer.swift in Sources */,
 				F3A243991FDC4740001C4FD8 /* Token+Extensions.swift in Sources */,
+				F300A0701FDDB05E00E5894D /* FatalError.swift in Sources */,
 				F33F79C61FDD8F71004BC9DE /* SymbolTable.swift in Sources */,
 				F33F79C41FDD8F03004BC9DE /* Symbol.swift in Sources */,
 				F3A550021FD9BBEF003476D9 /* AST.swift in Sources */,
@@ -361,6 +368,7 @@
 				F3474F611FD8597A003336FA /* LexerTests.swift in Sources */,
 				F3474F661FD872C0003336FA /* InterpreterTests.swift in Sources */,
 				F33F79CC1FDD9DA4004BC9DE /* SymbolTableTests.swift in Sources */,
+				F300A0741FDDB13500E5894D /* XCTestCase+FatalError.swift in Sources */,
 				F39F82B51FD938D20078BA04 /* ParserTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,5 +1,5 @@
 excluded:
-        SwiftPascalInterpreter/Extensions/Utils.swift
+        SwiftPascalInterpreter/Utils.swift
 disabled_rules:
         - identifier_name
         - cyclomatic_complexity
