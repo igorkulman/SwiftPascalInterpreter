@@ -13,6 +13,7 @@
 		F33F79C61FDD8F71004BC9DE /* SymbolTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33F79C51FDD8F71004BC9DE /* SymbolTable.swift */; };
 		F33F79C81FDD922D004BC9DE /* Symbol+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33F79C71FDD922D004BC9DE /* Symbol+Extensions.swift */; };
 		F33F79CA1FDD946B004BC9DE /* SymbolTableBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33F79C91FDD946B004BC9DE /* SymbolTableBuilder.swift */; };
+		F33F79CC1FDD9DA4004BC9DE /* SymbolTableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33F79CB1FDD9DA4004BC9DE /* SymbolTableTests.swift */; };
 		F3474F591FD858BA003336FA /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3474F581FD858BA003336FA /* Interpreter.swift */; };
 		F3474F5B1FD858D0003336FA /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3474F5A1FD858D0003336FA /* Token.swift */; };
 		F3474F611FD8597A003336FA /* LexerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3474F601FD8597A003336FA /* LexerTests.swift */; };
@@ -45,6 +46,7 @@
 		F33F79C51FDD8F71004BC9DE /* SymbolTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolTable.swift; sourceTree = "<group>"; };
 		F33F79C71FDD922D004BC9DE /* Symbol+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Symbol+Extensions.swift"; sourceTree = "<group>"; };
 		F33F79C91FDD946B004BC9DE /* SymbolTableBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolTableBuilder.swift; sourceTree = "<group>"; };
+		F33F79CB1FDD9DA4004BC9DE /* SymbolTableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolTableTests.swift; sourceTree = "<group>"; };
 		F3474F581FD858BA003336FA /* Interpreter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interpreter.swift; sourceTree = "<group>"; };
 		F3474F5A1FD858D0003336FA /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		F3474F601FD8597A003336FA /* LexerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LexerTests.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				F3474F651FD872C0003336FA /* InterpreterTests.swift */,
 				F3474F601FD8597A003336FA /* LexerTests.swift */,
 				F39F82B41FD938D20078BA04 /* ParserTests.swift */,
+				F33F79CB1FDD9DA4004BC9DE /* SymbolTableTests.swift */,
 			);
 			path = SwiftPascalInterpreterTests;
 			sourceTree = "<group>";
@@ -357,6 +360,7 @@
 			files = (
 				F3474F611FD8597A003336FA /* LexerTests.swift in Sources */,
 				F3474F661FD872C0003336FA /* InterpreterTests.swift in Sources */,
+				F33F79CC1FDD9DA4004BC9DE /* SymbolTableTests.swift in Sources */,
 				F39F82B51FD938D20078BA04 /* ParserTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

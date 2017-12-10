@@ -15,5 +15,5 @@ public enum BuiltInType {
 
 public enum Symbol {
     case builtIn(BuiltInType)
-    indirect case variable(name: String, type: Symbol)
+    case variable(name: String, type: BuiltInType)
 }

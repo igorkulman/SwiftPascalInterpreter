@@ -50,9 +50,9 @@ public class SymbolTableBuilder {
             }
             switch type {
             case .integer:
-                symbolTable.define(.variable(name: name, type: .builtIn(.integer)))
+                symbolTable.define(.variable(name: name, type: .integer))
             case .real:
-                symbolTable.define(.variable(name: name, type: .builtIn(.real)))
+                symbolTable.define(.variable(name: name, type: .real))
             }
         case let .assignment(left: left, right: right):
             visit(node: left)

@@ -30,6 +30,20 @@ public class SymbolTable {
     }
 
     public func printState() {
-        print("Symbols: \(symbols.values.map({$0.description}))")
+        print("Symbols: \(symbols.values.map({ $0.description }))")
+    }
+}
+
+extension SymbolTable: Equatable {
+    public static func == (lhs: SymbolTable, rhs: SymbolTable) -> Bool {
+        if lhs.symbols.keys != rhs.symbols.keys {
+            return false
+        }
+
+        for key in lhs.symbols.keys where lhs.symbols[key] != rhs.symbols[key] {
+            return false
+        }
+
+        return true
     }
 }

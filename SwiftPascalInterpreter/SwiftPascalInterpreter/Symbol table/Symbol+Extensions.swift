@@ -29,3 +29,17 @@ extension Symbol: CustomStringConvertible {
         }
     }
 }
+
+extension Symbol: Equatable {
+    public static func == (lhs: Symbol, rhs: Symbol) -> Bool {
+        switch (lhs, rhs) {
+        case let (.builtIn(left), .builtIn(right)):
+            return left == right
+        case let (.variable(name: leftName, type: leftType), .variable(name: rightName, type: rightType)):
+            return leftName == rightName && leftType == rightType
+        default:
+            return false
+        }
+    }
+
+}
