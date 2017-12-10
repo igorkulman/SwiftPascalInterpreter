@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		F30E36521FD9291900DF63C4 /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30E36511FD9291900DF63C4 /* Lexer.swift */; };
 		F33F79BF1FDD8BC9004BC9DE /* Arithmetics.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33F79BE1FDD8BC9004BC9DE /* Arithmetics.swift */; };
+		F33F79C41FDD8F03004BC9DE /* Symbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33F79C31FDD8F03004BC9DE /* Symbol.swift */; };
+		F33F79C61FDD8F71004BC9DE /* SymbolTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33F79C51FDD8F71004BC9DE /* SymbolTable.swift */; };
+		F33F79C81FDD922D004BC9DE /* Symbol+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33F79C71FDD922D004BC9DE /* Symbol+Extensions.swift */; };
 		F3474F591FD858BA003336FA /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3474F581FD858BA003336FA /* Interpreter.swift */; };
 		F3474F5B1FD858D0003336FA /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3474F5A1FD858D0003336FA /* Token.swift */; };
 		F3474F611FD8597A003336FA /* LexerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3474F601FD8597A003336FA /* LexerTests.swift */; };
@@ -37,6 +40,9 @@
 /* Begin PBXFileReference section */
 		F30E36511FD9291900DF63C4 /* Lexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lexer.swift; sourceTree = "<group>"; };
 		F33F79BE1FDD8BC9004BC9DE /* Arithmetics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arithmetics.swift; sourceTree = "<group>"; };
+		F33F79C31FDD8F03004BC9DE /* Symbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbol.swift; sourceTree = "<group>"; };
+		F33F79C51FDD8F71004BC9DE /* SymbolTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolTable.swift; sourceTree = "<group>"; };
+		F33F79C71FDD922D004BC9DE /* Symbol+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Symbol+Extensions.swift"; sourceTree = "<group>"; };
 		F3474F581FD858BA003336FA /* Interpreter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interpreter.swift; sourceTree = "<group>"; };
 		F3474F5A1FD858D0003336FA /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		F3474F601FD8597A003336FA /* LexerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LexerTests.swift; sourceTree = "<group>"; };
@@ -103,6 +109,16 @@
 			path = Interpreter;
 			sourceTree = "<group>";
 		};
+		F33F79C21FDD8EED004BC9DE /* Symbol table */ = {
+			isa = PBXGroup;
+			children = (
+				F33F79C31FDD8F03004BC9DE /* Symbol.swift */,
+				F33F79C71FDD922D004BC9DE /* Symbol+Extensions.swift */,
+				F33F79C51FDD8F71004BC9DE /* SymbolTable.swift */,
+			);
+			path = "Symbol table";
+			sourceTree = "<group>";
+		};
 		F3474F5D1FD858E9003336FA /* Supporting files */ = {
 			isa = PBXGroup;
 			children = (
@@ -145,6 +161,7 @@
 				F33F79BD1FDD8B59004BC9DE /* Interpreter */,
 				F33F79BB1FDD8B21004BC9DE /* Lexer */,
 				F33F79BC1FDD8B45004BC9DE /* Parser */,
+				F33F79C21FDD8EED004BC9DE /* Symbol table */,
 				F3474F5D1FD858E9003336FA /* Supporting files */,
 			);
 			path = SwiftPascalInterpreter;
@@ -320,7 +337,10 @@
 				F3A2439B1FDC4766001C4FD8 /* AST+Extensions.swift in Sources */,
 				F30E36521FD9291900DF63C4 /* Lexer.swift in Sources */,
 				F3A243991FDC4740001C4FD8 /* Token+Extensions.swift in Sources */,
+				F33F79C61FDD8F71004BC9DE /* SymbolTable.swift in Sources */,
+				F33F79C41FDD8F03004BC9DE /* Symbol.swift in Sources */,
 				F3A550021FD9BBEF003476D9 /* AST.swift in Sources */,
+				F33F79C81FDD922D004BC9DE /* Symbol+Extensions.swift in Sources */,
 				F33F79BF1FDD8BC9004BC9DE /* Arithmetics.swift in Sources */,
 				F3474F5B1FD858D0003336FA /* Token.swift in Sources */,
 				F3A2439E1FDC5B09001C4FD8 /* Naming+Extensions.swift in Sources */,
