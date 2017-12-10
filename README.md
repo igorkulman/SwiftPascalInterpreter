@@ -9,7 +9,7 @@ The [Lexer](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/Swi
 
 ### Parser
 
-The [Parser](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/SwiftPascalInterpreter/SwiftPascalInterpreter/Parser.swift) reads the sequence of tokens produced by the Lexer and builds an [Abstract Syntax Tree representation (AST for short)](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/SwiftPascalInterpreter/SwiftPascalInterpreter/Model/Token.swift) of the Pascal program according to the grammar. 
+The [Parser](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/SwiftPascalInterpreter/SwiftPascalInterpreter/Parser.swift) reads the sequence of tokens produced by the Lexer and builds an [Abstract Syntax Tree representation (AST for short)](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/SwiftPascalInterpreter/SwiftPascalInterpreter/Model/Token.swift) of the Pascal program according to the [grammar](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/grammar.md). 
 
 You can see what the AST looks like in the [unit tests](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/SwiftPascalInterpreter/SwiftPascalInterpreterTests/ParserTests.swift) or in the Playground where you can also use the `printTree()` method on any AST to see its visual representation printed into the console.
 
