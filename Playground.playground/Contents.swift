@@ -23,7 +23,7 @@ let program =
     BEGIN {Part10AST}
        a := 2;
        b := 10 * a + 10 * a DIV 4;
-       y := 20 / 7 + 3.14;
+       y := 20 / 7 + 3.14 + a;
     END.  {Part10AST}
     """
 
@@ -40,5 +40,3 @@ print("")
 let builder = SymbolTableBuilder()
 let table = builder.build(node: node)
 table.printState()
-
-table.lookup("y")

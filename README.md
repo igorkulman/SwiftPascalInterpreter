@@ -23,7 +23,7 @@ You can see what the AST looks like in the [unit tests](https://github.com/igork
 
 ### Symbol table
 
-The [Symbol table](https://github.com/igorkulman/SwiftPascalInterpreter/blob/symbol-table/SwiftPascalInterpreter/SwiftPascalInterpreter/Symbol%20table/SymbolTable.swift) holds all the symbols used by a Pascal program, currently built in types (Integer, Real) and declared variable names. The symbol table is build by [Symbol table builder](https://github.com/igorkulman/SwiftPascalInterpreter/blob/symbol-table/SwiftPascalInterpreter/SwiftPascalInterpreter/Symbol%20table/SymbolTableBuilder.swift) from a Pascal program AST by walking the AST recursively.
+The [Symbol table](https://github.com/igorkulman/SwiftPascalInterpreter/blob/symbol-table/SwiftPascalInterpreter/SwiftPascalInterpreter/Symbol%20table/SymbolTable.swift) holds all the symbols used by a Pascal program, currently built in types (Integer, Real) and declared variable names. The symbol table is build by [Symbol table builder](https://github.com/igorkulman/SwiftPascalInterpreter/blob/symbol-table/SwiftPascalInterpreter/SwiftPascalInterpreter/Symbol%20table/SymbolTableBuilder.swift) from a Pascal program AST by walking the AST recursively. It also makes sure that only declared variables and are used in the Pascal program. 
 
 ### Interpreter
 
