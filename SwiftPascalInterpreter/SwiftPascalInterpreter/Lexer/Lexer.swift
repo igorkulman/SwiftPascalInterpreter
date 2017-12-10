@@ -219,7 +219,7 @@ public class Lexer {
                 return .rparen
             }
 
-            fatalError("Error parsing input")
+            fatalError("Unrecognized character \(currentCharacter) at position \(currentPosition)")
         }
 
         return .eof

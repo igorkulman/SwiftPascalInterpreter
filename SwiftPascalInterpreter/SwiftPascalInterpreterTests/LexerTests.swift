@@ -291,7 +291,7 @@ class LexerTests: XCTestCase {
 
     func testMixedCasePascalProgram() {
         let program =
-        """
+            """
             Program Part10AST;
             Var
             a, b : Integer;
@@ -320,5 +320,14 @@ class LexerTests: XCTestCase {
         XCTAssert(lexer.getNextToken() == .end)
         XCTAssert(lexer.getNextToken() == .dot)
         XCTAssert(lexer.getNextToken() == .eof)
+    }
+
+    func testParsingError() {
+        let lexer = Lexer("8 + |")
+        XCTAssert(lexer.getNextToken() == .integerConst(8))
+        XCTAssert(lexer.getNextToken() == .plus)
+        expectFatalError(expectedMessage: "Unrecognized character | at position 4") {
+            _ = lexer.getNextToken()
+        }
     }
 }

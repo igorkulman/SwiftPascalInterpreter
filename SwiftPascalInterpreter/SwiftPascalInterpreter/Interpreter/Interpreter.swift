@@ -9,12 +9,16 @@
 import Foundation
 
 public class Interpreter {
-    private let parser: Parser
-    private var globalIntegers: [String: Int] = [:]
-    private var globalReals: [String: Double] = [:]
+    private var integerMemory: [String: Int] = [:]
+    private var realMemory: [String: Double] = [:]
+    private let symbolTable: SymbolTable
+    private let tree: AST
 
     public init(_ text: String) {
-        parser = Parser(text)
+        let parser = Parser(text)
+        tree = parser.parse()
+        let symbolTableBuilder = SymbolTableBuilder()
+        symbolTable = symbolTableBuilder.build(node: tree)
     }
 
     @discardableResult private func eval(_ node: AST) -> Number? {
@@ -53,44 +57,43 @@ public class Interpreter {
             }
             return nil
         case let .assignment(left, right):
-            switch left {
-            case let .variable(name):
-                if globalIntegers.keys.contains(name) {
-                    guard let result = eval(right) else {
-                        fatalError("Cannot assign empty value to variable \(name)")
-                    }
-                    switch result {
-                    case let .integer(value):
-                        globalIntegers[name] = value
-                    case .real:
-                        fatalError("Cannot assign real value to Int variable \(name)")
-                    }
-                    return nil
-                }
-                if globalReals.keys.contains(name) {
-                    guard let result = eval(right) else {
-                        fatalError("Cannot assign empty value to variable \(name)")
-                    }
-                    switch result {
-                    case let .integer(value):
-                        globalReals[name] = Double(value)
-                    case let .real(value):
-                        globalReals[name] = value
-                    }
-                    return nil
-                }
-                fatalError("Cannot use undeclared variable \(name)")
-            default:
+            guard case let .variable(name) = left else {
                 fatalError("Assignment left side is not a variable")
             }
+
+            guard let symbol = symbolTable.lookup(name), case let .variable(name: _, type: type) = symbol else {
+                fatalError("Variable \(name) not in the symbol table")
+            }
+
+            switch type {
+            case .integer:
+                switch eval(right)! {
+                case let .integer(value):
+                    integerMemory[name] = value
+                case .real:
+                    fatalError("Cannot assign real value to Int variable \(name)")
+                }
+                return nil
+            case .real:
+                switch eval(right)! {
+                case let .integer(value):
+                    realMemory[name] = Double(value)
+                case let .real(value):
+                    realMemory[name] = value
+                }
+                return nil
+            }
         case let .variable(name):
-            if let value = globalIntegers[name] {
-                return .integer(value)
+            guard let symbol = symbolTable.lookup(name), case let .variable(name: _, type: type) = symbol else {
+                fatalError("Variable \(name) not in the symbol table")
             }
-            if let value = globalReals[name] {
-                return .real(value)
+
+            switch type {
+            case .integer:
+                return .integer(integerMemory[name]!)
+            case .real:
+                return .real(realMemory[name]!)
             }
-            fatalError("Variable \(name) not declared")
         case .noOp:
             return nil
         case let .block(declarations, compound):
@@ -98,16 +101,8 @@ public class Interpreter {
                 eval(declaration)
             }
             return eval(compound)
-        case let .variableDeclaration(name: variable, type: variableType):
-            guard case let .variable(name) = variable, case let .type(type) = variableType else {
-                fatalError("Invalid variable declaration")
-            }
-            switch type {
-            case .integer:
-                globalIntegers[name] = 0
-            case .real:
-                globalReals[name] = 0
-            }
+        case .variableDeclaration:
+            // process by the symbol table
             return nil
         case .type:
             return nil
@@ -117,17 +112,16 @@ public class Interpreter {
     }
 
     public func interpret() {
-        let tree = parser.parse()
         eval(tree)
     }
 
     func getState() -> ([String: Int], [String: Double]) {
-        return (globalIntegers, globalReals)
+        return (integerMemory, realMemory)
     }
 
     public func printState() {
         print("Final interpreter memory state:")
-        print("Int: \(globalIntegers)")
-        print("Real: \(globalReals)")
+        print("Int: \(integerMemory)")
+        print("Real: \(realMemory)")
     }
 }
