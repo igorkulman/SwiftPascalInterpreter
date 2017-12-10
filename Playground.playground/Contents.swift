@@ -1,7 +1,7 @@
 //: Playground - noun: a place where people can play
 
 import Foundation
-import SwiftPascalInterpreter
+import PascalInterpreter
 
 let lexer = Lexer("BEGIN a := 2; END.")
 lexer.getNextToken()

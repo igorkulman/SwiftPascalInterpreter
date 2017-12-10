@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:SwiftPascalInterpreter/SwiftPascalInterpreter.xcodeproj">
+      location = "group:PascalInterpreter/PascalInterpreter.xcodeproj">
    </FileRef>
    <FileRef
       location = "container:Playground.playground">

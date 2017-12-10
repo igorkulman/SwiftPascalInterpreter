@@ -1,0 +1,572 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F300A0A51FDDB63F00E5894D /* PascalInterpreter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300A09B1FDDB63F00E5894D /* PascalInterpreter.framework */; };
+		F300A0AC1FDDB63F00E5894D /* PascalInterpreter.h in Headers */ = {isa = PBXBuildFile; fileRef = F300A09E1FDDB63F00E5894D /* PascalInterpreter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F300A0C71FDDB6BE00E5894D /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0C41FDDB6BD00E5894D /* Result.swift */; };
+		F300A0C81FDDB6BE00E5894D /* Arithmetics.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0C51FDDB6BE00E5894D /* Arithmetics.swift */; };
+		F300A0C91FDDB6BE00E5894D /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0C61FDDB6BE00E5894D /* Interpreter.swift */; };
+		F300A0D11FDDB6E400E5894D /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0CE1FDDB6E300E5894D /* Lexer.swift */; };
+		F300A0D21FDDB6E400E5894D /* Token+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0CF1FDDB6E300E5894D /* Token+Extensions.swift */; };
+		F300A0D31FDDB6E400E5894D /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0D01FDDB6E300E5894D /* Token.swift */; };
+		F300A0D81FDDB6F400E5894D /* AST+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0D51FDDB6F400E5894D /* AST+Extensions.swift */; };
+		F300A0D91FDDB6F400E5894D /* AST.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0D61FDDB6F400E5894D /* AST.swift */; };
+		F300A0DA1FDDB6F400E5894D /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0D71FDDB6F400E5894D /* Parser.swift */; };
+		F300A0DE1FDDB71800E5894D /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0DC1FDDB71800E5894D /* Utils.swift */; };
+		F300A0DF1FDDB71800E5894D /* FatalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0DD1FDDB71800E5894D /* FatalError.swift */; };
+		F300A0E51FDDB74800E5894D /* Symbol+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0E11FDDB74700E5894D /* Symbol+Extensions.swift */; };
+		F300A0E61FDDB74800E5894D /* Symbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0E21FDDB74700E5894D /* Symbol.swift */; };
+		F300A0E71FDDB74800E5894D /* SymbolTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0E31FDDB74700E5894D /* SymbolTable.swift */; };
+		F300A0E81FDDB74800E5894D /* SymbolTableBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0E41FDDB74700E5894D /* SymbolTableBuilder.swift */; };
+		F300A0EE1FDDB77000E5894D /* ParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0E91FDDB77000E5894D /* ParserTests.swift */; };
+		F300A0EF1FDDB77000E5894D /* XCTestCase+FatalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0EA1FDDB77000E5894D /* XCTestCase+FatalError.swift */; };
+		F300A0F01FDDB77000E5894D /* LexerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0EB1FDDB77000E5894D /* LexerTests.swift */; };
+		F300A0F11FDDB77000E5894D /* InterpreterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0EC1FDDB77000E5894D /* InterpreterTests.swift */; };
+		F300A0F21FDDB77000E5894D /* SymbolTableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0ED1FDDB77000E5894D /* SymbolTableTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F300A0A61FDDB63F00E5894D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F300A0921FDDB63F00E5894D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F300A09A1FDDB63F00E5894D;
+			remoteInfo = PascalInterpreter;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		F300A09B1FDDB63F00E5894D /* PascalInterpreter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PascalInterpreter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F300A09E1FDDB63F00E5894D /* PascalInterpreter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PascalInterpreter.h; sourceTree = "<group>"; };
+		F300A09F1FDDB63F00E5894D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F300A0A41FDDB63F00E5894D /* PascalInterpreterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PascalInterpreterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F300A0AB1FDDB63F00E5894D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F300A0C41FDDB6BD00E5894D /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		F300A0C51FDDB6BE00E5894D /* Arithmetics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arithmetics.swift; sourceTree = "<group>"; };
+		F300A0C61FDDB6BE00E5894D /* Interpreter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interpreter.swift; sourceTree = "<group>"; };
+		F300A0CE1FDDB6E300E5894D /* Lexer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lexer.swift; sourceTree = "<group>"; };
+		F300A0CF1FDDB6E300E5894D /* Token+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Token+Extensions.swift"; sourceTree = "<group>"; };
+		F300A0D01FDDB6E300E5894D /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		F300A0D51FDDB6F400E5894D /* AST+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AST+Extensions.swift"; sourceTree = "<group>"; };
+		F300A0D61FDDB6F400E5894D /* AST.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AST.swift; sourceTree = "<group>"; };
+		F300A0D71FDDB6F400E5894D /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		F300A0DC1FDDB71800E5894D /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		F300A0DD1FDDB71800E5894D /* FatalError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FatalError.swift; sourceTree = "<group>"; };
+		F300A0E11FDDB74700E5894D /* Symbol+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Symbol+Extensions.swift"; sourceTree = "<group>"; };
+		F300A0E21FDDB74700E5894D /* Symbol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Symbol.swift; sourceTree = "<group>"; };
+		F300A0E31FDDB74700E5894D /* SymbolTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SymbolTable.swift; sourceTree = "<group>"; };
+		F300A0E41FDDB74700E5894D /* SymbolTableBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SymbolTableBuilder.swift; sourceTree = "<group>"; };
+		F300A0E91FDDB77000E5894D /* ParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParserTests.swift; sourceTree = "<group>"; };
+		F300A0EA1FDDB77000E5894D /* XCTestCase+FatalError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCTestCase+FatalError.swift"; sourceTree = "<group>"; };
+		F300A0EB1FDDB77000E5894D /* LexerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LexerTests.swift; sourceTree = "<group>"; };
+		F300A0EC1FDDB77000E5894D /* InterpreterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterpreterTests.swift; sourceTree = "<group>"; };
+		F300A0ED1FDDB77000E5894D /* SymbolTableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SymbolTableTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F300A0971FDDB63F00E5894D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F300A0A11FDDB63F00E5894D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F300A0A51FDDB63F00E5894D /* PascalInterpreter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F300A0911FDDB63F00E5894D = {
+			isa = PBXGroup;
+			children = (
+				F300A09D1FDDB63F00E5894D /* PascalInterpreter */,
+				F300A0A81FDDB63F00E5894D /* PascalInterpreterTests */,
+				F300A09C1FDDB63F00E5894D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F300A09C1FDDB63F00E5894D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F300A09B1FDDB63F00E5894D /* PascalInterpreter.framework */,
+				F300A0A41FDDB63F00E5894D /* PascalInterpreterTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F300A09D1FDDB63F00E5894D /* PascalInterpreter */ = {
+			isa = PBXGroup;
+			children = (
+				F300A0BD1FDDB66E00E5894D /* Interpreter */,
+				F300A0CD1FDDB6E300E5894D /* Lexer */,
+				F300A0D41FDDB6F400E5894D /* Parser */,
+				F300A0E01FDDB74700E5894D /* Symbol table */,
+				F300A0DB1FDDB70600E5894D /* Supporting files */,
+			);
+			path = PascalInterpreter;
+			sourceTree = "<group>";
+		};
+		F300A0A81FDDB63F00E5894D /* PascalInterpreterTests */ = {
+			isa = PBXGroup;
+			children = (
+				F300A0EC1FDDB77000E5894D /* InterpreterTests.swift */,
+				F300A0EB1FDDB77000E5894D /* LexerTests.swift */,
+				F300A0E91FDDB77000E5894D /* ParserTests.swift */,
+				F300A0ED1FDDB77000E5894D /* SymbolTableTests.swift */,
+				F300A0F31FDDB77300E5894D /* Supporting files */,
+			);
+			path = PascalInterpreterTests;
+			sourceTree = "<group>";
+		};
+		F300A0BD1FDDB66E00E5894D /* Interpreter */ = {
+			isa = PBXGroup;
+			children = (
+				F300A0C51FDDB6BE00E5894D /* Arithmetics.swift */,
+				F300A0C61FDDB6BE00E5894D /* Interpreter.swift */,
+				F300A0C41FDDB6BD00E5894D /* Result.swift */,
+			);
+			path = Interpreter;
+			sourceTree = "<group>";
+		};
+		F300A0CD1FDDB6E300E5894D /* Lexer */ = {
+			isa = PBXGroup;
+			children = (
+				F300A0CE1FDDB6E300E5894D /* Lexer.swift */,
+				F300A0CF1FDDB6E300E5894D /* Token+Extensions.swift */,
+				F300A0D01FDDB6E300E5894D /* Token.swift */,
+			);
+			path = Lexer;
+			sourceTree = "<group>";
+		};
+		F300A0D41FDDB6F400E5894D /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				F300A0D51FDDB6F400E5894D /* AST+Extensions.swift */,
+				F300A0D61FDDB6F400E5894D /* AST.swift */,
+				F300A0D71FDDB6F400E5894D /* Parser.swift */,
+			);
+			path = Parser;
+			sourceTree = "<group>";
+		};
+		F300A0DB1FDDB70600E5894D /* Supporting files */ = {
+			isa = PBXGroup;
+			children = (
+				F300A0DD1FDDB71800E5894D /* FatalError.swift */,
+				F300A0DC1FDDB71800E5894D /* Utils.swift */,
+				F300A09E1FDDB63F00E5894D /* PascalInterpreter.h */,
+				F300A09F1FDDB63F00E5894D /* Info.plist */,
+			);
+			name = "Supporting files";
+			sourceTree = "<group>";
+		};
+		F300A0E01FDDB74700E5894D /* Symbol table */ = {
+			isa = PBXGroup;
+			children = (
+				F300A0E11FDDB74700E5894D /* Symbol+Extensions.swift */,
+				F300A0E21FDDB74700E5894D /* Symbol.swift */,
+				F300A0E31FDDB74700E5894D /* SymbolTable.swift */,
+				F300A0E41FDDB74700E5894D /* SymbolTableBuilder.swift */,
+			);
+			path = "Symbol table";
+			sourceTree = "<group>";
+		};
+		F300A0F31FDDB77300E5894D /* Supporting files */ = {
+			isa = PBXGroup;
+			children = (
+				F300A0EA1FDDB77000E5894D /* XCTestCase+FatalError.swift */,
+				F300A0AB1FDDB63F00E5894D /* Info.plist */,
+			);
+			name = "Supporting files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		F300A0981FDDB63F00E5894D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F300A0AC1FDDB63F00E5894D /* PascalInterpreter.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		F300A09A1FDDB63F00E5894D /* PascalInterpreter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F300A0AF1FDDB63F00E5894D /* Build configuration list for PBXNativeTarget "PascalInterpreter" */;
+			buildPhases = (
+				F300A0961FDDB63F00E5894D /* Sources */,
+				F300A0971FDDB63F00E5894D /* Frameworks */,
+				F300A0981FDDB63F00E5894D /* Headers */,
+				F300A0991FDDB63F00E5894D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PascalInterpreter;
+			productName = PascalInterpreter;
+			productReference = F300A09B1FDDB63F00E5894D /* PascalInterpreter.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		F300A0A31FDDB63F00E5894D /* PascalInterpreterTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F300A0B21FDDB63F00E5894D /* Build configuration list for PBXNativeTarget "PascalInterpreterTests" */;
+			buildPhases = (
+				F300A0A01FDDB63F00E5894D /* Sources */,
+				F300A0A11FDDB63F00E5894D /* Frameworks */,
+				F300A0A21FDDB63F00E5894D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F300A0A71FDDB63F00E5894D /* PBXTargetDependency */,
+			);
+			name = PascalInterpreterTests;
+			productName = PascalInterpreterTests;
+			productReference = F300A0A41FDDB63F00E5894D /* PascalInterpreterTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F300A0921FDDB63F00E5894D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0920;
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = "Igor Kulman";
+				TargetAttributes = {
+					F300A09A1FDDB63F00E5894D = {
+						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
+						ProvisioningStyle = Automatic;
+					};
+					F300A0A31FDDB63F00E5894D = {
+						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = F300A0951FDDB63F00E5894D /* Build configuration list for PBXProject "PascalInterpreter" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F300A0911FDDB63F00E5894D;
+			productRefGroup = F300A09C1FDDB63F00E5894D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F300A09A1FDDB63F00E5894D /* PascalInterpreter */,
+				F300A0A31FDDB63F00E5894D /* PascalInterpreterTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F300A0991FDDB63F00E5894D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F300A0A21FDDB63F00E5894D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F300A0961FDDB63F00E5894D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F300A0C91FDDB6BE00E5894D /* Interpreter.swift in Sources */,
+				F300A0C71FDDB6BE00E5894D /* Result.swift in Sources */,
+				F300A0E71FDDB74800E5894D /* SymbolTable.swift in Sources */,
+				F300A0D81FDDB6F400E5894D /* AST+Extensions.swift in Sources */,
+				F300A0D11FDDB6E400E5894D /* Lexer.swift in Sources */,
+				F300A0D91FDDB6F400E5894D /* AST.swift in Sources */,
+				F300A0E61FDDB74800E5894D /* Symbol.swift in Sources */,
+				F300A0DE1FDDB71800E5894D /* Utils.swift in Sources */,
+				F300A0E81FDDB74800E5894D /* SymbolTableBuilder.swift in Sources */,
+				F300A0DA1FDDB6F400E5894D /* Parser.swift in Sources */,
+				F300A0D31FDDB6E400E5894D /* Token.swift in Sources */,
+				F300A0D21FDDB6E400E5894D /* Token+Extensions.swift in Sources */,
+				F300A0C81FDDB6BE00E5894D /* Arithmetics.swift in Sources */,
+				F300A0DF1FDDB71800E5894D /* FatalError.swift in Sources */,
+				F300A0E51FDDB74800E5894D /* Symbol+Extensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F300A0A01FDDB63F00E5894D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F300A0F11FDDB77000E5894D /* InterpreterTests.swift in Sources */,
+				F300A0EF1FDDB77000E5894D /* XCTestCase+FatalError.swift in Sources */,
+				F300A0F01FDDB77000E5894D /* LexerTests.swift in Sources */,
+				F300A0F21FDDB77000E5894D /* SymbolTableTests.swift in Sources */,
+				F300A0EE1FDDB77000E5894D /* ParserTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F300A0A71FDDB63F00E5894D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F300A09A1FDDB63F00E5894D /* PascalInterpreter */;
+			targetProxy = F300A0A61FDDB63F00E5894D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		F300A0AD1FDDB63F00E5894D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		F300A0AE1FDDB63F00E5894D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		F300A0B01FDDB63F00E5894D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = S6EJ3ZVM4G;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = PascalInterpreter/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = sk.kulman.PascalInterpreter;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		F300A0B11FDDB63F00E5894D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = S6EJ3ZVM4G;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = PascalInterpreter/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = sk.kulman.PascalInterpreter;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		F300A0B31FDDB63F00E5894D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = S6EJ3ZVM4G;
+				INFOPLIST_FILE = PascalInterpreterTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = sk.kulman.PascalInterpreterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		F300A0B41FDDB63F00E5894D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = S6EJ3ZVM4G;
+				INFOPLIST_FILE = PascalInterpreterTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = sk.kulman.PascalInterpreterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F300A0951FDDB63F00E5894D /* Build configuration list for PBXProject "PascalInterpreter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F300A0AD1FDDB63F00E5894D /* Debug */,
+				F300A0AE1FDDB63F00E5894D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F300A0AF1FDDB63F00E5894D /* Build configuration list for PBXNativeTarget "PascalInterpreter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F300A0B01FDDB63F00E5894D /* Debug */,
+				F300A0B11FDDB63F00E5894D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F300A0B21FDDB63F00E5894D /* Build configuration list for PBXNativeTarget "PascalInterpreterTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F300A0B31FDDB63F00E5894D /* Debug */,
+				F300A0B41FDDB63F00E5894D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F300A0921FDDB63F00E5894D /* Project object */;
+}
