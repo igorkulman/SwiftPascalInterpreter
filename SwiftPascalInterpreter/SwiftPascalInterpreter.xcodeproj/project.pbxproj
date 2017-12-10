@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F30E36521FD9291900DF63C4 /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30E36511FD9291900DF63C4 /* Lexer.swift */; };
+		F33F79BF1FDD8BC9004BC9DE /* Arithmetics.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33F79BE1FDD8BC9004BC9DE /* Arithmetics.swift */; };
 		F3474F591FD858BA003336FA /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3474F581FD858BA003336FA /* Interpreter.swift */; };
 		F3474F5B1FD858D0003336FA /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3474F5A1FD858D0003336FA /* Token.swift */; };
 		F3474F611FD8597A003336FA /* LexerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3474F601FD8597A003336FA /* LexerTests.swift */; };
@@ -35,6 +36,7 @@
 
 /* Begin PBXFileReference section */
 		F30E36511FD9291900DF63C4 /* Lexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lexer.swift; sourceTree = "<group>"; };
+		F33F79BE1FDD8BC9004BC9DE /* Arithmetics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arithmetics.swift; sourceTree = "<group>"; };
 		F3474F581FD858BA003336FA /* Interpreter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interpreter.swift; sourceTree = "<group>"; };
 		F3474F5A1FD858D0003336FA /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		F3474F601FD8597A003336FA /* LexerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LexerTests.swift; sourceTree = "<group>"; };
@@ -72,6 +74,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F33F79BB1FDD8B21004BC9DE /* Lexer */ = {
+			isa = PBXGroup;
+			children = (
+				F30E36511FD9291900DF63C4 /* Lexer.swift */,
+				F3474F5A1FD858D0003336FA /* Token.swift */,
+				F3A243981FDC4740001C4FD8 /* Token+Extensions.swift */,
+			);
+			path = Lexer;
+			sourceTree = "<group>";
+		};
+		F33F79BC1FDD8B45004BC9DE /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				F3A550011FD9BBEF003476D9 /* AST.swift */,
+				F3A2439A1FDC4766001C4FD8 /* AST+Extensions.swift */,
+				F3A550031FD9BC2A003476D9 /* Parser.swift */,
+			);
+			path = Parser;
+			sourceTree = "<group>";
+		};
+		F33F79BD1FDD8B59004BC9DE /* Interpreter */ = {
+			isa = PBXGroup;
+			children = (
+				F33F79BE1FDD8BC9004BC9DE /* Arithmetics.swift */,
+				F3474F581FD858BA003336FA /* Interpreter.swift */,
+			);
+			path = Interpreter;
+			sourceTree = "<group>";
+		};
 		F3474F5D1FD858E9003336FA /* Supporting files */ = {
 			isa = PBXGroup;
 			children = (
@@ -111,10 +142,9 @@
 		F36034071FD8589600CC81C3 /* SwiftPascalInterpreter */ = {
 			isa = PBXGroup;
 			children = (
-				F3A2439C1FDC47CF001C4FD8 /* Model */,
-				F3474F581FD858BA003336FA /* Interpreter.swift */,
-				F30E36511FD9291900DF63C4 /* Lexer.swift */,
-				F3A550031FD9BC2A003476D9 /* Parser.swift */,
+				F33F79BD1FDD8B59004BC9DE /* Interpreter */,
+				F33F79BB1FDD8B21004BC9DE /* Lexer */,
+				F33F79BC1FDD8B45004BC9DE /* Parser */,
 				F3474F5D1FD858E9003336FA /* Supporting files */,
 			);
 			path = SwiftPascalInterpreter;
@@ -134,21 +164,10 @@
 		F3A243971FDC4728001C4FD8 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				F3A2439A1FDC4766001C4FD8 /* AST+Extensions.swift */,
-				F3A243981FDC4740001C4FD8 /* Token+Extensions.swift */,
 				F3A550051FD9C209003476D9 /* Utils.swift */,
 				F3A2439D1FDC5B09001C4FD8 /* Naming+Extensions.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		F3A2439C1FDC47CF001C4FD8 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				F3A550011FD9BBEF003476D9 /* AST.swift */,
-				F3474F5A1FD858D0003336FA /* Token.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -302,6 +321,7 @@
 				F30E36521FD9291900DF63C4 /* Lexer.swift in Sources */,
 				F3A243991FDC4740001C4FD8 /* Token+Extensions.swift in Sources */,
 				F3A550021FD9BBEF003476D9 /* AST.swift in Sources */,
+				F33F79BF1FDD8BC9004BC9DE /* Arithmetics.swift in Sources */,
 				F3474F5B1FD858D0003336FA /* Token.swift in Sources */,
 				F3A2439E1FDC5B09001C4FD8 /* Naming+Extensions.swift in Sources */,
 			);
