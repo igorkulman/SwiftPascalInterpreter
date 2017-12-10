@@ -17,13 +17,13 @@ The [Lexer](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/Pas
 
 ### Parser
 
-The [Parser](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreter/Parser/Parser.swift) reads the sequence of tokens produced by the Lexer and builds an [Abstract Syntax Tree representation (AST for short)](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreter/Parser/AST.swift) of the Pascal program according to the [grammar](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/grammar.md). 
+The [Parser](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreter/Parser/Parser.swift) reads the sequence of tokens produced by the Lexer and builds an [Abstract Syntax Tree representation](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreter/Parser/AST.swift)(AST for short) of the Pascal program according to the [grammar](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/grammar.md). 
 
 You can see what the AST looks like in the [unit tests](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreterTests/ParserTests.swift) or in the Playground where you can also use the `printTree()` method on any AST to see its visual representation printed into the console.
 
 ### Symbol table
 
-The [Symbol table](https://github.com/igorkulman/SwiftPascalInterpreter/blob/symbol-table/SwiftPascalInterpreter/SwiftPascalInterpreter/Symbol%20table/SymbolTable.swift) holds all the symbols used by a Pascal program, currently built in types (Integer, Real) and declared variable names. The symbol table is build by [Symbol table builder](https://github.com/igorkulman/SwiftPascalInterpreter/blob/symbol-table/SwiftPascalInterpreter/SwiftPascalInterpreter/Symbol%20table/SymbolTableBuilder.swift) from a Pascal program AST by walking the AST recursively. It also makes sure that only declared variables and are used in the Pascal program. 
+The [Symbol table](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreter/Symbol%20table/SymbolTable.swift) holds all the symbols used by a Pascal program, currently built in types (Integer, Real) and declared variable names. The symbol table is build by [Symbol table builder](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreter/Symbol%20table/SymbolTableBuilder.swift) from a Pascal program AST by walking the AST recursively. It also makes sure that only declared variables and are used in the Pascal program. 
 
 ### Interpreter
 
