@@ -1,3 +1,4 @@
+````
 program : PROGRAM variable SEMI block DOT
 
 block : declarations compound_statement
@@ -34,3 +35,4 @@ factor : PLUS factor
        | variable
 
 variable: ID
+````
