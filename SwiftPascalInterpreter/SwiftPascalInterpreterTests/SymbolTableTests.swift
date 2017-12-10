@@ -18,6 +18,7 @@ class SymbolTableTests: XCTestCase {
         table.define(.variable(name: "y", type: .real))
         table.define(.variable(name: "a", type: .integer))
         table.define(.variable(name: "b", type: .integer))
+        table.define(.variable(name: "number", type: .integer))
 
         let empty = AST.noOp
         let eleven = AST.number(.integer(11))
@@ -33,7 +34,8 @@ class SymbolTableTests: XCTestCase {
         let aDec = AST.variableDeclaration(name: AST.variable("a"), type: .type(.integer))
         let bDec = AST.variableDeclaration(name: AST.variable("b"), type: .type(.integer))
         let yDec = AST.variableDeclaration(name: AST.variable("y"), type: .type(.real))
-        let node = AST.program(name: "Part10AST", block: AST.block(declarations: [aDec, bDec, yDec], compound: AST.compound(children: [compound, xAssignment, empty])))
+        let numberDec = AST.variableDeclaration(name: AST.variable("number"), type: .type(.integer))
+        let node = AST.program(name: "Part10AST", block: AST.block(declarations: [aDec, bDec, yDec, numberDec], compound: AST.compound(children: [compound, xAssignment, empty])))
 
         let builder = SymbolTableBuilder()
         let result = builder.build(node: node)

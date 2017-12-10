@@ -42,8 +42,10 @@ public class SymbolTableBuilder {
             }
         case .noOp:
             break
-        case .variable:
-            break
+        case let .variable(name):
+            guard symbolTable.lookup(name) != nil else {
+                fatalError("Cannot use undeclared variable \(name) in assignment")
+            }
         case let .variableDeclaration(name: variable, type: variableType):
             guard case let .variable(name) = variable, case let .type(type) = variableType else {
                 fatalError()
@@ -55,7 +57,13 @@ public class SymbolTableBuilder {
                 symbolTable.define(.variable(name: name, type: .real))
             }
         case let .assignment(left: left, right: right):
-            visit(node: left)
+            guard case let .variable(name) = left else {
+                fatalError("Assignment left side is not a variable")
+            }
+            guard symbolTable.lookup(name) != nil else {
+                fatalError("Cannot assign to undeclared variable \(name)")
+            }
+
             visit(node: right)
         case .type:
             break

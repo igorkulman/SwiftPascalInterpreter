@@ -9,12 +9,16 @@
 import Foundation
 
 public class Interpreter {
-    private let parser: Parser
     private var globalIntegers: [String: Int] = [:]
     private var globalReals: [String: Double] = [:]
+    private let symbolTable: SymbolTable
+    private let tree: AST
 
     public init(_ text: String) {
-        parser = Parser(text)
+        let parser = Parser(text)
+        tree = parser.parse()
+        let symbolTableBuilder = SymbolTableBuilder()
+        symbolTable = symbolTableBuilder.build(node: tree)
     }
 
     @discardableResult private func eval(_ node: AST) -> Number? {
@@ -53,36 +57,34 @@ public class Interpreter {
             }
             return nil
         case let .assignment(left, right):
-            switch left {
-            case let .variable(name):
-                if globalIntegers.keys.contains(name) {
-                    guard let result = eval(right) else {
-                        fatalError("Cannot assign empty value to variable \(name)")
-                    }
-                    switch result {
-                    case let .integer(value):
-                        globalIntegers[name] = value
-                    case .real:
-                        fatalError("Cannot assign real value to Int variable \(name)")
-                    }
-                    return nil
-                }
-                if globalReals.keys.contains(name) {
-                    guard let result = eval(right) else {
-                        fatalError("Cannot assign empty value to variable \(name)")
-                    }
-                    switch result {
-                    case let .integer(value):
-                        globalReals[name] = Double(value)
-                    case let .real(value):
-                        globalReals[name] = value
-                    }
-                    return nil
-                }
-                fatalError("Cannot use undeclared variable \(name)")
-            default:
+            guard case let .variable(name) = left else {
                 fatalError("Assignment left side is not a variable")
             }
+            if globalIntegers.keys.contains(name) {
+                guard let result = eval(right) else {
+                    fatalError("Cannot assign empty value to variable \(name)")
+                }
+                switch result {
+                case let .integer(value):
+                    globalIntegers[name] = value
+                case .real:
+                    fatalError("Cannot assign real value to Int variable \(name)")
+                }
+                return nil
+            }
+            if globalReals.keys.contains(name) {
+                guard let result = eval(right) else {
+                    fatalError("Cannot assign empty value to variable \(name)")
+                }
+                switch result {
+                case let .integer(value):
+                    globalReals[name] = Double(value)
+                case let .real(value):
+                    globalReals[name] = value
+                }
+                return nil
+            }
+            fatalError("Cannot use undeclared variable \(name)")
         case let .variable(name):
             if let value = globalIntegers[name] {
                 return .integer(value)
@@ -117,7 +119,6 @@ public class Interpreter {
     }
 
     public func interpret() {
-        let tree = parser.parse()
         eval(tree)
     }
 
