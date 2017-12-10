@@ -14,21 +14,22 @@ lexer.getNextToken()
 lexer.getNextToken()
 
 let program =
-"""
-PROGRAM Part10AST;
-VAR
-   a, b : INTEGER;
-   y    : REAL;
+    """
+    PROGRAM Part10AST;
+    VAR
+       a, b : INTEGER;
+       y    : REAL;
 
-BEGIN {Part10AST}
-   a := 2;
-   b := 10 * a + 10 * a DIV 4;
-   y := 20 / 7 + 3.14;
-END.  {Part10AST}
-"""
+    BEGIN {Part10AST}
+       a := 2;
+       b := 10 * a + 10 * a DIV 4;
+       y := 20 / 7 + 3.14;
+    END.  {Part10AST}
+    """
 
 let parser = Parser(program)
-print(parser.parse())
+let node = parser.parse()
+print(node)
 print("")
 
 let interpreter = Interpreter(program)
@@ -36,7 +37,8 @@ interpreter.interpret()
 interpreter.printState()
 
 print("")
-let symbolTable = SymbolTable()
-symbolTable.define(.variable(name: "x", type: .builtIn(.integer)))
-symbolTable.define(.variable(name: "y", type: .builtIn(.real)))
-symbolTable.printState()
+let builder = SymbolTableBuilder()
+let table = builder.build(node: node)
+table.printState()
+
+table.lookup("y")
