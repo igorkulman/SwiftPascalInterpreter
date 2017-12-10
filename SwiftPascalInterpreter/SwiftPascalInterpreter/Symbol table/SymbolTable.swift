@@ -9,23 +9,23 @@
 import Foundation
 
 public class SymbolTable {
-    private var symbols: [String: Symbol] = ["INTEGER": .builtIn(.integer),
-                                             "REAL": .builtIn(.real)]
+    private var symbols: [String: Symbol] = [:]
 
     init() {
-
+        define(.builtIn(.integer))
+        define(.builtIn(.real))
     }
 
     func define(_ symbol: Symbol) {
-        guard case let .variable(name: name, type: _) = symbol else {
-            fatalError("Cannot define symbol \(symbol)")
+        switch symbol {
+        case .builtIn:
+            symbols[symbol.description] = symbol
+        case let .variable(name: name, type: _):
+            symbols[name] = symbol
         }
-
-        symbols[name] = symbol
     }
 
     func lookup(_ name: String) -> Symbol? {
-        print("Lookup: \(name)")
         return symbols[name]
     }
 
