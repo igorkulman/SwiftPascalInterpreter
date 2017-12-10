@@ -13,7 +13,7 @@ There is a Swift playground in the project where you can try out the lexer, pars
 
 ### Lexer
 
-The [Lexer](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/SwiftPascalInterpreter/SwiftPascalInterpreter/Lexer/Lexer.swift) reads the Pascal program as `String` (a sequence of characters) and converts it into a sequest of [Tokens](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/SwiftPascalInterpreter/SwiftPascalInterpreter/Lexer/Token.swift). You can see the result by trying it our in the Playground or on the [unit tests](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/SwiftPascalInterpreter/SwiftPascalInterpreterTests/LexerTests.swift).
+The [Lexer](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/SwiftPascalInterpreter/SwiftPascalInterpreter/Lexer/Lexer.swift) reads the Pascal program as `String` (a sequence of characters) and converts it into a sequence of [Tokens](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/SwiftPascalInterpreter/SwiftPascalInterpreter/Lexer/Token.swift). You can see the result by trying it our in the Playground or on the [unit tests](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/SwiftPascalInterpreter/SwiftPascalInterpreterTests/LexerTests.swift).
 
 ### Parser
 
@@ -21,8 +21,12 @@ The [Parser](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/Sw
 
 You can see what the AST looks like in the [unit tests](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/SwiftPascalInterpreter/SwiftPascalInterpreterTests/ParserTests.swift) or in the Playground where you can also use the `printTree()` method on any AST to see its visual representation printed into the console.
 
+### Symbol table
+
+The [Symbol table](https://github.com/igorkulman/SwiftPascalInterpreter/blob/symbol-table/SwiftPascalInterpreter/SwiftPascalInterpreter/Symbol%20table/SymbolTable.swift) holds all the symbols used by a Pascal program, currently built in types (Integer, Real) and declared variable names. The symbol table is build by [Symbol table builder](https://github.com/igorkulman/SwiftPascalInterpreter/blob/symbol-table/SwiftPascalInterpreter/SwiftPascalInterpreter/Symbol%20table/SymbolTableBuilder.swift) from a Pascal program AST by walking the AST recursively.
+
 ### Interpreter
 
-The [Interpreter](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/SwiftPascalInterpreter/SwiftPascalInterpreter/Interpreter/Interpreter.swift) reads the AST representing the Pascal program from Parser and interprets it. It can handle basic Pascal programs with declarations and arithmetics on integers and reals. 
+The [Interpreter](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/SwiftPascalInterpreter/SwiftPascalInterpreter/Interpreter/Interpreter.swift) reads the AST representing the Pascal program from Parser and interprets it by walking the AST recursively. It can handle basic Pascal programs with declarations and arithmetics on integers and reals. 
 
 At the end of the Pascal program interpretation you can check the resulting memory state (see [unit tests](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/SwiftPascalInterpreter/SwiftPascalInterpreterTests/InterpreterTests.swift)) or print it in the Playground using `printState()`.
