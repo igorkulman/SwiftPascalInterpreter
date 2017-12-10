@@ -125,7 +125,7 @@ public class Lexer {
             advance()
         }
 
-        if let token = keywords[lexem] {
+        if let token = keywords[lexem.uppercased()] {
             return token
         }
 

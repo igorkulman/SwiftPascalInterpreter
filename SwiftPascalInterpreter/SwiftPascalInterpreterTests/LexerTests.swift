@@ -288,4 +288,37 @@ class LexerTests: XCTestCase {
         XCTAssert(lexer.getNextToken() == .dot)
         XCTAssert(lexer.getNextToken() == .eof)
     }
+
+    func testMixedCasePascalProgram() {
+        let program =
+        """
+            Program Part10AST;
+            Var
+            a, b : Integer;
+
+            beGIN {Part10AST}
+            a := 2;
+            End.  {Part10AST}
+            """
+
+        let lexer = Lexer(program)
+        XCTAssert(lexer.getNextToken() == .program)
+        XCTAssert(lexer.getNextToken() == .id("Part10AST"))
+        XCTAssert(lexer.getNextToken() == .semi)
+        XCTAssert(lexer.getNextToken() == .varDef)
+        XCTAssert(lexer.getNextToken() == .id("a"))
+        XCTAssert(lexer.getNextToken() == .coma)
+        XCTAssert(lexer.getNextToken() == .id("b"))
+        XCTAssert(lexer.getNextToken() == .colon)
+        XCTAssert(lexer.getNextToken() == .integer)
+        XCTAssert(lexer.getNextToken() == .semi)
+        XCTAssert(lexer.getNextToken() == .begin)
+        XCTAssert(lexer.getNextToken() == .id("a"))
+        XCTAssert(lexer.getNextToken() == .assign)
+        XCTAssert(lexer.getNextToken() == .integerConst(2))
+        XCTAssert(lexer.getNextToken() == .semi)
+        XCTAssert(lexer.getNextToken() == .end)
+        XCTAssert(lexer.getNextToken() == .dot)
+        XCTAssert(lexer.getNextToken() == .eof)
+    }
 }
