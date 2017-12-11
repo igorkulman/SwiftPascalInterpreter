@@ -72,7 +72,7 @@ class LexerTests: XCTestCase {
 
         XCTAssert(left == .constant(.integer(3)))
         XCTAssert(operation == .operation(.integerDiv))
-        XCTAssert(right ==   .constant(.integer((4))))
+        XCTAssert(right == .constant(.integer(4)))
         XCTAssert(eof == .eof)
     }
 
@@ -278,6 +278,50 @@ class LexerTests: XCTestCase {
         XCTAssert(lexer.getNextToken() == .id("b"))
         XCTAssert(lexer.getNextToken() == .colon)
         XCTAssert(lexer.getNextToken() == .type(.integer))
+        XCTAssert(lexer.getNextToken() == .semi)
+        XCTAssert(lexer.getNextToken() == .begin)
+        XCTAssert(lexer.getNextToken() == .id("a"))
+        XCTAssert(lexer.getNextToken() == .assign)
+        XCTAssert(lexer.getNextToken() == .constant(.integer(2)))
+        XCTAssert(lexer.getNextToken() == .semi)
+        XCTAssert(lexer.getNextToken() == .end)
+        XCTAssert(lexer.getNextToken() == .dot)
+        XCTAssert(lexer.getNextToken() == .eof)
+    }
+
+    func testPascalProgramWithProcedure() {
+        let program =
+            """
+            PROGRAM Part10AST;
+            VAR
+            a, b : INTEGER;
+
+            PROCEDURE P1;
+            BEGIN {P1}
+
+            END;  {P1}
+
+            BEGIN {Part10AST}
+            a := 2;
+            END.  {Part10AST}
+            """
+
+        let lexer = Lexer(program)
+        XCTAssert(lexer.getNextToken() == .program)
+        XCTAssert(lexer.getNextToken() == .id("Part10AST"))
+        XCTAssert(lexer.getNextToken() == .semi)
+        XCTAssert(lexer.getNextToken() == .varDef)
+        XCTAssert(lexer.getNextToken() == .id("a"))
+        XCTAssert(lexer.getNextToken() == .coma)
+        XCTAssert(lexer.getNextToken() == .id("b"))
+        XCTAssert(lexer.getNextToken() == .colon)
+        XCTAssert(lexer.getNextToken() == .type(.integer))
+        XCTAssert(lexer.getNextToken() == .semi)
+        XCTAssert(lexer.getNextToken() == .procedure)
+        XCTAssert(lexer.getNextToken() == .id("P1"))
+        XCTAssert(lexer.getNextToken() == .semi)
+        XCTAssert(lexer.getNextToken() == .begin)
+        XCTAssert(lexer.getNextToken() == .end)
         XCTAssert(lexer.getNextToken() == .semi)
         XCTAssert(lexer.getNextToken() == .begin)
         XCTAssert(lexer.getNextToken() == .id("a"))

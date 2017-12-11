@@ -41,6 +41,8 @@ extension Token: Equatable {
             return true
         case let (.constant(left), .constant(right)):
             return left == right
+        case (.procedure, .procedure):
+            return true
         default:
             return false
         }
@@ -143,6 +145,8 @@ extension Token: CustomStringConvertible {
             return type.description
         case let .constant(constant):
             return constant.description
+        case .procedure:
+            return "PROCEDURE"
         }
     }
 }

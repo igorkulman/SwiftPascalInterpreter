@@ -47,4 +47,5 @@ public enum Token {
     case coma
     case type(Type)
     case constant(Constant)
+    case procedure
 }

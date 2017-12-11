@@ -28,7 +28,8 @@ public class Lexer {
         "INTEGER": .type(.integer),
         "REAL": .type(.real),
         "BEGIN": .begin,
-        "END": .end
+        "END": .end,
+        "PROCEDURE": .procedure
     ]
 
     public init(_ text: String) {
