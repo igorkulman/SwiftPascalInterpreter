@@ -23,7 +23,7 @@ You can see what the AST looks like in the [unit tests](https://github.com/igork
 
 ### Semantic analyzer
 
-The [Semantic analyzer](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreter/Semantic%20analyzer/Semanticanalyzer.swift) does static semantic checks on the Pascal program AST. It currently checks if all the used variables are declared beforehand and if there are any duplicate declarations. The result of semantic analysis is a [Symbol table](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreter/Semantic%20analyzer/SymbolTable.swift) that holds all the symbols used by a Pascal program, currently built in types (Integer, Real) and declared variable names. 
+The [Semantic analyzer](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreter/Semantic%20analyzer/SemanticAnalyzer.swift) does static semantic checks on the Pascal program AST. It currently checks if all the used variables are declared beforehand and if there are any duplicate declarations. The result of semantic analysis is a [Symbol table](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreter/Semantic%20analyzer/SymbolTable.swift) that holds all the symbols used by a Pascal program, currently built in types (Integer, Real) and declared variable names. 
 
 ### Interpreter
 
