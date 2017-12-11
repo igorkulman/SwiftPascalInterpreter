@@ -12,13 +12,13 @@ import Foundation
 @testable import PascalInterpreter
 import XCTest
 
-class SymbolTableTests: XCTestCase {
-    func testSymbolTableBuilder() {
+class SemanticAnalyzerTests: XCTestCase {
+    func testSemanticAnalyzer() {
         let table = SymbolTable()
-        table.define(.variable(name: "y", type: .real))
-        table.define(.variable(name: "a", type: .integer))
-        table.define(.variable(name: "b", type: .integer))
-        table.define(.variable(name: "number", type: .integer))
+        table.insert(.variable(name: "y", type: .real))
+        table.insert(.variable(name: "a", type: .integer))
+        table.insert(.variable(name: "b", type: .integer))
+        table.insert(.variable(name: "number", type: .integer))
 
         let program =
             """
@@ -39,12 +39,12 @@ class SymbolTableTests: XCTestCase {
         let parser = Parser(program)
         let node = parser.parse()
 
-        let builder = SymbolTableBuilder()
-        let result = builder.build(node: node)
+        let analyzer = SemanticAnalyzer()
+        let result = analyzer.build(node: node)
         XCTAssert(result == table)
     }
 
-    func testSymbolTableBuilderAssignmentVerificationFail() {
+    func testSemanticAnalyzerAssignUndeclaredVariable() {
         let program =
             """
             PROGRAM Part10AST;
@@ -64,35 +64,50 @@ class SymbolTableTests: XCTestCase {
         let parser = Parser(program)
         let node = parser.parse()
 
-        let builder = SymbolTableBuilder()
+        let analyzer = SemanticAnalyzer()
         expectFatalError(expectedMessage: "Cannot assign to undeclared variable x") {
-            _ = builder.build(node: node)
+            _ = analyzer.build(node: node)
         }
     }
 
-    func testSymbolTableBuilderUsageVerificationFail() {
+    func testSemanticAnalyzerUndeclaredVariable() {
         let program =
-        """
-            PROGRAM Part10AST;
-            VAR
-                a, b, number : INTEGER;
-                y            : REAL;
-            BEGIN
-                BEGIN
-                    number := 2;
-                    a := c;
-                    a := 10 * a + 10 * number / 4;
-                END;
-                x := 11;
-            END.
+            """
+                program SymTab5;
+                var x : integer;
+
+                begin
+                    x := y;
+                end.
             """
 
         let parser = Parser(program)
         let node = parser.parse()
 
-        let builder = SymbolTableBuilder()
-        expectFatalError(expectedMessage: "Cannot use undeclared variable c") {
-            _ = builder.build(node: node)
+        let analyzer = SemanticAnalyzer()
+        expectFatalError(expectedMessage: "Symbol(indetifier) not found 'y'") {
+            _ = analyzer.build(node: node)
+        }
+    }
+
+    func testSemanticAnalyzerMultipleDeclarations() {
+        let program =
+            """
+                program SymTab6;
+                var x, y : integer;
+                    y : real;
+
+                begin
+                x := x + y;
+                end.
+            """
+
+        let parser = Parser(program)
+        let node = parser.parse()
+
+        let analyzer = SemanticAnalyzer()
+        expectFatalError(expectedMessage: "Duplicate identifier 'y' found") {
+            _ = analyzer.build(node: node)
         }
     }
 }

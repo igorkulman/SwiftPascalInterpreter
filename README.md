@@ -21,9 +21,9 @@ The [Parser](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/Pa
 
 You can see what the AST looks like in the [unit tests](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreterTests/ParserTests.swift) or in the Playground where you can also use the `printTree()` method on any AST to see its visual representation printed into the console.
 
-### Symbol table
+### Semantic analyzer
 
-The [Symbol table](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreter/Symbol%20table/SymbolTable.swift) holds all the symbols used by a Pascal program, currently built in types (Integer, Real) and declared variable names. The symbol table is build by [Symbol table builder](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreter/Symbol%20table/SymbolTableBuilder.swift) from a Pascal program AST by walking the AST recursively. It also makes sure that only declared variables and are used in the Pascal program. 
+The [Semantic analyzer](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreter/Semantic%20analyzer/Semanticanalyzer.swift) does static semantic checks on the Pascal program AST. It currently checks if all the used variables are declared beforehand and if there are any duplicate declarations. The result of semantic analysis is a [Symbol table](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreter/Semantic%20analyzer/SymbolTable.swift) that holds all the symbols used by a Pascal program, currently built in types (Integer, Real) and declared variable names. 
 
 ### Interpreter
 

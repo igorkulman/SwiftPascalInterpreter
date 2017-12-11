@@ -17,8 +17,8 @@ public class Interpreter {
     public init(_ text: String) {
         let parser = Parser(text)
         tree = parser.parse()
-        let symbolTableBuilder = SymbolTableBuilder()
-        symbolTable = symbolTableBuilder.build(node: tree)
+        let semanticAnalyzer = SemanticAnalyzer()
+        symbolTable = semanticAnalyzer.build(node: tree)
     }
 
     @discardableResult private func eval(_ node: AST) -> Number? {

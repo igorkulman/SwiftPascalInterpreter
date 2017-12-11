@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class SymbolTableBuilder {
+public class SemanticAnalyzer {
     private let symbolTable = SymbolTable()
 
     public init() {
@@ -44,24 +44,29 @@ public class SymbolTableBuilder {
             break
         case let .variable(name):
             guard symbolTable.lookup(name) != nil else {
-                fatalError("Cannot use undeclared variable \(name)")
+                fatalError("Symbol(indetifier) not found '\(name)'")
             }
         case let .variableDeclaration(name: variable, type: variableType):
             guard case let .variable(name) = variable, case let .type(type) = variableType else {
-                fatalError()
+                fatalError("Invalid variable \(variable) or invalid type \(variableType)")
             }
+
+            guard symbolTable.lookup(name) == nil else {
+                fatalError("Duplicate identifier '\(name)' found")
+            }
+
             switch type {
             case .integer:
-                symbolTable.define(.variable(name: name, type: .integer))
+                symbolTable.insert(.variable(name: name, type: .integer))
             case .real:
-                symbolTable.define(.variable(name: name, type: .real))
+                symbolTable.insert(.variable(name: name, type: .real))
             }
         case let .assignment(left: left, right: right):
             guard case let .variable(name) = left else {
                 fatalError("Assignment left side is not a variable")
             }
             guard symbolTable.lookup(name) != nil else {
-                fatalError("Cannot assign to undeclared variable \(name)")
+                fatalError("Symbol(indetifier) not found '\(name)'")
             }
 
             visit(node: right)
