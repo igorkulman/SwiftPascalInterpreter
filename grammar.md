@@ -4,7 +4,8 @@ program : PROGRAM variable SEMI block DOT
 block : declarations compound_statement
 
 declarations : VAR (variable_declaration SEMI)+
-            | empty
+             | (PROCEDURE ID SEMI block SEMI)*
+             | empty
 
 variable_declaration : ID (COMMA ID)* COLON type_spec
 

@@ -108,6 +108,8 @@ public class Interpreter {
             return nil
         case let .program(_, block):
             return eval(block)
+        case .procedure:
+            return nil
         }
     }
 

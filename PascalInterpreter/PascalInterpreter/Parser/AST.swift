@@ -38,4 +38,5 @@ public enum AST {
     indirect case variableDeclaration(name: AST, type: AST)
     case type(Type)
     indirect case program(name: String, block: AST)
+    indirect case procedure(name: String, block: AST)
 }

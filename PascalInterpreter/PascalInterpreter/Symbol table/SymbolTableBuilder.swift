@@ -67,6 +67,9 @@ public class SymbolTableBuilder {
             visit(node: right)
         case .type:
             break
+        case .procedure:
+            // TODO: local scope
+            break
         }
     }
 }

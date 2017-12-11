@@ -67,6 +67,7 @@ public class Parser {
 
     /**
      declarations : VAR (variable_declaration SEMI)+
+     | (PROCEDURE ID SEMI block SEMI)*
      | empty
      */
     private func declarations() -> [AST] {
@@ -79,6 +80,19 @@ public class Parser {
                 declarations.append(contentsOf: declaration)
                 eat(.semi)
             }
+        }
+
+        while currentToken == .procedure {
+            eat(.procedure)
+            guard case let .id(name) = currentToken else {
+                fatalError("Procedure name expected")
+            }
+            eat(.id(name))
+            eat(.semi)
+            let body = block()
+            let procedure = AST.procedure(name: name, block: body)
+            declarations.append(procedure)
+            eat(.semi)
         }
 
         return declarations

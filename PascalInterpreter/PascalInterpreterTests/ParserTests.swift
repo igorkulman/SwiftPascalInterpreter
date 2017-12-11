@@ -141,4 +141,75 @@ class ParserTests: XCTestCase {
             _ = parser.parse()
         }
     }
+
+    func testProgramWithProcedure() {
+        let program =
+            """
+            PROGRAM Part10AST;
+            VAR
+            a, b : INTEGER;
+
+            PROCEDURE P1;
+            BEGIN {P1}
+
+            END;  {P1}
+
+            BEGIN {Part10AST}
+            a := 2;
+            END.  {Part10AST}
+            """
+
+        let parser = Parser(program)
+        let result = parser.parse()
+        let empty = AST.noOp
+        let two = AST.number(.integer(2))
+        let a = AST.variable("a")
+        let compound = AST.compound(children: [AST.assignment(left: a, right: two), empty])
+        let aDec = AST.variableDeclaration(name: AST.variable("a"), type: .type(.integer))
+        let bDec = AST.variableDeclaration(name: AST.variable("b"), type: .type(.integer))
+        let p1 = AST.procedure(name: "P1", block: AST.block(declarations: [], compound: AST.compound(children: [.noOp])))
+        let node = AST.program(name: "Part10AST", block: AST.block(declarations: [aDec, bDec, p1], compound: compound))
+        XCTAssert(result == node)
+    }
+
+    func testProgramWithNestedProcedures() {
+        let program =
+            """
+            PROGRAM Part12;
+            VAR
+                a : INTEGER;
+
+            PROCEDURE P1;
+            VAR
+                a : REAL;
+                k : INTEGER;
+
+                PROCEDURE P2;
+                VAR
+                    a, z : INTEGER;
+                BEGIN {P2}
+                    z := 777;
+                END;  {P2}
+
+            BEGIN {P1}
+
+            END;  {P1}
+
+            BEGIN {Part12}
+            a := 10;
+            END.  {Part12}
+            """
+
+        let parser = Parser(program)
+        let result = parser.parse()
+        let empty = AST.noOp
+        let ten = AST.number(.integer(10))
+        let a = AST.variable("a")
+        let compound = AST.compound(children: [AST.assignment(left: a, right: ten), empty])
+        let aDec = AST.variableDeclaration(name: AST.variable("a"), type: .type(.integer))
+        let p2 = AST.procedure(name: "P2", block: AST.block(declarations: [AST.variableDeclaration(name: .variable("a"), type: .type(.integer)), AST.variableDeclaration(name: .variable("z"), type: .type(.integer))], compound: AST.compound(children: [AST.assignment(left: AST.variable("z"), right: AST.number(.integer(777))), empty])))
+        let p1 = AST.procedure(name: "P1", block: AST.block(declarations: [AST.variableDeclaration(name: .variable("a"), type: .type(.real)), AST.variableDeclaration(name: .variable("k"), type: .type(.integer)), p2], compound: AST.compound(children: [empty])))
+        let node = AST.program(name: "Part12", block: AST.block(declarations: [aDec, p1], compound: compound))
+        XCTAssert(result == node)
+    }
 }
