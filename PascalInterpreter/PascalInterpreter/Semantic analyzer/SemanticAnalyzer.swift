@@ -62,14 +62,8 @@ public class SemanticAnalyzer {
                 symbolTable.insert(.variable(name: name, type: .real))
             }
         case let .assignment(left: left, right: right):
-            guard case let .variable(name) = left else {
-                fatalError("Assignment left side is not a variable")
-            }
-            guard symbolTable.lookup(name) != nil else {
-                fatalError("Symbol(indetifier) not found '\(name)'")
-            }
-
             visit(node: right)
+            visit(node: left)
         case .type:
             break
         case .procedure:

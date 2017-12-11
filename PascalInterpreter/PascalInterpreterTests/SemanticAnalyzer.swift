@@ -65,7 +65,7 @@ class SemanticAnalyzerTests: XCTestCase {
         let node = parser.parse()
 
         let analyzer = SemanticAnalyzer()
-        expectFatalError(expectedMessage: "Cannot assign to undeclared variable x") {
+        expectFatalError(expectedMessage: "Symbol(indetifier) not found 'x'") {
             _ = analyzer.build(node: node)
         }
     }
