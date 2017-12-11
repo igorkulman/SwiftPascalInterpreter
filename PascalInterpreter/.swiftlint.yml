@@ -1,0 +1,9 @@
+excluded:
+    PascalInterpreter/Utils.swift
+disabled_rules:
+    - identifier_name
+    - cyclomatic_complexity
+    - line_length
+    - function_body_length
+    - type_body_length
+

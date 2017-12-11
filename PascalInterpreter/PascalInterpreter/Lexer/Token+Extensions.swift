@@ -50,7 +50,7 @@ extension Token: Equatable {
 }
 
 extension Constant: Equatable {
-    public static func ==(lhs: Constant, rhs: Constant) -> Bool {
+    public static func == (lhs: Constant, rhs: Constant) -> Bool {
         switch (lhs, rhs) {
         case let (.integer(left), .integer(right)):
             return left == right
