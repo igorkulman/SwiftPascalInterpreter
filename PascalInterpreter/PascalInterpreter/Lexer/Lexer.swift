@@ -24,9 +24,9 @@ public class Lexer {
     private let keywords: [String: Token] = [
         "PROGRAM": .program,
         "VAR": .varDef,
-        "DIV": .integerDiv,
-        "INTEGER": .integer,
-        "REAL": .real,
+        "DIV": .operation(.integerDiv),
+        "INTEGER": .type(.integer),
+        "REAL": .type(.real),
         "BEGIN": .begin,
         "END": .end
     ]
@@ -107,10 +107,10 @@ public class Lexer {
                 advance()
             }
 
-            return .realConst(Double(lexem)!)
+            return .constant(.real(Double(lexem)!))
         }
 
-        return .integerConst(Int(lexem)!)
+        return .constant(.integer(Int(lexem)!))
     }
 
     /**
@@ -191,32 +191,32 @@ public class Lexer {
 
             if currentCharacter == "+" {
                 advance()
-                return .plus
+                return .operation(.plus)
             }
 
             if currentCharacter == "-" {
                 advance()
-                return .minus
+                return .operation(.minus)
             }
 
             if currentCharacter == "*" {
                 advance()
-                return .mult
+                return .operation(.mult)
             }
 
             if currentCharacter == "/" {
                 advance()
-                return .floatDiv
+                return .operation(.floatDiv)
             }
 
             if currentCharacter == "(" {
                 advance()
-                return .lparen
+                return .parenthesis(.left)
             }
 
             if currentCharacter == ")" {
                 advance()
-                return .rparen
+                return .parenthesis(.right)
             }
 
             fatalError("Unrecognized character \(currentCharacter) at position \(currentPosition)")

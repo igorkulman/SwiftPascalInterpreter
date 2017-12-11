@@ -8,7 +8,7 @@
 
 import Foundation
 import Foundation
-@testable import SwiftPascalInterpreter
+@testable import PascalInterpreter
 import XCTest
 
 class InterpreterTests: XCTestCase {

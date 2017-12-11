@@ -21,11 +21,6 @@ public enum UnaryOperation {
     case minus
 }
 
-public enum Type {
-    case integer
-    case real
-}
-
 public enum Number {
     case integer(Int)
     case real(Double)

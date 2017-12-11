@@ -8,7 +8,7 @@
 
 import Foundation
 import XCTest
-@testable import SwiftPascalInterpreter
+@testable import PascalInterpreter
 
 /**
  Taken from https://medium.com/@marcosantadev/how-to-test-fatalerror-in-swift-e1be9ff11a29

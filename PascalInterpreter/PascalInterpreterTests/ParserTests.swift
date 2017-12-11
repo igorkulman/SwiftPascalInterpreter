@@ -7,7 +7,7 @@
 //
 
 import Foundation
-@testable import SwiftPascalInterpreter
+@testable import PascalInterpreter
 import XCTest
 
 class ParserTests: XCTestCase {

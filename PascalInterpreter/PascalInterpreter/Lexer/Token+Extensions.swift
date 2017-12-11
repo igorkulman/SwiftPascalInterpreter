@@ -11,26 +11,14 @@ import Foundation
 extension Token: Equatable {
     public static func == (lhs: Token, rhs: Token) -> Bool {
         switch (lhs, rhs) {
-        case (.plus, .plus):
-            return true
-        case (.minus, .minus):
-            return true
-        case (.mult, .mult):
-            return true
-        case (.floatDiv, .floatDiv):
-            return true
-        case (.integerDiv, .integerDiv):
-            return true
+        case let (.operation(left), .operation(right)):
+            return left == right
         case (.eof, .eof):
             return true
-        case (.integer, .integer):
-            return true
-        case (.real, .real):
-            return true
-        case (.lparen, .lparen):
-            return true
-        case (.rparen, .rparen):
-            return true
+        case let (.type(left), .type(right)):
+            return left == right
+        case let (.parenthesis(left), .parenthesis(right)):
+            return left == right
         case (.dot, .dot):
             return true
         case (.semi, .semi):
@@ -51,9 +39,7 @@ extension Token: Equatable {
             return true
         case (.coma, .coma):
             return true
-        case let (.integerConst(left), .integerConst(right)):
-            return left == right
-        case let (.realConst(left), .realConst(right)):
+        case let (.constant(left), .constant(right)):
             return left == right
         default:
             return false
@@ -61,11 +47,22 @@ extension Token: Equatable {
     }
 }
 
-extension Token: CustomStringConvertible {
+extension Constant: Equatable {
+    public static func ==(lhs: Constant, rhs: Constant) -> Bool {
+        switch (lhs, rhs) {
+        case let (.integer(left), .integer(right)):
+            return left == right
+        case let (.real(left), .real(right)):
+            return left == right
+        default:
+            return false
+        }
+    }
+}
+
+extension Operation: CustomStringConvertible {
     public var description: String {
         switch self {
-        case .eof:
-            return "EOF"
         case .minus:
             return "MINUS"
         case .plus:
@@ -76,6 +73,50 @@ extension Token: CustomStringConvertible {
             return "DIV"
         case .floatDiv:
             return "FDIV"
+        }
+    }
+}
+
+extension Type: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .integer:
+            return "INTEGER"
+        case .real:
+            return "REAL"
+        }
+    }
+}
+
+extension Parenthesis: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .left:
+            return "LPAREN"
+        case .right:
+            return "RPAREN"
+        }
+    }
+}
+
+extension Constant: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case let .integer(value):
+            return "INTEGER_CONST(\(value))"
+        case let .real(value):
+            return "REAL_CONST(\(value))"
+        }
+    }
+}
+
+extension Token: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .eof:
+            return "EOF"
+        case let .operation(operation):
+            return operation.description
         case .begin:
             return "BEGIN"
         case .end:
@@ -96,18 +137,12 @@ extension Token: CustomStringConvertible {
             return ":"
         case .coma:
             return ","
-        case .integer:
-            return "INTEGER"
-        case .real:
-            return "REAL"
-        case let .integerConst(value):
-            return "INTEGER_CONST(\(value))"
-        case let .realConst(value):
-            return "REAL_CONST(\(value))"
-        case .lparen:
-            return "LPAREN"
-        case .rparen:
-            return "RPAREN"
+        case let .parenthesis(paren):
+            return paren.description
+        case let .type(type):
+            return type.description
+        case let .constant(constant):
+            return constant.description
         }
     }
 }

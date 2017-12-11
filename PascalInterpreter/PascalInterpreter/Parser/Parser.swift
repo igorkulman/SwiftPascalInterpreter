@@ -117,11 +117,11 @@ public class Parser {
      */
     private func typeSpec() -> AST {
         switch currentToken {
-        case .integer:
-            eat(.integer)
+        case .type(.integer):
+            eat(.type(.integer))
             return .type(.integer)
-        case .real:
-            eat(.real)
+        case .type(.real):
+            eat(.type(.real))
             return .type(.real)
         default:
             fatalError("Expected type, got \(currentToken)")
@@ -205,13 +205,13 @@ public class Parser {
 
         var node = term()
 
-        while [.plus, .minus].contains(currentToken) {
+        while [.operation(.plus), .operation(.minus)].contains(currentToken) {
             let token = currentToken
-            if token == .plus {
-                eat(.plus)
+            if token == .operation(.plus) {
+                eat(.operation(.plus))
                 node = .binaryOperation(left: node, operation: .plus, right: term())
-            } else if token == .minus {
-                eat(.minus)
+            } else if token == .operation(.minus) {
+                eat(.operation(.minus))
                 node = .binaryOperation(left: node, operation: .minus, right: term())
             }
         }
@@ -227,16 +227,16 @@ public class Parser {
     private func term() -> AST {
         var node = factor()
 
-        while [.mult, .integerDiv, .floatDiv].contains(currentToken) {
+        while [.operation(.mult), .operation(.integerDiv), .operation(.floatDiv)].contains(currentToken) {
             let token = currentToken
-            if token == .mult {
-                eat(.mult)
+            if token == .operation(.mult) {
+                eat(.operation(.mult))
                 node = .binaryOperation(left: node, operation: .mult, right: factor())
-            } else if token == .integerDiv {
-                eat(.integerDiv)
+            } else if token == .operation(.integerDiv) {
+                eat(.operation(.integerDiv))
                 node = .binaryOperation(left: node, operation: .integerDiv, right: factor())
-            } else if token == .floatDiv {
-                eat(.floatDiv)
+            } else if token == .operation(.floatDiv) {
+                eat(.operation(.floatDiv))
                 node = .binaryOperation(left: node, operation: .floatDiv, right: factor())
             }
         }
@@ -272,22 +272,22 @@ public class Parser {
     private func factor() -> AST {
         let token = currentToken
         switch token {
-        case .plus:
-            eat(.plus)
+        case .operation(.plus):
+            eat(.operation(.plus))
             return .unaryOperation(operation: .plus, child: factor())
-        case .minus:
-            eat(.minus)
+        case .operation(.minus):
+            eat(.operation(.minus))
             return .unaryOperation(operation: .minus, child: factor())
-        case let .integerConst(value):
-            eat(.integerConst(value))
+        case let .constant(.integer(value)):
+            eat(.constant(.integer(value)))
             return .number(.integer(value))
-        case let .realConst(value):
-            eat(.realConst(value))
+        case let .constant(.real(value)):
+            eat(.constant(.real(value)))
             return .number(.real(value))
-        case .lparen:
-            eat(.lparen)
+        case .parenthesis(.left):
+            eat(.parenthesis(.left))
             let result = expr()
-            eat(.rparen)
+            eat(.parenthesis(.right))
             return result
         default:
             return variable()

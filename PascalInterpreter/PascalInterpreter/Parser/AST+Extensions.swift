@@ -60,17 +60,6 @@ extension UnaryOperation: CustomStringConvertible {
     }
 }
 
-extension Type: CustomStringConvertible {
-    public var description: String {
-        switch self {
-        case .integer:
-            return "INTEGER"
-        case .real:
-            return "REAL"
-        }
-    }
-}
-
 extension Number: CustomStringConvertible {
     public var description: String {
         switch self {
