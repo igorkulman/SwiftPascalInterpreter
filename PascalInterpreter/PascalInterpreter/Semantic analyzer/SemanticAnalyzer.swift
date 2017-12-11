@@ -55,12 +55,11 @@ public class SemanticAnalyzer {
                 fatalError("Duplicate identifier '\(name)' found")
             }
 
-            switch type {
-            case .integer:
-                symbolTable.insert(.variable(name: name, type: .integer))
-            case .real:
-                symbolTable.insert(.variable(name: name, type: .real))
+            guard let resolved = symbolTable.lookup(type.description), case let .builtIn(symbolType) = resolved else {
+                fatalError("Type not found '\(type.description)'")
             }
+
+            symbolTable.insert(.variable(name: name, type: symbolType))
         case let .assignment(left: left, right: right):
             visit(node: right)
             visit(node: left)
