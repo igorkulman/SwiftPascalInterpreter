@@ -103,4 +103,54 @@ class SemanticAnalyzerTests: XCTestCase {
             analyzer.analyze(node: node)
         }
     }
+
+    func testSemanticAnalyzerProcedure() {
+        let program =
+            """
+            program Main;
+            var x, y: real;
+
+            procedure Alpha(a : integer);
+            var y : integer;
+            begin
+                x := a + x + y;
+            end;
+
+            begin { Main }
+
+            end.  { Main }
+            """
+
+        let parser = Parser(program)
+        let node = parser.parse()
+
+        let analyzer = SemanticAnalyzer()
+        analyzer.analyze(node: node)
+    }
+
+    func testSemanticAnalyzerProcedureUndeclaredVariable() {
+        let program =
+        """
+            program Main;
+            var x, y: real;
+
+            procedure Alpha(a : integer);
+            var y : integer;
+            begin
+                x := a + x + b;
+            end;
+
+            begin { Main }
+
+            end.  { Main }
+            """
+
+        let parser = Parser(program)
+        let node = parser.parse()
+
+        let analyzer = SemanticAnalyzer()
+        expectFatalError(expectedMessage: "Symbol(indetifier) not found 'b'") {
+            analyzer.analyze(node: node)
+        }
+    }
 }
