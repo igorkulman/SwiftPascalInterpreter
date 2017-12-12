@@ -174,10 +174,10 @@
 		F300A0E01FDDB74700E5894D /* Semantic analyzer */ = {
 			isa = PBXGroup;
 			children = (
-				F300A0E11FDDB74700E5894D /* Symbol+Extensions.swift */,
-				F300A0E21FDDB74700E5894D /* Symbol.swift */,
-				F300A0E31FDDB74700E5894D /* SymbolTable.swift */,
 				F300A0E41FDDB74700E5894D /* SemanticAnalyzer.swift */,
+				F300A0E21FDDB74700E5894D /* Symbol.swift */,
+				F300A0E11FDDB74700E5894D /* Symbol+Extensions.swift */,
+				F300A0E31FDDB74700E5894D /* SymbolTable.swift */,
 			);
 			path = "Semantic analyzer";
 			sourceTree = "<group>";

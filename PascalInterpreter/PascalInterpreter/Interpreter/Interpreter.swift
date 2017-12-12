@@ -61,7 +61,7 @@ public class Interpreter {
                 fatalError("Assignment left side is not a variable")
             }
 
-            guard let symbol = symbolTable.lookup(name), case let .variable(name: _, type: type) = symbol else {
+            guard let symbol = symbolTable.lookup(name), case let .variable(name: _, type: .builtIn(type)) = symbol else {
                 fatalError("Variable \(name) not in the symbol table")
             }
 
@@ -84,7 +84,7 @@ public class Interpreter {
                 return nil
             }
         case let .variable(name):
-            guard let symbol = symbolTable.lookup(name), case let .variable(name: _, type: type) = symbol else {
+            guard let symbol = symbolTable.lookup(name), case let .variable(name: _, type: .builtIn(type)) = symbol else {
                 fatalError("Variable \(name) not in the symbol table")
             }
 

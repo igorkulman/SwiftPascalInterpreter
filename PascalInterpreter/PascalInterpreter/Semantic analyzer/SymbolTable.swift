@@ -18,18 +18,12 @@ public class ScopedSymbolTable {
         self.name = name
         self.level = level
 
-        let integer = Symbol.builtIn(.integer)
-        let real = Symbol.builtIn(.real)
-        symbols[integer.description] = integer
-        symbols[real.description] = real
+        insert(.builtIn(.integer))
+        insert(.builtIn(.real))
     }
 
     func insert(_ symbol: Symbol) {
-        guard case let .variable(name: name, type: _) = symbol else {
-            fatalError("Cannot insert built in type \(symbol), only variables")
-        }
-
-        symbols[name] = symbol
+        symbols[symbol.name] = symbol
     }
 
     func lookup(_ name: String) -> Symbol? {
@@ -68,6 +62,12 @@ extension ScopedSymbolTable: CustomStringConvertible {
                 return false
             case (.variable, .variable):
                 return lhs.key < rhs.key
+            case (.procedure, .procedure):
+                return lhs.key < rhs.key
+            case (.procedure, _):
+                return false
+            case (_, .procedure):
+                return true
             }
         }) {
             lines.append("\(pair.key.padding(toLength: 7, withPad: " ", startingAt: 0)): \(pair.value)")

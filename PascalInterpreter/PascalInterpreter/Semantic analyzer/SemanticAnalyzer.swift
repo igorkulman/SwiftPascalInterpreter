@@ -55,7 +55,7 @@ public class SemanticAnalyzer {
                 fatalError("Duplicate identifier '\(name)' found")
             }
 
-            guard let resolved = symbolTable.lookup(type.description), case let .builtIn(symbolType) = resolved else {
+            guard let symbolType = symbolTable.lookup(type.description) else {
                 fatalError("Type not found '\(type.description)'")
             }
 
@@ -65,9 +65,19 @@ public class SemanticAnalyzer {
             visit(node: left)
         case .type:
             break
-        case .procedure:
-            // TODO: local scope
-            break
+        case let .procedure(name: name, params: params, block: _):
+            var parameters: [Symbol] = []
+            for param in params {
+                guard case let .param(name: name, type: .type(type)) = param else {
+                    fatalError("Only built int type parameters supported in procedure, got \(param)")
+                }
+                guard let symbol = symbolTable.lookup(type.description) else {
+                    fatalError("Type not found '\(type.description)'")
+                }
+                parameters.append(.variable(name: name, type: symbol))
+            }
+            let symbol = Symbol.procedure(name: name, params: parameters)
+            symbolTable.insert(symbol)
         case .param:
             break
         }

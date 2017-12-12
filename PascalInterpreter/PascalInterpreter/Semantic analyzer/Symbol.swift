@@ -13,7 +13,8 @@ public enum BuiltInType {
     case real
 }
 
-public enum Symbol {
+public indirect enum Symbol {
     case builtIn(BuiltInType)
-    case variable(name: String, type: BuiltInType)
+    case variable(name: String, type: Symbol)
+    case procedure(name: String, params: [Symbol])
 }
