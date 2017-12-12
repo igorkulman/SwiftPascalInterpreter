@@ -209,12 +209,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F300A0AF1FDDB63F00E5894D /* Build configuration list for PBXNativeTarget "PascalInterpreter" */;
 			buildPhases = (
+				F3B1C9101FDECB660047C9FA /* Swiftlint */,
+				F3B1C9111FDECC4A0047C9FA /* Swiftformat */,
 				F300A0961FDDB63F00E5894D /* Sources */,
 				F300A0971FDDB63F00E5894D /* Frameworks */,
 				F300A0981FDDB63F00E5894D /* Headers */,
 				F300A0991FDDB63F00E5894D /* Resources */,
-				F3B1C9101FDECB660047C9FA /* Swiftlint */,
-				F3B1C9111FDECC4A0047C9FA /* Swiftformat */,
 			);
 			buildRules = (
 			);
@@ -313,7 +313,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\nswiftlint aurocorrect\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint autocorrect\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 		F3B1C9111FDECC4A0047C9FA /* Swiftformat */ = {
 			isa = PBXShellScriptBuildPhase;

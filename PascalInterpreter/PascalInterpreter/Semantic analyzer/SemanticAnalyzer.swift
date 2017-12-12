@@ -9,13 +9,13 @@
 import Foundation
 
 public class SemanticAnalyzer {
-    private let symbolTable = SymbolTable()
+    private let symbolTable = ScopedSymbolTable(name: "global", level: 1)
 
     public init() {
 
     }
 
-    public func build(node: AST) -> SymbolTable {
+    public func build(node: AST) -> ScopedSymbolTable {
         visit(node: node)
         return symbolTable
     }
@@ -67,6 +67,8 @@ public class SemanticAnalyzer {
             break
         case .procedure:
             // TODO: local scope
+            break
+        case .param:
             break
         }
     }

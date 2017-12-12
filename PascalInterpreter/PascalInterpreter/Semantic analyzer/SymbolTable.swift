@@ -8,10 +8,16 @@
 
 import Foundation
 
-public class SymbolTable {
+public class ScopedSymbolTable {
     private var symbols: [String: Symbol] = [:]
 
-    init() {
+    let name: String
+    let level: Int
+
+    init(name: String, level: Int) {
+        self.name = name
+        self.level = level
+
         let integer = Symbol.builtIn(.integer)
         let real = Symbol.builtIn(.real)
         symbols[integer.description] = integer
@@ -31,8 +37,8 @@ public class SymbolTable {
     }
 }
 
-extension SymbolTable: Equatable {
-    public static func == (lhs: SymbolTable, rhs: SymbolTable) -> Bool {
+extension ScopedSymbolTable: Equatable {
+    public static func == (lhs: ScopedSymbolTable, rhs: ScopedSymbolTable) -> Bool {
         if lhs.symbols.keys != rhs.symbols.keys {
             return false
         }
@@ -45,9 +51,13 @@ extension SymbolTable: Equatable {
     }
 }
 
-extension SymbolTable: CustomStringConvertible {
+extension ScopedSymbolTable: CustomStringConvertible {
     public var description: String {
-        var lines = ["Symbol table contents", "_____________________"]
+        var lines = ["SCOPE (SCOPED SYMBOL TABLE)", "==========================="]
+        lines.append("Scope name    : \(name)")
+        lines.append("Scope level   : \(level)")
+        lines.append("Scope (Scoped symbol table) contents")
+        lines.append("------------------------------------")
         for pair in symbols.sorted(by: { lhs, rhs -> Bool in
             switch (lhs.value, rhs.value) {
             case (.builtIn, .builtIn):

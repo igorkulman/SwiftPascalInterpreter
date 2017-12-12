@@ -26,17 +26,18 @@ public enum Number {
     case real(Double)
 }
 
-public enum AST {
+public indirect enum AST {
     case number(Number)
-    indirect case unaryOperation(operation: UnaryOperation, child: AST)
-    indirect case binaryOperation(left: AST, operation: BinaryOperation, right: AST)
-    indirect case compound(children: [AST])
-    indirect case assignment(left: AST, right: AST)
+    case unaryOperation(operation: UnaryOperation, child: AST)
+    case binaryOperation(left: AST, operation: BinaryOperation, right: AST)
+    case compound(children: [AST])
+    case assignment(left: AST, right: AST)
     case variable(String)
     case noOp
-    indirect case block(declarations: [AST], compound: AST)
-    indirect case variableDeclaration(name: AST, type: AST)
+    case block(declarations: [AST], compound: AST)
+    case variableDeclaration(name: AST, type: AST)
     case type(Type)
-    indirect case program(name: String, block: AST)
-    indirect case procedure(name: String, block: AST)
+    case program(name: String, block: AST)
+    case procedure(name: String, params: [AST], block: AST)
+    case param(name: String, type: AST)
 }

@@ -43,8 +43,8 @@ extension AST: Equatable {
             return leftName == rightName && leftType == rightType
         case let (.program(name: leftName, block: leftBlock), .program(name: rightName, block: rightBlock)):
             return leftName == rightName && leftBlock == rightBlock
-        case let (.procedure(name: leftName, block: leftBlock), .procedure(name: rightName, block: rightBlock)):
-            return leftName == rightName && leftBlock == rightBlock
+        case let (.procedure(name: leftName, params: leftParams, block: leftBlock), .procedure(name: rightName, params: rightParams, block: rightBlock)):
+            return leftName == rightName && leftBlock == rightBlock && leftParams == rightParams
         default:
             return false
         }
@@ -123,8 +123,12 @@ extension AST {
             return []
         case let .program(_, block):
             return [block]
-        case let .procedure(name: _, block: block):
-            return [block]
+        case let .procedure(name: _, params: params, block: block):
+            var children = params
+            children.append(block)
+            return children
+        case let .param(name: name, type: type):
+            return [.variable(name), type]
         }
     }
 
@@ -152,8 +156,10 @@ extension AST {
             return type.description
         case let .program(name, _):
             return name
-        case let .procedure(name, _):
+        case let .procedure(name, _, _):
             return name
+        case .param:
+            return "param"
         }
     }
 

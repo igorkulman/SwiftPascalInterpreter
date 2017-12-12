@@ -11,7 +11,7 @@ import Foundation
 public class Interpreter {
     private var integerMemory: [String: Int] = [:]
     private var realMemory: [String: Double] = [:]
-    private let symbolTable: SymbolTable
+    private let symbolTable: ScopedSymbolTable
     private let tree: AST
 
     public init(_ text: String) {
@@ -109,6 +109,8 @@ public class Interpreter {
         case let .program(_, block):
             return eval(block)
         case .procedure:
+            return nil
+        case .param:
             return nil
         }
     }
