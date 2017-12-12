@@ -13,10 +13,12 @@ public class ScopedSymbolTable {
 
     let name: String
     let level: Int
+    let enclosingScope: ScopedSymbolTable?
 
-    init(name: String, level: Int) {
+    init(name: String, level: Int, enclosingScope: ScopedSymbolTable?) {
         self.name = name
         self.level = level
+        self.enclosingScope = enclosingScope
 
         insert(.builtIn(.integer))
         insert(.builtIn(.real))
@@ -26,8 +28,16 @@ public class ScopedSymbolTable {
         symbols[symbol.name] = symbol
     }
 
-    func lookup(_ name: String) -> Symbol? {
-        return symbols[name]
+    func lookup(_ name: String, currentScopeOnly: Bool = false) -> Symbol? {
+        if let symbol = symbols[name] {
+            return symbol
+        }
+
+        if currentScopeOnly {
+            return nil
+        }
+
+        return enclosingScope?.lookup(name)
     }
 }
 
