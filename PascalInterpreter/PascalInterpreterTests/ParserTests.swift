@@ -167,7 +167,7 @@ class ParserTests: XCTestCase {
         let compound = AST.compound(children: [AST.assignment(left: a, right: two), empty])
         let aDec = AST.variableDeclaration(name: AST.variable("a"), type: .type(.integer))
         let bDec = AST.variableDeclaration(name: AST.variable("b"), type: .type(.integer))
-        let p1 = AST.procedure(name: "P1", block: AST.block(declarations: [], compound: AST.compound(children: [.noOp])))
+        let p1 = AST.procedure(name: "P1", params: [], block: AST.block(declarations: [], compound: AST.compound(children: [.noOp])))
         let node = AST.program(name: "Part10AST", block: AST.block(declarations: [aDec, bDec, p1], compound: compound))
         XCTAssert(result == node)
     }
@@ -207,8 +207,8 @@ class ParserTests: XCTestCase {
         let a = AST.variable("a")
         let compound = AST.compound(children: [AST.assignment(left: a, right: ten), empty])
         let aDec = AST.variableDeclaration(name: AST.variable("a"), type: .type(.integer))
-        let p2 = AST.procedure(name: "P2", block: AST.block(declarations: [AST.variableDeclaration(name: .variable("a"), type: .type(.integer)), AST.variableDeclaration(name: .variable("z"), type: .type(.integer))], compound: AST.compound(children: [AST.assignment(left: AST.variable("z"), right: AST.number(.integer(777))), empty])))
-        let p1 = AST.procedure(name: "P1", block: AST.block(declarations: [AST.variableDeclaration(name: .variable("a"), type: .type(.real)), AST.variableDeclaration(name: .variable("k"), type: .type(.integer)), p2], compound: AST.compound(children: [empty])))
+        let p2 = AST.procedure(name: "P2", params: [], block: AST.block(declarations: [AST.variableDeclaration(name: .variable("a"), type: .type(.integer)), AST.variableDeclaration(name: .variable("z"), type: .type(.integer))], compound: AST.compound(children: [AST.assignment(left: AST.variable("z"), right: AST.number(.integer(777))), empty])))
+        let p1 = AST.procedure(name: "P1", params: [], block: AST.block(declarations: [AST.variableDeclaration(name: .variable("a"), type: .type(.real)), AST.variableDeclaration(name: .variable("k"), type: .type(.integer)), p2], compound: AST.compound(children: [empty])))
         let node = AST.program(name: "Part12", block: AST.block(declarations: [aDec, p1], compound: compound))
         XCTAssert(result == node)
     }

@@ -10,6 +10,10 @@ import Foundation
 
 extension BuiltInType: CustomStringConvertible {
     public var description: String {
+        return "<BuiltinTypeSymbol(name='\(self.name)')>"
+    }
+
+    public var name: String {
         switch self {
         case .integer:
             return "INTEGER"
@@ -25,7 +29,9 @@ extension Symbol: CustomStringConvertible {
         case let .builtIn(type):
             return type.description
         case let .variable(name: name, type: type):
-            return "<\(name):\(type)>"
+            return "<VarSymbol(name='\(name)', type='\(type.name)')>"
+        case let .procedure(name: name, params: params):
+            return "<ProcedureSymbol(name=\(name), parameters=[\(params.reduce("", { $0.description + "," + $1.description }))]>"
         }
     }
 }
@@ -42,4 +48,17 @@ extension Symbol: Equatable {
         }
     }
 
+}
+
+extension Symbol {
+    public var name: String {
+        switch self {
+        case let .builtIn(type):
+            return type.name
+        case .procedure(name: let name, params: _):
+            return name
+        case .variable(name: let name, type: _):
+            return name
+        }
+    }
 }

@@ -67,7 +67,7 @@ public class Parser {
 
     /**
      declarations : VAR (variable_declaration SEMI)+
-     | (PROCEDURE ID SEMI block SEMI)*
+     | (PROCEDURE ID (LPAREN formal_parameter_list RPAREN)? SEMI block SEMI)*
      | empty
      */
     private func declarations() -> [AST] {
@@ -85,17 +85,67 @@ public class Parser {
         while currentToken == .procedure {
             eat(.procedure)
             guard case let .id(name) = currentToken else {
-                fatalError("Procedure name expected")
+                fatalError("Procedure name expected, got \(currentToken)")
             }
             eat(.id(name))
+
+            var params: [AST] = []
+            if currentToken == .parenthesis(.left) {
+                eat(.parenthesis(.left))
+                params = formalParameterList()
+                eat(.parenthesis(.right))
+            }
+
             eat(.semi)
             let body = block()
-            let procedure = AST.procedure(name: name, block: body)
+            let procedure = AST.procedure(name: name, params: params, block: body)
             declarations.append(procedure)
             eat(.semi)
         }
 
         return declarations
+    }
+
+    /**
+     formal_parameter_list : formal_parameters
+     | formal_parameters SEMI formal_parameter_list
+     */
+    private func formalParameterList() -> [AST] {
+        guard case .id = currentToken else {
+            return [] //procedure without parameters
+        }
+
+        var parameters = formalParameters()
+        while currentToken == .semi {
+            eat(.semi)
+            parameters.append(contentsOf: formalParameterList())
+        }
+        return parameters
+    }
+
+    /**
+     formal_parameters : ID (COMMA ID)* COLON type_spec
+     */
+    private func formalParameters() -> [AST] {
+        guard case let .id(name) = currentToken else {
+            fatalError("Parameter name expected, got \(currentToken)")
+        }
+
+        var parameters = [name]
+
+        eat(.id(name))
+        while currentToken == .coma {
+            eat(.coma)
+            guard case let .id(name) = currentToken else {
+                fatalError("Parameter name expected, got \(currentToken)")
+            }
+            eat(.id(name))
+            parameters.append(name)
+        }
+
+        eat(.colon)
+        let type = typeSpec()
+        return parameters.map({ .param(name: $0, type: type) })
     }
 
     /**
@@ -317,8 +367,14 @@ public class Parser {
 
      block : declarations compound_statement
 
-     declarations : VAR (variable_declaration SEMI)+
+     declarations : (VAR (variable_declaration SEMI)+)*
+     | (PROCEDURE ID (LPAREN formal_parameter_list RPAREN)? SEMI block SEMI)*
      | empty
+
+     formal_parameter_list : formal_parameters
+     | formal_parameters SEMI formal_parameter_list
+
+     formal_parameters : ID (COMMA ID)* COLON type_spec
 
      variable_declaration : ID (COMMA ID)* COLON type_spec
 

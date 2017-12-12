@@ -8,31 +8,41 @@
 
 import Foundation
 
-public class SymbolTable {
+public class ScopedSymbolTable {
     private var symbols: [String: Symbol] = [:]
 
-    init() {
-        let integer = Symbol.builtIn(.integer)
-        let real = Symbol.builtIn(.real)
-        symbols[integer.description] = integer
-        symbols[real.description] = real
+    let name: String
+    let level: Int
+    let enclosingScope: ScopedSymbolTable?
+
+    init(name: String, level: Int, enclosingScope: ScopedSymbolTable?) {
+        self.name = name
+        self.level = level
+        self.enclosingScope = enclosingScope
+
+        insert(.builtIn(.integer))
+        insert(.builtIn(.real))
     }
 
     func insert(_ symbol: Symbol) {
-        guard case let .variable(name: name, type: _) = symbol else {
-            fatalError("Cannot insert built in type \(symbol), only variables")
-        }
-
-        symbols[name] = symbol
+        symbols[symbol.name] = symbol
     }
 
-    func lookup(_ name: String) -> Symbol? {
-        return symbols[name]
+    func lookup(_ name: String, currentScopeOnly: Bool = false) -> Symbol? {
+        if let symbol = symbols[name] {
+            return symbol
+        }
+
+        if currentScopeOnly {
+            return nil
+        }
+
+        return enclosingScope?.lookup(name)
     }
 }
 
-extension SymbolTable: Equatable {
-    public static func == (lhs: SymbolTable, rhs: SymbolTable) -> Bool {
+extension ScopedSymbolTable: Equatable {
+    public static func == (lhs: ScopedSymbolTable, rhs: ScopedSymbolTable) -> Bool {
         if lhs.symbols.keys != rhs.symbols.keys {
             return false
         }
@@ -45,9 +55,13 @@ extension SymbolTable: Equatable {
     }
 }
 
-extension SymbolTable: CustomStringConvertible {
+extension ScopedSymbolTable: CustomStringConvertible {
     public var description: String {
-        var lines = ["Symbol table contents", "_____________________"]
+        var lines = ["SCOPE (SCOPED SYMBOL TABLE)", "==========================="]
+        lines.append("Scope name    : \(name)")
+        lines.append("Scope level   : \(level)")
+        lines.append("Scope (Scoped symbol table) contents")
+        lines.append("------------------------------------")
         for pair in symbols.sorted(by: { lhs, rhs -> Bool in
             switch (lhs.value, rhs.value) {
             case (.builtIn, .builtIn):
@@ -58,6 +72,12 @@ extension SymbolTable: CustomStringConvertible {
                 return false
             case (.variable, .variable):
                 return lhs.key < rhs.key
+            case (.procedure, .procedure):
+                return lhs.key < rhs.key
+            case (.procedure, _):
+                return false
+            case (_, .procedure):
+                return true
             }
         }) {
             lines.append("\(pair.key.padding(toLength: 7, withPad: " ", startingAt: 0)): \(pair.value)")

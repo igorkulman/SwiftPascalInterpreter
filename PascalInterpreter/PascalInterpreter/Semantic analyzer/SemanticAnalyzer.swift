@@ -9,15 +9,14 @@
 import Foundation
 
 public class SemanticAnalyzer {
-    private let symbolTable = SymbolTable()
+    private var currentScope: ScopedSymbolTable?
 
     public init() {
 
     }
 
-    public func build(node: AST) -> SymbolTable {
+    public func analyze(node: AST) {
         visit(node: node)
-        return symbolTable
     }
 
     private func visit(node: AST) {
@@ -28,7 +27,11 @@ public class SemanticAnalyzer {
             }
             visit(node: compoundStatement)
         case let .program(name: _, block: block):
+            let globalScope = ScopedSymbolTable(name: "global", level: 1, enclosingScope: nil)
+            currentScope = globalScope
             visit(node: block)
+            print(globalScope)
+            currentScope = nil
         case let .binaryOperation(left: left, operation: _, right: right):
             visit(node: left)
             visit(node: right)
@@ -43,30 +46,58 @@ public class SemanticAnalyzer {
         case .noOp:
             break
         case let .variable(name):
-            guard symbolTable.lookup(name) != nil else {
+            guard let scope = currentScope else {
+                fatalError("Cannot access a variable outside a scope")
+            }
+            guard scope.lookup(name) != nil else {
                 fatalError("Symbol(indetifier) not found '\(name)'")
             }
         case let .variableDeclaration(name: variable, type: variableType):
+            guard let scope = currentScope else {
+                fatalError("Cannot declare a variable outside a scope")
+            }
+
             guard case let .variable(name) = variable, case let .type(type) = variableType else {
                 fatalError("Invalid variable \(variable) or invalid type \(variableType)")
             }
 
-            guard symbolTable.lookup(name) == nil else {
+            guard scope.lookup(name, currentScopeOnly: true) == nil else {
                 fatalError("Duplicate identifier '\(name)' found")
             }
 
-            guard let resolved = symbolTable.lookup(type.description), case let .builtIn(symbolType) = resolved else {
+            guard let symbolType = scope.lookup(type.description) else {
                 fatalError("Type not found '\(type.description)'")
             }
 
-            symbolTable.insert(.variable(name: name, type: symbolType))
+            scope.insert(.variable(name: name, type: symbolType))
         case let .assignment(left: left, right: right):
             visit(node: right)
             visit(node: left)
         case .type:
             break
-        case .procedure:
-            // TODO: local scope
+        case let .procedure(name: name, params: params, block: block):
+            let scope = ScopedSymbolTable(name: name, level: (currentScope?.level ?? 0) + 1, enclosingScope: currentScope)
+            currentScope = scope
+
+            var parameters: [Symbol] = []
+            for param in params {
+                guard case let .param(name: name, type: .type(type)) = param else {
+                    fatalError("Only built int type parameters supported in procedure, got \(param)")
+                }
+                guard let symbol = scope.lookup(type.description) else {
+                    fatalError("Type not found '\(type.description)'")
+                }
+                let variable = Symbol.variable(name: name, type: symbol)
+                parameters.append(variable)
+                scope.insert(variable)
+            }
+            let symbol = Symbol.procedure(name: name, params: parameters)
+            scope.insert(symbol)
+
+            visit(node: block)
+            print(scope)
+            currentScope = currentScope?.enclosingScope
+        case .param:
             break
         }
     }

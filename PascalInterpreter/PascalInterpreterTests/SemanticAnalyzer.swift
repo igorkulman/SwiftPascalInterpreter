@@ -14,12 +14,6 @@ import XCTest
 
 class SemanticAnalyzerTests: XCTestCase {
     func testSemanticAnalyzer() {
-        let table = SymbolTable()
-        table.insert(.variable(name: "y", type: .real))
-        table.insert(.variable(name: "a", type: .integer))
-        table.insert(.variable(name: "b", type: .integer))
-        table.insert(.variable(name: "number", type: .integer))
-
         let program =
             """
             PROGRAM Part10AST;
@@ -40,8 +34,7 @@ class SemanticAnalyzerTests: XCTestCase {
         let node = parser.parse()
 
         let analyzer = SemanticAnalyzer()
-        let result = analyzer.build(node: node)
-        XCTAssert(result == table)
+        analyzer.analyze(node: node)
     }
 
     func testSemanticAnalyzerAssignUndeclaredVariable() {
@@ -66,7 +59,7 @@ class SemanticAnalyzerTests: XCTestCase {
 
         let analyzer = SemanticAnalyzer()
         expectFatalError(expectedMessage: "Symbol(indetifier) not found 'x'") {
-            _ = analyzer.build(node: node)
+            analyzer.analyze(node: node)
         }
     }
 
@@ -86,7 +79,7 @@ class SemanticAnalyzerTests: XCTestCase {
 
         let analyzer = SemanticAnalyzer()
         expectFatalError(expectedMessage: "Symbol(indetifier) not found 'y'") {
-            _ = analyzer.build(node: node)
+            analyzer.analyze(node: node)
         }
     }
 
@@ -107,7 +100,57 @@ class SemanticAnalyzerTests: XCTestCase {
 
         let analyzer = SemanticAnalyzer()
         expectFatalError(expectedMessage: "Duplicate identifier 'y' found") {
-            _ = analyzer.build(node: node)
+            analyzer.analyze(node: node)
+        }
+    }
+
+    func testSemanticAnalyzerProcedure() {
+        let program =
+            """
+            program Main;
+            var x, y: real;
+
+            procedure Alpha(a : integer);
+            var y : integer;
+            begin
+                x := a + x + y;
+            end;
+
+            begin { Main }
+
+            end.  { Main }
+            """
+
+        let parser = Parser(program)
+        let node = parser.parse()
+
+        let analyzer = SemanticAnalyzer()
+        analyzer.analyze(node: node)
+    }
+
+    func testSemanticAnalyzerProcedureUndeclaredVariable() {
+        let program =
+        """
+            program Main;
+            var x, y: real;
+
+            procedure Alpha(a : integer);
+            var y : integer;
+            begin
+                x := a + x + b;
+            end;
+
+            begin { Main }
+
+            end.  { Main }
+            """
+
+        let parser = Parser(program)
+        let node = parser.parse()
+
+        let analyzer = SemanticAnalyzer()
+        expectFatalError(expectedMessage: "Symbol(indetifier) not found 'b'") {
+            analyzer.analyze(node: node)
         }
     }
 }

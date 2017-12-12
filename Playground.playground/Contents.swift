@@ -17,13 +17,13 @@ let program =
     """
     PROGRAM Part10AST;
     VAR
-       a, b : INTEGER;
-       y    : REAL;
+        a, b : INTEGER;
+        y    : REAL;
 
     BEGIN {Part10AST}
-       a := 2;
-       b := 10 * a + 10 * a DIV 4;
-       y := 20 / 7 + 3.14 + a;
+        a := 2;
+        b := 10 * a + 10 * a DIV 4;
+        y := 20 / 7 + 3.14 + a;
     END.  {Part10AST}
     """
 
@@ -32,11 +32,12 @@ let node = parser.parse()
 print(node)
 print("")
 
-let interpreter = Interpreter(program)
-interpreter.interpret()
-interpreter.printState()
+let analyzer = SemanticAnalyzer()
+analyzer.analyze(node: node)
 
 print("")
-let analyzer = SemanticAnalyzer()
-let table = analyzer.build(node: node)
-print(table)
+
+let interpreter = Interpreter(program)
+interpreter.interpret()
+print("")
+interpreter.printState()
