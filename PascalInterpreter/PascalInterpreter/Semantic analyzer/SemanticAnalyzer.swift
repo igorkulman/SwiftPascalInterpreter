@@ -15,9 +15,8 @@ public class SemanticAnalyzer {
 
     }
 
-    public func build(node: AST) -> ScopedSymbolTable {
+    public func analyze(node: AST) {
         visit(node: node)
-        return ScopedSymbolTable(name: "global", level: 1, enclosingScope: nil)
     }
 
     private func visit(node: AST) {
