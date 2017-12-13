@@ -87,7 +87,7 @@ public class Interpreter {
         case .type:
             return nil
         case let .program(_, block):
-            let frame = Frame(currentScope: scopes["global"]!, previousFrame: nil)
+            let frame = Frame(scope: scopes["global"]!, previousFrame: nil)
             callStack.push(frame)
             return eval(block)
         case .procedure:
@@ -96,7 +96,7 @@ public class Interpreter {
             return nil
         case let .call(procedureName: name):
             let current = callStack.peek()!
-            let frame = Frame(currentScope: scopes[name]!, previousFrame: current)
+            let frame = Frame(scope: scopes[name]!, previousFrame: current)
             callStack.push(frame)
             call(procedure: name)
             callStack.pop()
@@ -121,7 +121,7 @@ public class Interpreter {
     }
 
     public func printState() {
-        print("Final interpreter memory state (\(callStack.peek()!.currentScope.name)):")
+        print("Final interpreter memory state (\(callStack.peek()!.scope.name)):")
         print("Int: \(callStack.peek()!.integerMemory)")
         print("Real: \(callStack.peek()!.realMemory)")
     }

@@ -11,17 +11,17 @@ import Foundation
 class Frame {
     var integerMemory: [String: Int] = [:]
     var realMemory: [String: Double] = [:]
-    let currentScope: ScopedSymbolTable
+    let scope: ScopedSymbolTable
     let previousFrame: Frame?
 
-    init(currentScope: ScopedSymbolTable, previousFrame: Frame?) {
-        self.currentScope = currentScope
+    init(scope: ScopedSymbolTable, previousFrame: Frame?) {
+        self.scope = scope
         self.previousFrame = previousFrame
     }
 
     func set(variable: String, value: Number) {
         // variable define in current scole (procedure declataion, etc)
-        if let symbol = currentScope.lookup(variable, currentScopeOnly: true), case .variable(name: _, .builtIn(let type)) = symbol {
+        if let symbol = scope.lookup(variable, currentScopeOnly: true), case .variable(name: _, .builtIn(let type)) = symbol {
             switch type {
             case .integer:
                 switch value {
@@ -47,7 +47,7 @@ class Frame {
 
     func get(variable: String) -> Number {
         // variable define in current scole (procedure declataion, etc)
-        if let symbol = currentScope.lookup(variable, currentScopeOnly: true), case .variable(name: _, .builtIn(let type)) = symbol {
+        if let symbol = scope.lookup(variable, currentScopeOnly: true), case .variable(name: _, .builtIn(let type)) = symbol {
             switch type {
             case .integer:
                 return .integer(integerMemory[variable] ?? 0)

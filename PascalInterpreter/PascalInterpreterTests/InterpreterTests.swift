@@ -83,11 +83,14 @@ class InterpreterTests: XCTestCase {
             var x, y: real;
 
             procedure Alpha();
+            var a: integer;
             begin
-            x := 5
+            a := 2;
+            x := y + a;
             end;
 
             begin { Main }
+            y := 5;
             Alpha();
             end.  { Main }
             """
@@ -95,7 +98,7 @@ class InterpreterTests: XCTestCase {
         let interpeter = Interpreter(program)
         interpeter.interpret()
         let (integerState, realState) = interpeter.getState()
-        XCTAssert(integerState == ["b": 25, "a": 2])
-        XCTAssert(realState == ["y": 5.9971428571428573])
+        XCTAssert(integerState == [:])
+        XCTAssert(realState == ["x": 7, "y": 5])
     }
 }
