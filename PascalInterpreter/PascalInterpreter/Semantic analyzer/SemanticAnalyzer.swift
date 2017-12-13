@@ -33,7 +33,6 @@ public class SemanticAnalyzer {
             scopes[globalScope.name] = globalScope
             currentScope = globalScope
             visit(node: block)
-            print(globalScope)
             currentScope = nil
         case let .binaryOperation(left: left, operation: _, right: right):
             visit(node: left)
@@ -99,7 +98,6 @@ public class SemanticAnalyzer {
             scope.enclosingScope?.insert(proc)
 
             visit(node: block)
-            print(scope)
             currentScope = currentScope?.enclosingScope
         case .param:
             break

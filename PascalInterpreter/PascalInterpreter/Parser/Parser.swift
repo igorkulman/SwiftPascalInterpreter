@@ -271,7 +271,6 @@ public class Parser {
         eat(.id(name))
         eat(.parenthesis(.left))
         eat(.parenthesis(.right))
-        eat(.semi)
 
         return .call(procedureName: name)
     }
