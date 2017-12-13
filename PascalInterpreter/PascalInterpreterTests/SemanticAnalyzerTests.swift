@@ -128,9 +128,59 @@ class SemanticAnalyzerTests: XCTestCase {
         analyzer.analyze(node: node)
     }
 
+    func testSemanticAnalyzerUndeclaredProcedure() {
+        let program =
+            """
+            program Main;
+            var x, y: real;
+
+            procedure Alpha(a : integer);
+            var y : integer;
+            begin
+                x := a + x + y;
+            end;
+
+            begin { Main }
+            Beta();
+            end.  { Main }
+            """
+
+        let parser = Parser(program)
+        let node = parser.parse()
+
+        let analyzer = SemanticAnalyzer()
+        expectFatalError(expectedMessage: "Symbol(procedure) not found 'Beta'") {
+            analyzer.analyze(node: node)
+        }
+    }
+
+    func testSemanticAnalyzerProcedureCall() {
+        let program =
+            """
+            program Main;
+            var x, y: real;
+
+            procedure Alpha();
+            var y : integer;
+            begin
+                x := x + y;
+            end;
+
+            begin { Main }
+            Alpha();
+            end.  { Main }
+            """
+
+        let parser = Parser(program)
+        let node = parser.parse()
+
+        let analyzer = SemanticAnalyzer()
+        analyzer.analyze(node: node)
+    }
+
     func testSemanticAnalyzerProcedureUndeclaredVariable() {
         let program =
-        """
+            """
             program Main;
             var x, y: real;
 

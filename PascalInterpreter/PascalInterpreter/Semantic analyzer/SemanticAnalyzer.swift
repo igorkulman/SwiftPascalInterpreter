@@ -91,8 +91,8 @@ public class SemanticAnalyzer {
                 parameters.append(variable)
                 scope.insert(variable)
             }
-            let symbol = Symbol.procedure(name: name, params: parameters)
-            scope.insert(symbol)
+            let proc = Symbol.procedure(name: name, params: parameters)
+            scope.enclosingScope?.insert(proc)
 
             visit(node: block)
             print(scope)
@@ -100,7 +100,9 @@ public class SemanticAnalyzer {
         case .param:
             break
         case let .call(procedureName: name):
-            break
+            guard let symbol = currentScope?.lookup(name), case Symbol.procedure(name: _, params: _) = symbol else {
+                fatalError("Symbol(procedure) not found '\(name)'")
+            }
         }
     }
 }
