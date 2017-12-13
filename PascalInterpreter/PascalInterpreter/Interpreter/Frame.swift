@@ -50,9 +50,9 @@ class Frame {
         if let symbol = scope.lookup(variable, currentScopeOnly: true), case .variable(name: _, .builtIn(let type)) = symbol {
             switch type {
             case .integer:
-                return .integer(integerMemory[variable] ?? 0)
+                return .integer(integerMemory[variable]!)
             case .real:
-                return .real(realMemory[variable] ?? 0)
+                return .real(realMemory[variable]!)
             }
         }
 

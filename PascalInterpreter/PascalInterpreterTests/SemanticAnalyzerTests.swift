@@ -203,4 +203,80 @@ class SemanticAnalyzerTests: XCTestCase {
             analyzer.analyze(node: node)
         }
     }
+
+    func testSemanticAnalyzerProcedureCallWithoutParameter() {
+        let program =
+        """
+            program Main;
+            var x, y: real;
+
+            procedure Alpha(a : integer);
+            var y : integer;
+            begin
+                x := a + x;
+            end;
+
+            begin { Main }
+            Alpha()
+            end.  { Main }
+            """
+
+        let parser = Parser(program)
+        let node = parser.parse()
+
+        let analyzer = SemanticAnalyzer()
+        expectFatalError(expectedMessage: "Procedure called with wrong number of parameters 'Alpha'") {
+            analyzer.analyze(node: node)
+        }
+    }
+
+    func testSemanticAnalyzerProcedureCallWithParameter() {
+        let program =
+        """
+            program Main;
+            var x, y: real;
+
+            procedure Alpha(a : integer);
+            var y : integer;
+            begin
+                x := a + x;
+            end;
+
+            begin { Main }
+            Alpha(5)
+            end.  { Main }
+            """
+
+        let parser = Parser(program)
+        let node = parser.parse()
+
+        let analyzer = SemanticAnalyzer()
+        analyzer.analyze(node: node)
+    }
+
+    func testSemanticAnalyzerProcedureCallWithParameterWrongType() {
+        let program =
+        """
+            program Main;
+            var x, y: real;
+
+            procedure Alpha(a : integer);
+            var y : integer;
+            begin
+                x := a + x;
+            end;
+
+            begin { Main }
+            Alpha(5.2)
+            end.  { Main }
+            """
+
+        let parser = Parser(program)
+        let node = parser.parse()
+
+        let analyzer = SemanticAnalyzer()
+        expectFatalError(expectedMessage: "Cannot assing Real to Integer parameter in procedure call 'Alpha'") {
+            analyzer.analyze(node: node)
+        }
+    }
 }

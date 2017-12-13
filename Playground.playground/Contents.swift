@@ -18,16 +18,14 @@ let program =
     program Main;
     var x, y: integer;
 
-    procedure Alpha();
-    var a: integer;
+    procedure Alpha(a, b: Integer);
     begin
-    a := 2;
-    x := a + y;
+    x := a + y + b;
     end;
 
     begin { Main }
-    y:=5;
-    Alpha();
+    y:=3;
+    Alpha(2, 13);
     end.  { Main }
     """
 
@@ -45,4 +43,3 @@ let interpreter = Interpreter(program)
 interpreter.interpret()
 print("")
 interpreter.printState()
-

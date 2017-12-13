@@ -103,9 +103,38 @@ public class SemanticAnalyzer {
             currentScope = currentScope?.enclosingScope
         case .param:
             break
-        case let .call(procedureName: name):
-            guard let symbol = currentScope?.lookup(name), case Symbol.procedure(name: _, params: _) = symbol else {
+        case let .call(procedureName: name, params: actualParams):
+            guard let symbol = currentScope?.lookup(name), case let Symbol.procedure(name: _, params: declaredParams) = symbol else {
                 fatalError("Symbol(procedure) not found '\(name)'")
+            }
+
+            guard declaredParams.count == actualParams.count else {
+                fatalError("Procedure called with wrong number of parameters '\(name)'")
+            }
+
+            guard declaredParams.count > 0 else {
+                return
+            }
+
+            for i in 0 ... declaredParams.count - 1 {
+                guard case let Symbol.variable(name: _, type: Symbol.builtIn(type)) = declaredParams[i] else {
+                    fatalError("Procedure declared with wrong parameters '\(name)'")
+                }
+                guard case let AST.number(number) = actualParams[i] else {
+                    fatalError("Procedure declared with argument that is not a number '\(name)'")
+                }
+
+                switch type {
+                case .integer:
+                    switch number {
+                    case .integer:
+                        break
+                    case .real:
+                        fatalError("Cannot assing Real to Integer parameter in procedure call '\(name)'")
+                    }
+                case .real:
+                    break
+                }
             }
         }
     }

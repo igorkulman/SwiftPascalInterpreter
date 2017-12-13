@@ -236,7 +236,34 @@ class ParserTests: XCTestCase {
         let alpha = AST.procedure(name: "Alpha", params: [], block: AST.block(declarations: [], compound: AST.compound(children: [AST.assignment(left: AST.variable("x"), right: AST.number(.integer(5))), AST.noOp])))
         let xDec = AST.variableDeclaration(name: AST.variable("x"), type: .type(.real))
         let yDec = AST.variableDeclaration(name: AST.variable("y"), type: .type(.real))
-        let compound = AST.compound(children: [AST.call(procedureName: "Alpha"), AST.assignment(left: AST.variable("y"), right: AST.number(.integer(5))), AST.call(procedureName: "Alpha"), AST.noOp])
+        let compound = AST.compound(children: [AST.call(procedureName: "Alpha", params: []), AST.assignment(left: AST.variable("y"), right: AST.number(.integer(5))), AST.call(procedureName: "Alpha", params: []), AST.noOp])
+        let node = AST.program(name: "Main", block: AST.block(declarations: [xDec, yDec, alpha], compound: compound))
+        XCTAssert(result == node)
+    }
+
+    func testProgramWithProcedureCallAndParameters() {
+        let program =
+        """
+            program Main;
+            var x, y: real;
+
+            procedure Alpha(a: Integer);
+            begin
+            x := 5 + a;
+            end;
+
+            begin { Main }
+            y := 5;
+            Alpha(5);
+            end.  { Main }
+            """
+
+        let parser = Parser(program)
+        let result = parser.parse()
+        let alpha = AST.procedure(name: "Alpha", params: [AST.param(name: "a", type: AST.type(.integer))], block: AST.block(declarations: [], compound: AST.compound(children: [AST.assignment(left: AST.variable("x"), right: AST.binaryOperation(left: AST.number(.integer(5)), operation: .plus, right: AST.variable("a"))), AST.noOp])))
+        let xDec = AST.variableDeclaration(name: AST.variable("x"), type: .type(.real))
+        let yDec = AST.variableDeclaration(name: AST.variable("y"), type: .type(.real))
+        let compound = AST.compound(children: [AST.assignment(left: AST.variable("y"), right: AST.number(.integer(5))), AST.call(procedureName: "Alpha", params: [AST.number(.integer(5))]), AST.noOp])
         let node = AST.program(name: "Main", block: AST.block(declarations: [xDec, yDec, alpha], compound: compound))
         XCTAssert(result == node)
     }

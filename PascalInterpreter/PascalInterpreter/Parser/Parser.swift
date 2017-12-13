@@ -262,17 +262,29 @@ public class Parser {
     /**
      Rule:
 
-     procedure_call : id();
+     procedure_call : id( (factor [,])* );
      */
     private func procedureCall() -> AST {
         guard case let .id(name) = currentToken else {
             fatalError("Procedure name expected, got \(currentToken)")
         }
+
+        var parameters: [AST] = []
+
         eat(.id(name))
         eat(.parenthesis(.left))
-        eat(.parenthesis(.right))
+        if currentToken == .parenthesis(.right) { // no parameters
+            eat(.parenthesis(.right))
+        } else {
+            parameters.append(factor())
+            while currentToken == .coma {
+                eat(.coma)
+                parameters.append(factor())
+            }
+            eat(.parenthesis(.right))
+        }
 
-        return .call(procedureName: name)
+        return .call(procedureName: name, params: parameters)
     }
 
     /**

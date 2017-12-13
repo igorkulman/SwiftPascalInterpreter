@@ -40,5 +40,5 @@ public indirect enum AST {
     case program(name: String, block: AST)
     case procedure(name: String, params: [AST], block: AST)
     case param(name: String, type: AST)
-    case call(procedureName: String)
+    case call(procedureName: String, params: [AST])
 }
