@@ -10,13 +10,15 @@ import Foundation
 
 public class SemanticAnalyzer {
     private var currentScope: ScopedSymbolTable?
+    private var scopes: [String: ScopedSymbolTable] = [:]
 
     public init() {
 
     }
 
-    public func analyze(node: AST) {
+    public func analyze(node: AST) -> [String: ScopedSymbolTable] {
         visit(node: node)
+        return scopes
     }
 
     private func visit(node: AST) {
@@ -28,6 +30,7 @@ public class SemanticAnalyzer {
             visit(node: compoundStatement)
         case let .program(name: _, block: block):
             let globalScope = ScopedSymbolTable(name: "global", level: 1, enclosingScope: nil)
+            scopes[globalScope.name] = globalScope
             currentScope = globalScope
             visit(node: block)
             print(globalScope)
@@ -77,6 +80,7 @@ public class SemanticAnalyzer {
             break
         case let .procedure(name: name, params: params, block: block):
             let scope = ScopedSymbolTable(name: name, level: (currentScope?.level ?? 0) + 1, enclosingScope: currentScope)
+            scopes[scope.name] = scope
             currentScope = scope
 
             var parameters: [Symbol] = []

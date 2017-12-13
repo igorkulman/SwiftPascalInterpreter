@@ -12,12 +12,14 @@ public class Interpreter {
     private var integerMemory: [String: Int] = [:]
     private var realMemory: [String: Double] = [:]
     private let tree: AST
+    private let scopes: [String: ScopedSymbolTable]
+    private var currentScope: ScopedSymbolTable!
 
     public init(_ text: String) {
         let parser = Parser(text)
         tree = parser.parse()
         let semanticAnalyzer = SemanticAnalyzer()
-        semanticAnalyzer.analyze(node: tree)
+        scopes = semanticAnalyzer.analyze(node: tree)
     }
 
     @discardableResult private func eval(_ node: AST) -> Number? {
@@ -60,7 +62,12 @@ public class Interpreter {
                 fatalError("Assignment left side is not a variable, check Parser implementation")
             }
 
-            if integerMemory.keys.contains(name) {
+            guard let symbol = currentScope.lookup(name), case let .variable(name: _, type: .builtIn(type)) = symbol else {
+                fatalError("Variable \(name) not found, check the SemanticAnalyzer implementation")
+            }
+
+            switch type {
+            case .integer:
                 switch eval(right)! {
                 case let .integer(value):
                     integerMemory[name] = value
@@ -68,9 +75,7 @@ public class Interpreter {
                 case .real:
                     fatalError("Cannot assign Real value to Int variable \(name)")
                 }
-            }
-
-            if realMemory.keys.contains(name) {
+            case .real:
                 switch eval(right)! {
                 case let .integer(value):
                     realMemory[name] = Double(value)
@@ -80,16 +85,17 @@ public class Interpreter {
                     return nil
                 }
             }
-
-            fatalError("Variable \(name) not found, check the SemanticAnalyzer implementation")
         case let .variable(name):
-            if let value = integerMemory[name] {
-                return .integer(value)
+            guard let symbol = currentScope.lookup(name), case let .variable(name: _, type: .builtIn(type)) = symbol else {
+                fatalError("Variable \(name) not found, check the SemanticAnalyzer implementation")
             }
-            if let value = realMemory[name] {
-                return .real(value)
+
+            switch type {
+            case .integer:
+                return .integer(integerMemory[name]!)
+            case .real:
+                return .real(realMemory[name]!)
             }
-            fatalError("Variable \(name) not found, check the SemanticAnalyzer implementation")
         case .noOp:
             return nil
         case let .block(declarations, compound):
@@ -97,27 +103,23 @@ public class Interpreter {
                 eval(declaration)
             }
             return eval(compound)
-        case let .variableDeclaration(name: name, type: type):
-            guard case let .type(type) = type, case let .variable(name: name) = name else {
-                fatalError("Invalid variable declaration, check Parser implementation")
-            }
-            switch type {
-            case .integer:
-                integerMemory[name] = 0
-            case .real:
-                realMemory[name] = 0
-            }
+        case .variableDeclaration:
+            // handled by the SemanticAnalyzer when building symbol table
             return nil
         case .type:
             return nil
         case let .program(_, block):
+            currentScope = scopes["global"]
             return eval(block)
         case .procedure:
             return nil
         case .param:
             return nil
         case let .call(procedureName: name):
+            let previousScope = currentScope
+            currentScope = scopes[name]
             print("calling \(name)")
+            currentScope = previousScope
             return nil
         }
     }

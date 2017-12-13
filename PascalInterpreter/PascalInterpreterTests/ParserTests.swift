@@ -221,7 +221,7 @@ class ParserTests: XCTestCase {
 
             procedure Alpha();
             begin
-            x := 5
+            x := 5;
             end;
 
             begin { Main }
