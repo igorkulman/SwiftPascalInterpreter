@@ -15,25 +15,29 @@ lexer.getNextToken()
 
 let program =
     """
-    PROGRAM Part10AST;
-    VAR
-        a, b : INTEGER;
-        y    : REAL;
+    program Main;
+    var x, y: integer;
 
-    BEGIN {Part10AST}
-        a := 2;
-        b := 10 * a + 10 * a DIV 4;
-        y := 20 / 7 + 3.14 + a;
-    END.  {Part10AST}
+    procedure Alpha();
+    var a: integer;
+    begin
+    a := 2;
+    x := a + y;
+    end;
+
+    begin { Main }
+    y:=5;
+    Alpha();
+    end.  { Main }
     """
 
 let parser = Parser(program)
 let node = parser.parse()
-print(node)
-print("")
-
+//print(node)
+//print("")
+/*
 let analyzer = SemanticAnalyzer()
-analyzer.analyze(node: node)
+analyzer.analyze(node: node)*/
 
 print("")
 
@@ -41,3 +45,4 @@ let interpreter = Interpreter(program)
 interpreter.interpret()
 print("")
 interpreter.printState()
+

@@ -75,4 +75,27 @@ class InterpreterTests: XCTestCase {
         XCTAssert(integerState == ["b": 25, "a": 2])
         XCTAssert(realState == ["y": 5.9971428571428573])
     }
+
+    func testProgramWithProcedureCallAndNoParameters() {
+        let program =
+            """
+            program Main;
+            var x, y: real;
+
+            procedure Alpha();
+            begin
+            x := 5
+            end;
+
+            begin { Main }
+            Alpha();
+            end.  { Main }
+            """
+
+        let interpeter = Interpreter(program)
+        interpeter.interpret()
+        let (integerState, realState) = interpeter.getState()
+        XCTAssert(integerState == ["b": 25, "a": 2])
+        XCTAssert(realState == ["y": 5.9971428571428573])
+    }
 }

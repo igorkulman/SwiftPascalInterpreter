@@ -11,14 +11,15 @@ import Foundation
 public class SemanticAnalyzer {
     private var currentScope: ScopedSymbolTable?
     private var scopes: [String: ScopedSymbolTable] = [:]
+    private var procedures: [String: AST] = [:]
 
     public init() {
 
     }
 
-    public func analyze(node: AST) -> [String: ScopedSymbolTable] {
+    public func analyze(node: AST) -> SemanticData {
         visit(node: node)
-        return scopes
+        return SemanticData(scopes: scopes, procedures: procedures)
     }
 
     private func visit(node: AST) {
@@ -98,6 +99,7 @@ public class SemanticAnalyzer {
             scope.enclosingScope?.insert(proc)
 
             visit(node: block)
+            procedures[name] = node
             currentScope = currentScope?.enclosingScope
         case .param:
             break

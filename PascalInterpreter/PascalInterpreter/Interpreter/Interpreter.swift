@@ -9,17 +9,18 @@
 import Foundation
 
 public class Interpreter {
-    private var integerMemory: [String: Int] = [:]
-    private var realMemory: [String: Double] = [:]
+    private var callStack = Stack<Frame>()
     private let tree: AST
     private let scopes: [String: ScopedSymbolTable]
-    private var currentScope: ScopedSymbolTable!
+    private let procedures: [String: AST]
 
     public init(_ text: String) {
         let parser = Parser(text)
         tree = parser.parse()
         let semanticAnalyzer = SemanticAnalyzer()
-        scopes = semanticAnalyzer.analyze(node: tree)
+        let data = semanticAnalyzer.analyze(node: tree)
+        scopes = data.scopes
+        procedures = data.procedures
     }
 
     @discardableResult private func eval(_ node: AST) -> Number? {
@@ -58,50 +59,27 @@ public class Interpreter {
             }
             return nil
         case let .assignment(left, right):
+            guard let currentFrame = callStack.peek() else {
+                fatalError("No call stack frame")
+            }
             guard case let .variable(name) = left else {
                 fatalError("Assignment left side is not a variable, check Parser implementation")
             }
 
-            guard let symbol = currentScope.lookup(name), case let .variable(name: _, type: .builtIn(type)) = symbol else {
-                fatalError("Variable \(name) not found, check the SemanticAnalyzer implementation")
-            }
-
-            switch type {
-            case .integer:
-                switch eval(right)! {
-                case let .integer(value):
-                    integerMemory[name] = value
-                    return nil
-                case .real:
-                    fatalError("Cannot assign Real value to Int variable \(name)")
-                }
-            case .real:
-                switch eval(right)! {
-                case let .integer(value):
-                    realMemory[name] = Double(value)
-                    return nil
-                case let .real(value):
-                    realMemory[name] = value
-                    return nil
-                }
-            }
+            currentFrame.set(variable: name, value: eval(right)!)
+            return nil
         case let .variable(name):
-            guard let symbol = currentScope.lookup(name), case let .variable(name: _, type: .builtIn(type)) = symbol else {
-                fatalError("Variable \(name) not found, check the SemanticAnalyzer implementation")
+            guard let currentFrame = callStack.peek() else {
+                fatalError("No call stack frame")
             }
-
-            switch type {
-            case .integer:
-                return .integer(integerMemory[name]!)
-            case .real:
-                return .real(realMemory[name]!)
-            }
+            return currentFrame.get(variable: name)
         case .noOp:
             return nil
         case let .block(declarations, compound):
             for declaration in declarations {
                 eval(declaration)
             }
+
             return eval(compound)
         case .variableDeclaration:
             // handled by the SemanticAnalyzer when building symbol table
@@ -109,19 +87,29 @@ public class Interpreter {
         case .type:
             return nil
         case let .program(_, block):
-            currentScope = scopes["global"]
+            let frame = Frame(currentScope: scopes["global"]!, previousFrame: nil)
+            callStack.push(frame)
             return eval(block)
         case .procedure:
             return nil
         case .param:
             return nil
         case let .call(procedureName: name):
-            let previousScope = currentScope
-            currentScope = scopes[name]
-            print("calling \(name)")
-            currentScope = previousScope
+            let current = callStack.peek()!
+            let frame = Frame(currentScope: scopes[name]!, previousFrame: current)
+            callStack.push(frame)
+            call(procedure: name)
+            callStack.pop()
             return nil
         }
+    }
+
+    private func call(procedure: String) {
+        guard let definition = procedures[procedure], case let .procedure(name: _, params: _, block: block) = definition else {
+            fatalError("Procedure \(procedure) not in table, check SemanticAnalyzer implementation")
+        }
+
+        eval(block)
     }
 
     public func interpret() {
@@ -129,12 +117,12 @@ public class Interpreter {
     }
 
     func getState() -> ([String: Int], [String: Double]) {
-        return (integerMemory, realMemory)
+        return (callStack.peek()!.integerMemory, callStack.peek()!.realMemory)
     }
 
     public func printState() {
-        print("Final interpreter memory state:")
-        print("Int: \(integerMemory)")
-        print("Real: \(realMemory)")
+        print("Final interpreter memory state (\(callStack.peek()!.currentScope.name)):")
+        print("Int: \(callStack.peek()!.integerMemory)")
+        print("Real: \(callStack.peek()!.realMemory)")
     }
 }
