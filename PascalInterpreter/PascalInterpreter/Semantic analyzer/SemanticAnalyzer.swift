@@ -99,6 +99,8 @@ public class SemanticAnalyzer {
             currentScope = currentScope?.enclosingScope
         case .param:
             break
+        case let .call(procedureName: name):
+            break
         }
     }
 }

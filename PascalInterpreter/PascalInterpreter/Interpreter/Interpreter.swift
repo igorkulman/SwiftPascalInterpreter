@@ -116,6 +116,9 @@ public class Interpreter {
             return nil
         case .param:
             return nil
+        case let .call(procedureName: name):
+            print("calling \(name)")
+            return nil
         }
     }
 

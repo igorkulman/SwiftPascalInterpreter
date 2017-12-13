@@ -12,12 +12,25 @@ public class Parser {
 
     // MARK: - Fields
 
-    private let lexer: Lexer
-    private var currentToken: Token
+    private var tokenIndex = 0
+    private let tokens: [Token]
+
+    private var currentToken: Token {
+        return tokens[tokenIndex]
+    }
+    private var nextToken: Token {
+        return tokens[tokenIndex + 1]
+    }
 
     public init(_ text: String) {
-        lexer = Lexer(text)
-        currentToken = lexer.getNextToken()
+        let lexer = Lexer(text)
+        var token = lexer.getNextToken()
+        var all = [token]
+        while token != .eof {
+            token = lexer.getNextToken()
+            all.append(token)
+        }
+        tokens = all
     }
 
     // MARK: - Helpers
@@ -30,7 +43,7 @@ public class Parser {
      */
     private func eat(_ token: Token) {
         if currentToken == token {
-            currentToken = lexer.getNextToken()
+            tokenIndex += 1
         } else {
             fatalError("Syntax error, expected \(token), got \(currentToken)")
         }
@@ -112,7 +125,7 @@ public class Parser {
      */
     private func formalParameterList() -> [AST] {
         guard case .id = currentToken else {
-            return [] //procedure without parameters
+            return [] // procedure without parameters
         }
 
         var parameters = formalParameters()
@@ -227,6 +240,7 @@ public class Parser {
      Rule:
 
      statement : compound_statement
+     | procedure_call
      | assignment_statement
      | empty
      */
@@ -235,10 +249,31 @@ public class Parser {
         case .begin:
             return compoundStatement()
         case .id:
-            return assignmentStatement()
+            if nextToken == .parenthesis(.left) {
+                return procedureCall()
+            } else {
+                return assignmentStatement()
+            }
         default:
             return empty()
         }
+    }
+
+    /**
+     Rule:
+
+     procedure_call : id();
+     */
+    private func procedureCall() -> AST {
+        guard case let .id(name) = currentToken else {
+            fatalError("Procedure name expected, got \(currentToken)")
+        }
+        eat(.id(name))
+        eat(.parenthesis(.left))
+        eat(.parenthesis(.right))
+        eat(.semi)
+
+        return .call(procedureName: name)
     }
 
     /**

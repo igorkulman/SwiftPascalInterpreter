@@ -212,4 +212,30 @@ class ParserTests: XCTestCase {
         let node = AST.program(name: "Part12", block: AST.block(declarations: [aDec, p1], compound: compound))
         XCTAssert(result == node)
     }
+
+    func testProgramWithProcedureCall() {
+        let program =
+            """
+            program Main;
+            var x, y: real;
+
+            procedure Alpha();
+            begin
+            x := 5
+            end;
+
+            begin { Main }
+            Alpha();
+            end.  { Main }
+            """
+
+        let parser = Parser(program)
+        let result = parser.parse()
+        let alpha = AST.procedure(name: "Alpha", params: [], block: AST.block(declarations: [], compound: AST.compound(children: [AST.assignment(left: AST.variable("x"), right: AST.number(.integer(5)))])))
+        let xDec = AST.variableDeclaration(name: AST.variable("x"), type: .type(.real))
+        let yDec = AST.variableDeclaration(name: AST.variable("y"), type: .type(.real))
+        let compound = AST.compound(children: [AST.call(procedureName: "Alpha")])
+        let node = AST.program(name: "Main", block: AST.block(declarations: [xDec, yDec, alpha], compound: compound))
+        XCTAssert(result == node)
+    }
 }
