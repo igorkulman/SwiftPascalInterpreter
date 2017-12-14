@@ -20,8 +20,8 @@ public class ScopedSymbolTable {
         self.level = level
         self.enclosingScope = enclosingScope
 
-        insert(.builtIn(.integer))
-        insert(.builtIn(.real))
+        insert(BuiltInTypeSymbol.integer)
+        insert(BuiltInTypeSymbol.real)
     }
 
     func insert(_ symbol: Symbol) {
@@ -41,20 +41,6 @@ public class ScopedSymbolTable {
     }
 }
 
-extension ScopedSymbolTable: Equatable {
-    public static func == (lhs: ScopedSymbolTable, rhs: ScopedSymbolTable) -> Bool {
-        if lhs.symbols.keys != rhs.symbols.keys {
-            return false
-        }
-
-        for key in lhs.symbols.keys where lhs.symbols[key] != rhs.symbols[key] {
-            return false
-        }
-
-        return true
-    }
-}
-
 extension ScopedSymbolTable: CustomStringConvertible {
     public var description: String {
         var lines = ["SCOPE (SCOPED SYMBOL TABLE)", "==========================="]
@@ -62,26 +48,9 @@ extension ScopedSymbolTable: CustomStringConvertible {
         lines.append("Scope level   : \(level)")
         lines.append("Scope (Scoped symbol table) contents")
         lines.append("------------------------------------")
-        for pair in symbols.sorted(by: { lhs, rhs -> Bool in
-            switch (lhs.value, rhs.value) {
-            case (.builtIn, .builtIn):
-                return lhs.key < rhs.key
-            case (.builtIn, .variable):
-                return true
-            case (.variable, .builtIn):
-                return false
-            case (.variable, .variable):
-                return lhs.key < rhs.key
-            case (.procedure, .procedure):
-                return lhs.key < rhs.key
-            case (.procedure, _):
-                return false
-            case (_, .procedure):
-                return true
-            }
-        }) {
-            lines.append("\(pair.key.padding(toLength: 7, withPad: " ", startingAt: 0)): \(pair.value)")
-        }
+        lines.append(contentsOf: symbols.sorted(by: {$0.value.sortOrder < $1.value.sortOrder}).map({ key, value in
+            return "\(key.padding(toLength: 7, withPad: " ", startingAt: 0)): \(value)"
+        }))
         return lines.reduce("", { $0 + "\n" + $1 })
     }
 }

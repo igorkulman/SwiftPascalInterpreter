@@ -12,15 +12,12 @@ public class Interpreter {
     private var callStack = Stack<Frame>()
     private let tree: AST
     private let scopes: [String: ScopedSymbolTable]
-    private let procedures: [String: Procedure]
 
     public init(_ text: String) {
         let parser = Parser(text)
         tree = parser.parse()
         let semanticAnalyzer = SemanticAnalyzer()
-        let data = semanticAnalyzer.analyze(node: tree)
-        scopes = data.scopes
-        procedures = data.procedures
+        scopes = semanticAnalyzer.analyze(node: tree)
     }
 
     @discardableResult private func eval(node: AST) -> Number? {
@@ -131,25 +128,18 @@ public class Interpreter {
     }
 
     private func callProcedure(procedure: String, params: [Number], frame: Frame) {
-        guard let definition = procedures[procedure] else {
-            fatalError("Procedure \(procedure) not in table, check SemanticAnalyzer implementation")
-        }
-
-        guard let symbol = frame.scope.lookup(procedure), case let Symbol.procedure(name: _, params: declaredParams) = symbol else {
+        guard let symbol = frame.scope.lookup(procedure), let procedureSymbol = symbol as? ProcedureSymbol else {
             fatalError("Symbol(procedure) not found '\(procedure)'")
         }
 
-        if declaredParams.count > 0 {
+        if procedureSymbol.params.count > 0 {
 
-            for i in 0 ... declaredParams.count - 1 {
-                guard case let Symbol.variable(name: name, type: Symbol.builtIn(_)) = declaredParams[i] else {
-                    fatalError("Procedure declared with wrong parameters '\(procedure)'")
-                }
-                frame.set(variable: name, value: params[i])
+            for i in 0 ... procedureSymbol.params.count - 1 {
+                frame.set(variable: procedureSymbol.params[i].name, value: params[i])
             }
         }
 
-        eval(node: definition.block)
+        eval(node: procedureSymbol.body.block)
     }
 
     public func interpret() {

@@ -21,7 +21,10 @@ class Frame {
 
     func set(variable: String, value: Number) {
         // variable define in current scole (procedure declataion, etc)
-        if let symbol = scope.lookup(variable, currentScopeOnly: true), case .variable(name: _, .builtIn(let type)) = symbol {
+        if let symbol = scope.lookup(variable, currentScopeOnly: true),
+            let variableSymbol = symbol as? VariableSymbol,
+            let type = variableSymbol.type as? BuiltInTypeSymbol {
+
             switch type {
             case .integer:
                 switch value {
@@ -47,7 +50,10 @@ class Frame {
 
     func get(variable: String) -> Number {
         // variable define in current scole (procedure declataion, etc)
-        if let symbol = scope.lookup(variable, currentScopeOnly: true), case .variable(name: _, .builtIn(let type)) = symbol {
+        if let symbol = scope.lookup(variable, currentScopeOnly: true),
+            let variableSymbol = symbol as? VariableSymbol,
+            let type = variableSymbol.type as? BuiltInTypeSymbol {
+
             switch type {
             case .integer:
                 return .integer(integerMemory[variable]!)

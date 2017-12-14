@@ -34,6 +34,10 @@ let node = parser.parse()
 node.printTree()
 print("")
 
+let analyzer = SemanticAnalyzer()
+let result = analyzer.analyze(node: node)
+print(result)
+
 let interpreter = Interpreter(program)
 interpreter.interpret()
 print("")

@@ -11,15 +11,14 @@ import Foundation
 public class SemanticAnalyzer: Visitor {
     private var currentScope: ScopedSymbolTable?
     private var scopes: [String: ScopedSymbolTable] = [:]
-    private var procedures: [String: Procedure] = [:]
 
     public init() {
 
     }
 
-    public func analyze(node: AST) -> SemanticData {
+    public func analyze(node: AST) -> [String: ScopedSymbolTable] {
         visit(node: node)
-        return SemanticData(scopes: scopes, procedures: procedures)
+        return scopes
     }
 
     func visit(program: Program) {
@@ -52,7 +51,7 @@ public class SemanticAnalyzer: Visitor {
             fatalError("Type not found '\(variableDeclaration.type.type.description)'")
         }
 
-        scope.insert(.variable(name: variableDeclaration.variable.name, type: symbolType))
+        scope.insert(VariableSymbol(name: variableDeclaration.variable.name, type: symbolType))
     }
 
     func visit(procedure: Procedure) {
@@ -65,33 +64,32 @@ public class SemanticAnalyzer: Visitor {
             guard let symbol = scope.lookup(param.type.type.description) else {
                 fatalError("Type not found '\(param.type.type.description)'")
             }
-            let variable = Symbol.variable(name: param.name, type: symbol)
+            let variable = VariableSymbol(name: param.name, type: symbol)
             parameters.append(variable)
             scope.insert(variable)
         }
-        let proc = Symbol.procedure(name: procedure.name, params: parameters)
+        let proc = ProcedureSymbol(name: procedure.name, parameters: parameters, body: procedure)
         scope.enclosingScope?.insert(proc)
 
         visit(node: procedure.block)
-        procedures[procedure.name] = procedure
         currentScope = currentScope?.enclosingScope
     }
 
     func visit(call: ProcedureCall) {
-        guard let symbol = currentScope?.lookup(call.name), case let Symbol.procedure(name: _, params: declaredParams) = symbol else {
+        guard let symbol = currentScope?.lookup(call.name), let procedure = symbol as? ProcedureSymbol else {
             fatalError("Symbol(procedure) not found '\(call.name)'")
         }
 
-        guard declaredParams.count == call.actualParameters.count else {
+        guard procedure.params.count == call.actualParameters.count else {
             fatalError("Procedure called with wrong number of parameters '\(call.name)'")
         }
 
-        guard declaredParams.count > 0 else {
+        guard procedure.params.count > 0 else {
             return
         }
 
-        for i in 0 ... declaredParams.count - 1 {
-            guard case let Symbol.variable(name: _, type: Symbol.builtIn(type)) = declaredParams[i] else {
+        for i in 0 ... procedure.params.count - 1 {
+            guard let variableSymbol = procedure.params[i] as? VariableSymbol, let type = variableSymbol.type as? BuiltInTypeSymbol else {
                 fatalError("Procedure declared with wrong parameters '\(call.name)'")
             }
 
