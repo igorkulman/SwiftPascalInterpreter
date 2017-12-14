@@ -44,15 +44,15 @@ public class SemanticAnalyzer: Visitor {
             fatalError("Cannot declare a variable outside a scope")
         }
 
-        guard scope.lookup(variableDeclaration.name, currentScopeOnly: true) == nil else {
-            fatalError("Duplicate identifier '\(variableDeclaration.name)' found")
+        guard scope.lookup(variableDeclaration.variable.name, currentScopeOnly: true) == nil else {
+            fatalError("Duplicate identifier '\(variableDeclaration.variable.name)' found")
         }
 
         guard let symbolType = scope.lookup(variableDeclaration.type.type.description) else {
             fatalError("Type not found '\(variableDeclaration.type.type.description)'")
         }
 
-        scope.insert(.variable(name: variableDeclaration.name, type: symbolType))
+        scope.insert(.variable(name: variableDeclaration.variable.name, type: symbolType))
     }
 
     func visit(procedure: Procedure) {

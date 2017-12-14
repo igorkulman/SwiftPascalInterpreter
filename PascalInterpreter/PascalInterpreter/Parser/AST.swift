@@ -25,30 +25,10 @@ public enum Number: AST {
     case integer(Int)
     case real(Double)
 }
-/*
-public indirect enum AST {
-    case number(Number)
-    case unaryOperation(operation: UnaryOperation, child: AST)
-    case binaryOperation(left: AST, operation: BinaryOperation, right: AST)
-    case compound(children: [AST])
-    case assignment(left: AST, right: AST)
-    case variable(String)
-    case noOp
-    case block(declarations: [AST], compound: AST)
-    case variableDeclaration(name: AST, type: AST)
-    case type(Type)
-    case program(name: String, block: AST)
-    case procedure(name: String, params: [AST], block: AST)
-    case param(name: String, type: AST)
-    case call(procedureName: String, params: [AST])
-}*/
-
 public protocol AST {
-
 }
 
 public protocol Declaration: AST {
-
 }
 
 class UnaryOperation: AST {
@@ -121,11 +101,11 @@ class VariableType: AST {
 }
 
 class VariableDeclaration: Declaration {
-    let name: String
+    let variable: Variable
     let type: VariableType
 
-    init(name: String, type: VariableType) {
-        self.name = name
+    init(variable: Variable, type: VariableType) {
+        self.variable = variable
         self.type = type
     }
 }

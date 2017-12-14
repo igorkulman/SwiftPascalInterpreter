@@ -8,51 +8,6 @@
 
 import Foundation
 /*
-extension AST: Equatable {
-    public static func == (lhs: AST, rhs: AST) -> Bool {
-        switch (lhs, rhs) {
-        case let (.number(.integer(left)), .number(.integer(right))):
-            return left == right
-        case let (.number(.real(left)), .number(.real(right))):
-            return left == right
-        case let (.unaryOperation(operation: leftOperation, child: leftChild),
-                  .unaryOperation(operation: rightOperation, child: rightChild)):
-            return leftOperation == rightOperation && leftChild == rightChild
-        case let (.binaryOperation(left: leftLeft, operation: leftOperation, right: leftRight),
-                  .binaryOperation(left: rightLeft, operation: rightOperation, right: rightRight)):
-            return leftLeft == rightLeft && leftOperation == rightOperation && leftRight == rightRight
-        case (.noOp, .noOp):
-            return true
-        case let (.assignment(left: leftLeft, right: leftRight), .assignment(left: rightLeft, right: rightRight)):
-            return leftLeft == rightLeft && leftRight == rightRight
-        case let (.compound(children: left), .compound(children: right)):
-            if left.count != right.count {
-                return false
-            }
-            for i in 0 ... left.count - 1 where left[i] != right[i] {
-                return false
-            }
-            return true
-        case let (.variable(left), .variable(right)):
-            return left == right
-        case let (.type(left), .type(right)):
-            return left == right
-        case let (.block(declarations: leftDeclarations, compound: leftCompound), .block(declarations: rightDeclarations, compound: rightCompound)):
-            return leftDeclarations == rightDeclarations && leftCompound == rightCompound
-        case let (.variableDeclaration(name: leftName, type: leftType), .variableDeclaration(name: rightName, type: rightType)):
-            return leftName == rightName && leftType == rightType
-        case let (.program(name: leftName, block: leftBlock), .program(name: rightName, block: rightBlock)):
-            return leftName == rightName && leftBlock == rightBlock
-        case let (.procedure(name: leftName, params: leftParams, block: leftBlock), .procedure(name: rightName, params: rightParams, block: rightBlock)):
-            return leftName == rightName && leftBlock == rightBlock && leftParams == rightParams
-        case let (.call(procedureName: leftName, params: leftParams), .call(procedureName: rightName, params: rightParams)):
-            return leftName == rightName && leftParams == rightParams
-        default:
-            return false
-        }
-    }
-}
-
 extension UnaryOperation: CustomStringConvertible {
     public var description: String {
         switch self {
@@ -179,3 +134,14 @@ extension AST {
     public func printTree() { print(treeLines().joined(separator: "\n")) }
 }
 */
+
+extension AST {
+/*    func treeLines(_ nodeIndent: String = "", _ childIndent: String = "") -> [String] {
+        return [nodeIndent + value]
+            + children.enumerated().map { ($0 < children.count - 1, $1) }
+                .flatMap { $0 ? $1.treeLines("┣╸", "┃ ") : $1.treeLines("┗╸", "  ") }
+                .map { childIndent + $0 }
+    }
+
+    public func printTree() { print(treeLines().joined(separator: "\n")) }*/
+}

@@ -187,7 +187,7 @@ public class Parser {
         eat(.colon)
 
         let type = typeSpec()
-        return variableNames.map({ VariableDeclaration(name: $0, type: type) })
+        return variableNames.map({ VariableDeclaration(variable: Variable(name: $0), type: type) })
     }
 
     /**
