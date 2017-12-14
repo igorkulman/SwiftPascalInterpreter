@@ -7,8 +7,8 @@
 //
 
 import Foundation
-/*
-extension UnaryOperation: CustomStringConvertible {
+
+extension UnaryOperationType: CustomStringConvertible {
     public var description: String {
         switch self {
         case .minus:
@@ -30,7 +30,7 @@ extension Number: CustomStringConvertible {
     }
 }
 
-extension BinaryOperation: CustomStringConvertible {
+extension BinaryOperationType: CustomStringConvertible {
     public var description: String {
         switch self {
         case .minus:
@@ -47,80 +47,84 @@ extension BinaryOperation: CustomStringConvertible {
     }
 }
 
-extension AST: CustomStringConvertible {
-    public var description: String {
-        return treeLines().joined(separator: "\n")
-    }
-}
-
 extension AST {
-    var children: [AST] {
+    var value: String {
         switch self {
-        case .number:
-            return []
-        case let .unaryOperation(operation: _, child: child):
-            return [child]
-        case let .binaryOperation(left: left, operation: _, right: right):
-            return [left, right]
-        case .noOp:
-            return []
-        case .variable:
-            return []
-        case let .compound(children: children):
-            return children
-        case let .assignment(left: left, right: right):
-            return [left, right]
-        case let .block(declarations, compound):
-            var nodes = declarations
-            nodes.append(compound)
-            return nodes
-        case let .variableDeclaration(name: name, type: type):
-            return [name, type]
-        case .type:
-            return []
-        case let .program(_, block):
-            return [block]
-        case let .procedure(name: _, params: params, block: block):
-            var children = params
-            children.append(block)
-            return children
-        case let .param(name: name, type: type):
-            return [.variable(name), type]
-        case let .call(procedureName: _, params: params):
-            return params
+        case let number as Number:
+            return "\(number)"
+        case let unaryOperation as UnaryOperation:
+            return "u\(unaryOperation.operation)"
+        case let binaryOperation as BinaryOperation:
+            return "\(binaryOperation.operation)"
+        case is NoOp:
+            return "noOp"
+        case let variable as Variable:
+            return variable.name
+        case is Compound:
+            return "compound"
+        case is Assignment:
+            return ":="
+        case is Block:
+            return "block"
+        case is VariableDeclaration:
+            return "var"
+        case let type as VariableType:
+            return "\(type.type)"
+        case let program as Program:
+            return program.name
+        case let procedure as Procedure:
+            return procedure.name
+        case let param as Param:
+            return "param(\(param.name))"
+        case let call as ProcedureCall:
+            return "\(call.name)()"
+        default:
+            fatalError("Missed AST case \(self)")
         }
     }
 
-    var value: String {
+    var children: [AST] {
         switch self {
-        case let .number(value):
-            return "\(value)"
-        case let .unaryOperation(operation: operation, child: _):
-            return "u\(operation.description)"
-        case let .binaryOperation(left: _, operation: operation, right: _):
-            return "\(operation.description)"
-        case .noOp:
-            return "noOp"
-        case let .variable(value):
-            return value
-        case .compound(children: _):
-            return "compound"
-        case .assignment(left: _, right: _):
-            return ":="
-        case .block:
-            return "block"
-        case .variableDeclaration:
-            return "var"
-        case let .type(type):
-            return type.description
-        case let .program(name, _):
-            return name
-        case let .procedure(name, _, _):
-            return name
-        case .param:
-            return "param"
-        case let .call(procedureName: name, params: _):
-            return "\(name)()"
+        case is Number:
+            return []
+        case let unaryOperation as UnaryOperation:
+            return [unaryOperation.operand]
+        case let binaryOperation as BinaryOperation:
+            return [binaryOperation.left, binaryOperation.right]
+        case is NoOp:
+            return []
+        case is Variable:
+            return []
+        case let compound as Compound:
+            return compound.children
+        case let assignment as Assignment:
+            return [assignment.left, assignment.right]
+        case let block as Block:
+            var nodes: [AST] = []
+            for declaration in block.declarations {
+                nodes.append(declaration)
+            }
+            nodes.append(block.compound)
+            return nodes
+        case let variableDeclaration as VariableDeclaration:
+            return [variableDeclaration.variable, variableDeclaration.type]
+        case is VariableType:
+            return []
+        case let program as Program:
+            return [program.block]
+        case let procedure as Procedure:
+            var nodes: [AST] = []
+            for param in procedure.params {
+                nodes.append(param)
+            }
+            nodes.append(procedure.block)
+            return nodes
+        case let param as Param:
+            return [param.type]
+        case let call as ProcedureCall:
+            return call.actualParameters
+        default:
+            fatalError("Missed AST case \(self)")
         }
     }
 
@@ -132,16 +136,4 @@ extension AST {
     }
 
     public func printTree() { print(treeLines().joined(separator: "\n")) }
-}
-*/
-
-extension AST {
-/*    func treeLines(_ nodeIndent: String = "", _ childIndent: String = "") -> [String] {
-        return [nodeIndent + value]
-            + children.enumerated().map { ($0 < children.count - 1, $1) }
-                .flatMap { $0 ? $1.treeLines("┣╸", "┃ ") : $1.treeLines("┗╸", "  ") }
-                .map { childIndent + $0 }
-    }
-
-    public func printTree() { print(treeLines().joined(separator: "\n")) }*/
 }

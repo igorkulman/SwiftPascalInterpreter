@@ -31,12 +31,7 @@ let program =
 
 let parser = Parser(program)
 let node = parser.parse()
-//print(node)
-//print("")
-/*
-let analyzer = SemanticAnalyzer()
-analyzer.analyze(node: node)*/
-
+node.printTree()
 print("")
 
 let interpreter = Interpreter(program)
