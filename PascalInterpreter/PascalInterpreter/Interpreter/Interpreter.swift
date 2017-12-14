@@ -98,18 +98,18 @@ public class Interpreter {
             let current = callStack.peek()!
             let frame = Frame(scope: scopes[name]!, previousFrame: current)
             callStack.push(frame)
-            call(procedure: name, params: actualParameters)
+            call(procedure: name, params: actualParameters, frame: frame)
             callStack.pop()
             return nil
         }
     }
 
-    private func call(procedure: String, params: [AST]) {
+    private func call(procedure: String, params: [AST], frame: Frame) {
         guard let definition = procedures[procedure], case let .procedure(name: _, params: _, block: block) = definition else {
             fatalError("Procedure \(procedure) not in table, check SemanticAnalyzer implementation")
         }
 
-        guard let symbol = callStack.peek()!.scope.lookup(procedure), case let Symbol.procedure(name: _, params: declaredParams) = symbol else {
+        guard let symbol = frame.scope.lookup(procedure), case let Symbol.procedure(name: _, params: declaredParams) = symbol else {
             fatalError("Symbol(procedure) not found '\(procedure)'")
         }
 
@@ -121,7 +121,7 @@ public class Interpreter {
                 guard case let Symbol.variable(name: name, type: Symbol.builtIn(_)) = declaredParams[i] else {
                     fatalError("Procedure declared with wrong parameters '\(procedure)'")
                 }
-                callStack.peek()!.set(variable: name, value: parameterValues[i])
+                frame.set(variable: name, value: parameterValues[i])
             }
         }
 
