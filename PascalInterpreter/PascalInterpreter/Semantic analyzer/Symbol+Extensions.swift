@@ -8,57 +8,34 @@
 
 import Foundation
 
-extension BuiltInType: CustomStringConvertible {
+extension BuiltInTypeSymbol: CustomStringConvertible {
     public var description: String {
         return "<BuiltinTypeSymbol(name='\(self.name)')>"
     }
-
-    public var name: String {
-        switch self {
-        case .integer:
-            return "INTEGER"
-        case .real:
-            return "REAL"
-        }
-    }
 }
-
-extension Symbol: CustomStringConvertible {
+extension VariableSymbol: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case let .builtIn(type):
-            return type.description
-        case let .variable(name: name, type: type):
-            return "<VarSymbol(name='\(name)', type='\(type.name)')>"
-        case let .procedure(name: name, params: params):
-            return "<ProcedureSymbol(name=\(name), parameters=[\(params.reduce("", { $0.description + "," + $1.description }))]>"
-        }
+        return "<VarSymbol(name='\(name)', type='\(type.name)')>"
     }
 }
 
-extension Symbol: Equatable {
-    public static func == (lhs: Symbol, rhs: Symbol) -> Bool {
-        switch (lhs, rhs) {
-        case let (.builtIn(left), .builtIn(right)):
-            return left == right
-        case let (.variable(name: leftName, type: leftType), .variable(name: rightName, type: rightType)):
-            return leftName == rightName && leftType == rightType
-        default:
-            return false
-        }
+extension ProcedureSymbol: CustomStringConvertible {
+    public var description: String {
+        return "<ProcedureSymbol(name=\(name), parameters=[\(params.reduce("", { $0.description + "\($1)," }))]>"
     }
-
 }
 
 extension Symbol {
-    public var name: String {
+    var sortOrder: Int {
         switch self {
-        case let .builtIn(type):
-            return type.name
-        case .procedure(name: let name, params: _):
-            return name
-        case .variable(name: let name, type: _):
-            return name
+        case is BuiltInTypeSymbol:
+            return 0
+        case is VariableSymbol:
+            return 1
+        case is ProcedureSymbol:
+            return 2
+        default:
+            fatalError("Add sort order for \(self)")
         }
     }
 }

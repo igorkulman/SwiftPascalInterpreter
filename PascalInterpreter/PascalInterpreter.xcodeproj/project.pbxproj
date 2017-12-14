@@ -28,7 +28,10 @@
 		F300A0EF1FDDB77000E5894D /* XCTestCase+FatalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0EA1FDDB77000E5894D /* XCTestCase+FatalError.swift */; };
 		F300A0F01FDDB77000E5894D /* LexerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0EB1FDDB77000E5894D /* LexerTests.swift */; };
 		F300A0F11FDDB77000E5894D /* InterpreterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0EC1FDDB77000E5894D /* InterpreterTests.swift */; };
-		F300A0F21FDDB77000E5894D /* SemanticAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0ED1FDDB77000E5894D /* SemanticAnalyzer.swift */; };
+		F300A0F21FDDB77000E5894D /* SemanticAnalyzerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0ED1FDDB77000E5894D /* SemanticAnalyzerTests.swift */; };
+		F34109A81FE2683900271A57 /* Visitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34109A71FE2683900271A57 /* Visitor.swift */; };
+		F3EF28D01FE12EBF001F36AB /* Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EF28CF1FE12EBF001F36AB /* Frame.swift */; };
+		F3EF28D21FE12F4D001F36AB /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EF28D11FE12F4D001F36AB /* Stack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,7 +69,10 @@
 		F300A0EA1FDDB77000E5894D /* XCTestCase+FatalError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCTestCase+FatalError.swift"; sourceTree = "<group>"; };
 		F300A0EB1FDDB77000E5894D /* LexerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LexerTests.swift; sourceTree = "<group>"; };
 		F300A0EC1FDDB77000E5894D /* InterpreterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterpreterTests.swift; sourceTree = "<group>"; };
-		F300A0ED1FDDB77000E5894D /* SemanticAnalyzer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SemanticAnalyzer.swift; sourceTree = "<group>"; };
+		F300A0ED1FDDB77000E5894D /* SemanticAnalyzerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SemanticAnalyzerTests.swift; sourceTree = "<group>"; };
+		F34109A71FE2683900271A57 /* Visitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Visitor.swift; sourceTree = "<group>"; };
+		F3EF28CF1FE12EBF001F36AB /* Frame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Frame.swift; sourceTree = "<group>"; };
+		F3EF28D11FE12F4D001F36AB /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,7 +130,7 @@
 				F300A0EC1FDDB77000E5894D /* InterpreterTests.swift */,
 				F300A0EB1FDDB77000E5894D /* LexerTests.swift */,
 				F300A0E91FDDB77000E5894D /* ParserTests.swift */,
-				F300A0ED1FDDB77000E5894D /* SemanticAnalyzer.swift */,
+				F300A0ED1FDDB77000E5894D /* SemanticAnalyzerTests.swift */,
 				F300A0F31FDDB77300E5894D /* Supporting files */,
 			);
 			path = PascalInterpreterTests;
@@ -134,8 +140,10 @@
 			isa = PBXGroup;
 			children = (
 				F300A0C51FDDB6BE00E5894D /* Arithmetics.swift */,
+				F3EF28CF1FE12EBF001F36AB /* Frame.swift */,
 				F300A0C61FDDB6BE00E5894D /* Interpreter.swift */,
 				F300A0C41FDDB6BD00E5894D /* Result.swift */,
+				F3EF28D11FE12F4D001F36AB /* Stack.swift */,
 			);
 			path = Interpreter;
 			sourceTree = "<group>";
@@ -178,6 +186,7 @@
 				F300A0E21FDDB74700E5894D /* Symbol.swift */,
 				F300A0E11FDDB74700E5894D /* Symbol+Extensions.swift */,
 				F300A0E31FDDB74700E5894D /* SymbolTable.swift */,
+				F34109A71FE2683900271A57 /* Visitor.swift */,
 			);
 			path = "Semantic analyzer";
 			sourceTree = "<group>";
@@ -337,9 +346,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				F300A0C91FDDB6BE00E5894D /* Interpreter.swift in Sources */,
+				F3EF28D01FE12EBF001F36AB /* Frame.swift in Sources */,
 				F300A0C71FDDB6BE00E5894D /* Result.swift in Sources */,
+				F3EF28D21FE12F4D001F36AB /* Stack.swift in Sources */,
 				F300A0E71FDDB74800E5894D /* SymbolTable.swift in Sources */,
 				F300A0D81FDDB6F400E5894D /* AST+Extensions.swift in Sources */,
+				F34109A81FE2683900271A57 /* Visitor.swift in Sources */,
 				F300A0D11FDDB6E400E5894D /* Lexer.swift in Sources */,
 				F300A0D91FDDB6F400E5894D /* AST.swift in Sources */,
 				F300A0E61FDDB74800E5894D /* Symbol.swift in Sources */,
@@ -361,7 +373,7 @@
 				F300A0F11FDDB77000E5894D /* InterpreterTests.swift in Sources */,
 				F300A0EF1FDDB77000E5894D /* XCTestCase+FatalError.swift in Sources */,
 				F300A0F01FDDB77000E5894D /* LexerTests.swift in Sources */,
-				F300A0F21FDDB77000E5894D /* SemanticAnalyzer.swift in Sources */,
+				F300A0F21FDDB77000E5894D /* SemanticAnalyzerTests.swift in Sources */,
 				F300A0EE1FDDB77000E5894D /* ParserTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

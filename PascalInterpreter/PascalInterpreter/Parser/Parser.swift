@@ -12,12 +12,25 @@ public class Parser {
 
     // MARK: - Fields
 
-    private let lexer: Lexer
-    private var currentToken: Token
+    private var tokenIndex = 0
+    private let tokens: [Token]
+
+    private var currentToken: Token {
+        return tokens[tokenIndex]
+    }
+    private var nextToken: Token {
+        return tokens[tokenIndex + 1]
+    }
 
     public init(_ text: String) {
-        lexer = Lexer(text)
-        currentToken = lexer.getNextToken()
+        let lexer = Lexer(text)
+        var token = lexer.getNextToken()
+        var all = [token]
+        while token != .eof {
+            token = lexer.getNextToken()
+            all.append(token)
+        }
+        tokens = all
     }
 
     // MARK: - Helpers
@@ -30,7 +43,7 @@ public class Parser {
      */
     private func eat(_ token: Token) {
         if currentToken == token {
-            currentToken = lexer.getNextToken()
+            tokenIndex += 1
         } else {
             fatalError("Syntax error, expected \(token), got \(currentToken)")
         }
@@ -43,7 +56,7 @@ public class Parser {
 
      program : PROGRAM variable SEMI block DOT
      */
-    private func program() -> AST {
+    private func program() -> Program {
         eat(.program)
         guard case let .id(name) = currentToken else {
             fatalError("Program must have a name")
@@ -51,7 +64,7 @@ public class Parser {
         eat(.id(name))
         eat(.semi)
         let blockNode = block()
-        let programNode = AST.program(name: name, block: blockNode)
+        let programNode = Program(name: name, block: blockNode)
         eat(.dot)
         return programNode
     }
@@ -59,10 +72,10 @@ public class Parser {
     /**
      block : declarations compound_statement
      */
-    private func block() -> AST {
+    private func block() -> Block {
         let decs = declarations()
         let statement = compoundStatement()
-        return .block(declarations: decs, compound: statement)
+        return Block(declarations: decs, compound: statement)
     }
 
     /**
@@ -70,14 +83,16 @@ public class Parser {
      | (PROCEDURE ID (LPAREN formal_parameter_list RPAREN)? SEMI block SEMI)*
      | empty
      */
-    private func declarations() -> [AST] {
-        var declarations: [AST] = []
+    private func declarations() -> [Declaration] {
+        var declarations: [Declaration] = []
 
         if currentToken == .varDef {
             eat(.varDef)
             while case .id = currentToken {
-                let declaration = variableDeclaration()
-                declarations.append(contentsOf: declaration)
+                let decs = variableDeclaration()
+                for declaration in decs {
+                    declarations.append(declaration)
+                }
                 eat(.semi)
             }
         }
@@ -89,7 +104,7 @@ public class Parser {
             }
             eat(.id(name))
 
-            var params: [AST] = []
+            var params: [Param] = []
             if currentToken == .parenthesis(.left) {
                 eat(.parenthesis(.left))
                 params = formalParameterList()
@@ -98,7 +113,7 @@ public class Parser {
 
             eat(.semi)
             let body = block()
-            let procedure = AST.procedure(name: name, params: params, block: body)
+            let procedure = Procedure(name: name, params: params, block: body)
             declarations.append(procedure)
             eat(.semi)
         }
@@ -110,9 +125,9 @@ public class Parser {
      formal_parameter_list : formal_parameters
      | formal_parameters SEMI formal_parameter_list
      */
-    private func formalParameterList() -> [AST] {
+    private func formalParameterList() -> [Param] {
         guard case .id = currentToken else {
-            return [] //procedure without parameters
+            return [] // procedure without parameters
         }
 
         var parameters = formalParameters()
@@ -126,7 +141,7 @@ public class Parser {
     /**
      formal_parameters : ID (COMMA ID)* COLON type_spec
      */
-    private func formalParameters() -> [AST] {
+    private func formalParameters() -> [Param] {
         guard case let .id(name) = currentToken else {
             fatalError("Parameter name expected, got \(currentToken)")
         }
@@ -145,13 +160,13 @@ public class Parser {
 
         eat(.colon)
         let type = typeSpec()
-        return parameters.map({ .param(name: $0, type: type) })
+        return parameters.map({ Param(name: $0, type: type) })
     }
 
     /**
      variable_declaration : ID (COMMA ID)* COLON type_spec
      */
-    private func variableDeclaration() -> [AST] {
+    private func variableDeclaration() -> [VariableDeclaration] {
         guard case let .id(name) = currentToken else {
             fatalError()
         }
@@ -172,21 +187,21 @@ public class Parser {
         eat(.colon)
 
         let type = typeSpec()
-        return variableNames.map({ .variableDeclaration(name: .variable($0), type: type) })
+        return variableNames.map({ VariableDeclaration(variable: Variable(name: $0), type: type) })
     }
 
     /**
      type_spec : INTEGER
      | REAL
      */
-    private func typeSpec() -> AST {
+    private func typeSpec() -> VariableType {
         switch currentToken {
         case .type(.integer):
             eat(.type(.integer))
-            return .type(.integer)
+            return VariableType(type: .integer)
         case .type(.real):
             eat(.type(.real))
-            return .type(.real)
+            return VariableType(type: .real)
         default:
             fatalError("Expected type, got \(currentToken)")
         }
@@ -197,11 +212,11 @@ public class Parser {
 
      compound_statement: BEGIN statement_list END
      */
-    private func compoundStatement() -> AST {
+    private func compoundStatement() -> Compound {
         eat(.begin)
         let nodes = statementList()
         eat(.end)
-        return .compound(children: nodes)
+        return Compound(children: nodes)
     }
 
     /**
@@ -227,6 +242,7 @@ public class Parser {
      Rule:
 
      statement : compound_statement
+     | procedure_call
      | assignment_statement
      | empty
      */
@@ -235,7 +251,11 @@ public class Parser {
         case .begin:
             return compoundStatement()
         case .id:
-            return assignmentStatement()
+            if nextToken == .parenthesis(.left) {
+                return procedureCall()
+            } else {
+                return assignmentStatement()
+            }
         default:
             return empty()
         }
@@ -244,20 +264,52 @@ public class Parser {
     /**
      Rule:
 
+     procedure_call : id( (factor [,])* );
+     */
+    private func procedureCall() -> ProcedureCall {
+        guard case let .id(name) = currentToken else {
+            fatalError("Procedure name expected, got \(currentToken)")
+        }
+
+        var parameters: [Number] = []
+
+        eat(.id(name))
+        eat(.parenthesis(.left))
+        if currentToken == .parenthesis(.right) { // no parameters
+            eat(.parenthesis(.right))
+        } else {
+            if let number = factor() as? Number {
+                parameters.append(number)
+            }
+            while currentToken == .coma {
+                eat(.coma)
+                if let value = factor() as? Number {
+                    parameters.append(value)
+                }
+            }
+            eat(.parenthesis(.right))
+        }
+
+        return ProcedureCall(name: name, actualParameters: parameters)
+    }
+
+    /**
+     Rule:
+
      assignment_statement : variable ASSIGN expr
      */
-    private func assignmentStatement() -> AST {
+    private func assignmentStatement() -> Assignment {
         let left = variable()
         eat(.assign)
         let right = expr()
-        return .assignment(left: left, right: right)
+        return Assignment(left: left, right: right)
     }
 
     /**
      An empty production
      */
-    private func empty() -> AST {
-        return .noOp
+    private func empty() -> NoOp {
+        return NoOp()
     }
 
     /**
@@ -273,10 +325,10 @@ public class Parser {
             let token = currentToken
             if token == .operation(.plus) {
                 eat(.operation(.plus))
-                node = .binaryOperation(left: node, operation: .plus, right: term())
+                node = BinaryOperation(left: node, operation: .plus, right: term())
             } else if token == .operation(.minus) {
                 eat(.operation(.minus))
-                node = .binaryOperation(left: node, operation: .minus, right: term())
+                node = BinaryOperation(left: node, operation: .minus, right: term())
             }
         }
 
@@ -295,13 +347,13 @@ public class Parser {
             let token = currentToken
             if token == .operation(.mult) {
                 eat(.operation(.mult))
-                node = .binaryOperation(left: node, operation: .mult, right: factor())
+                node = BinaryOperation(left: node, operation: .mult, right: factor())
             } else if token == .operation(.integerDiv) {
                 eat(.operation(.integerDiv))
-                node = .binaryOperation(left: node, operation: .integerDiv, right: factor())
+                node = BinaryOperation(left: node, operation: .integerDiv, right: factor())
             } else if token == .operation(.floatDiv) {
                 eat(.operation(.floatDiv))
-                node = .binaryOperation(left: node, operation: .floatDiv, right: factor())
+                node = BinaryOperation(left: node, operation: .floatDiv, right: factor())
             }
         }
 
@@ -313,11 +365,11 @@ public class Parser {
 
      variable : ID
      */
-    private func variable() -> AST {
+    private func variable() -> Variable {
         switch currentToken {
         case let .id(value):
             eat(.id(value))
-            return .variable(value)
+            return Variable(name: value)
         default:
             fatalError("Syntax error, expected variable, found \(currentToken)")
         }
@@ -338,16 +390,16 @@ public class Parser {
         switch token {
         case .operation(.plus):
             eat(.operation(.plus))
-            return .unaryOperation(operation: .plus, child: factor())
+            return UnaryOperation(operation: .plus, operand: factor())
         case .operation(.minus):
             eat(.operation(.minus))
-            return .unaryOperation(operation: .minus, child: factor())
+            return UnaryOperation(operation: .minus, operand: factor())
         case let .constant(.integer(value)):
             eat(.constant(.integer(value)))
-            return .number(.integer(value))
+            return Number.integer(value)
         case let .constant(.real(value)):
             eat(.constant(.real(value)))
-            return .number(.real(value))
+            return Number.real(value)
         case .parenthesis(.left):
             eat(.parenthesis(.left))
             let result = expr()

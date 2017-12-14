@@ -8,97 +8,102 @@
 
 import Foundation
 
-public class SemanticAnalyzer {
+public class SemanticAnalyzer: Visitor {
     private var currentScope: ScopedSymbolTable?
+    private var scopes: [String: ScopedSymbolTable] = [:]
 
     public init() {
 
     }
 
-    public func analyze(node: AST) {
+    public func analyze(node: AST) -> [String: ScopedSymbolTable] {
         visit(node: node)
+        return scopes
     }
 
-    private func visit(node: AST) {
-        switch node {
-        case let .block(declarations: declarations, compound: compoundStatement):
-            for declaration in declarations {
-                visit(node: declaration)
+    func visit(program: Program) {
+        let globalScope = ScopedSymbolTable(name: "global", level: 1, enclosingScope: nil)
+        scopes[globalScope.name] = globalScope
+        currentScope = globalScope
+        visit(node: program.block)
+        currentScope = nil
+    }
+
+    func visit(variable: Variable) {
+        guard let scope = currentScope else {
+            fatalError("Cannot access a variable outside a scope")
+        }
+        guard scope.lookup(variable.name) != nil else {
+            fatalError("Symbol(indetifier) not found '\(variable.name)'")
+        }
+    }
+
+    func visit(variableDeclaration: VariableDeclaration) {
+        guard let scope = currentScope else {
+            fatalError("Cannot declare a variable outside a scope")
+        }
+
+        guard scope.lookup(variableDeclaration.variable.name, currentScopeOnly: true) == nil else {
+            fatalError("Duplicate identifier '\(variableDeclaration.variable.name)' found")
+        }
+
+        guard let symbolType = scope.lookup(variableDeclaration.type.type.description) else {
+            fatalError("Type not found '\(variableDeclaration.type.type.description)'")
+        }
+
+        scope.insert(VariableSymbol(name: variableDeclaration.variable.name, type: symbolType))
+    }
+
+    func visit(procedure: Procedure) {
+        let scope = ScopedSymbolTable(name: procedure.name, level: (currentScope?.level ?? 0) + 1, enclosingScope: currentScope)
+        scopes[scope.name] = scope
+        currentScope = scope
+
+        var parameters: [Symbol] = []
+        for param in procedure.params {
+            guard let symbol = scope.lookup(param.type.type.description) else {
+                fatalError("Type not found '\(param.type.type.description)'")
             }
-            visit(node: compoundStatement)
-        case let .program(name: _, block: block):
-            let globalScope = ScopedSymbolTable(name: "global", level: 1, enclosingScope: nil)
-            currentScope = globalScope
-            visit(node: block)
-            print(globalScope)
-            currentScope = nil
-        case let .binaryOperation(left: left, operation: _, right: right):
-            visit(node: left)
-            visit(node: right)
-        case .number:
-            break
-        case let .unaryOperation(operation: _, child: child):
-            visit(node: child)
-        case let .compound(children: children):
-            for child in children {
-                visit(node: child)
-            }
-        case .noOp:
-            break
-        case let .variable(name):
-            guard let scope = currentScope else {
-                fatalError("Cannot access a variable outside a scope")
-            }
-            guard scope.lookup(name) != nil else {
-                fatalError("Symbol(indetifier) not found '\(name)'")
-            }
-        case let .variableDeclaration(name: variable, type: variableType):
-            guard let scope = currentScope else {
-                fatalError("Cannot declare a variable outside a scope")
+            let variable = VariableSymbol(name: param.name, type: symbol)
+            parameters.append(variable)
+            scope.insert(variable)
+        }
+        let proc = ProcedureSymbol(name: procedure.name, parameters: parameters, body: procedure)
+        scope.enclosingScope?.insert(proc)
+
+        visit(node: procedure.block)
+        currentScope = currentScope?.enclosingScope
+    }
+
+    func visit(call: ProcedureCall) {
+        guard let symbol = currentScope?.lookup(call.name), let procedure = symbol as? ProcedureSymbol else {
+            fatalError("Symbol(procedure) not found '\(call.name)'")
+        }
+
+        guard procedure.params.count == call.actualParameters.count else {
+            fatalError("Procedure called with wrong number of parameters '\(call.name)'")
+        }
+
+        guard procedure.params.count > 0 else {
+            return
+        }
+
+        for i in 0 ... procedure.params.count - 1 {
+            guard let variableSymbol = procedure.params[i] as? VariableSymbol, let type = variableSymbol.type as? BuiltInTypeSymbol else {
+                fatalError("Procedure declared with wrong parameters '\(call.name)'")
             }
 
-            guard case let .variable(name) = variable, case let .type(type) = variableType else {
-                fatalError("Invalid variable \(variable) or invalid type \(variableType)")
-            }
-
-            guard scope.lookup(name, currentScopeOnly: true) == nil else {
-                fatalError("Duplicate identifier '\(name)' found")
-            }
-
-            guard let symbolType = scope.lookup(type.description) else {
-                fatalError("Type not found '\(type.description)'")
-            }
-
-            scope.insert(.variable(name: name, type: symbolType))
-        case let .assignment(left: left, right: right):
-            visit(node: right)
-            visit(node: left)
-        case .type:
-            break
-        case let .procedure(name: name, params: params, block: block):
-            let scope = ScopedSymbolTable(name: name, level: (currentScope?.level ?? 0) + 1, enclosingScope: currentScope)
-            currentScope = scope
-
-            var parameters: [Symbol] = []
-            for param in params {
-                guard case let .param(name: name, type: .type(type)) = param else {
-                    fatalError("Only built int type parameters supported in procedure, got \(param)")
+            switch type {
+            case .integer:
+                switch call.actualParameters[i] {
+                case .integer:
+                    break
+                case .real:
+                    fatalError("Cannot assing Real to Integer parameter in procedure call '\(call.name)'")
                 }
-                guard let symbol = scope.lookup(type.description) else {
-                    fatalError("Type not found '\(type.description)'")
-                }
-                let variable = Symbol.variable(name: name, type: symbol)
-                parameters.append(variable)
-                scope.insert(variable)
+            case .real:
+                break
             }
-            let symbol = Symbol.procedure(name: name, params: parameters)
-            scope.insert(symbol)
-
-            visit(node: block)
-            print(scope)
-            currentScope = currentScope?.enclosingScope
-        case .param:
-            break
         }
     }
 }

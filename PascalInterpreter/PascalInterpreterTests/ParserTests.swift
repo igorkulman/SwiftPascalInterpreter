@@ -20,14 +20,14 @@ class ParserTests: XCTestCase {
             END.
             """
 
-        let a = AST.variable("a")
-        let two = AST.number(.integer(2))
-        let assignment = AST.assignment(left: a, right: two)
-        let block = AST.block(declarations: [], compound: AST.compound(children: [assignment]))
-        let node = AST.program(name: "Part10AST", block: block)
+        let a = Variable(name: "a")
+        let two = Number.integer(2)
+        let assignment = Assignment(left: a, right: two)
+        let block = Block(declarations: [], compound: Compound(children: [assignment]))
+        let node = Program(name: "Part10AST", block: block)
         let parser = Parser(program)
         let result = parser.parse()
-        XCTAssert(result == node)
+        XCTAssertEqual(result, node)
     }
 
     func testMoreComplexExpression() {
@@ -45,18 +45,18 @@ class ParserTests: XCTestCase {
 
         let parser = Parser(program)
         let result = parser.parse()
-        let empty = AST.noOp
-        let eleven = AST.number(.integer(11))
-        let x = AST.variable("x")
-        let xAssignment = AST.assignment(left: x, right: eleven)
-        let two = AST.number(.integer(2))
-        let number = AST.variable("number")
-        let a = AST.variable("a")
-        let aAssignment = AST.assignment(left: a, right: AST.binaryOperation(left: number, operation: .plus, right: two))
-        let compound = AST.compound(children: [AST.assignment(left: number, right: two), aAssignment, empty])
-        let block = AST.block(declarations: [], compound: AST.compound(children: [compound, xAssignment, empty]))
-        let node = AST.program(name: "Part10AST", block: block)
-        XCTAssert(result == node)
+        let empty = NoOp()
+        let eleven = Number.integer(11)
+        let x = Variable(name: "x")
+        let xAssignment = Assignment(left: x, right: eleven)
+        let two = Number.integer(2)
+        let number = Variable(name: "number")
+        let a = Variable(name: "a")
+        let aAssignment = Assignment(left: a, right: BinaryOperation(left: number, operation: .plus, right: two))
+        let compound = Compound(children: [Assignment(left: number, right: two), aAssignment, empty])
+        let block = Block(declarations: [], compound: Compound(children: [compound, xAssignment, empty]))
+        let node = Program(name: "Part10AST", block: block)
+        XCTAssertEqual(result, node)
     }
 
     func testEvenMoreComplexExpression() {
@@ -75,19 +75,19 @@ class ParserTests: XCTestCase {
 
         let parser = Parser(program)
         let result = parser.parse()
-        let empty = AST.noOp
-        let eleven = AST.number(.integer(11))
-        let x = AST.variable("x")
-        let xAssignment = AST.assignment(left: x, right: eleven)
-        let two = AST.number(.integer(2))
-        let number = AST.variable("number")
-        let a = AST.variable("a")
-        let division = AST.binaryOperation(left: AST.binaryOperation(left: AST.number(.integer(10)), operation: .mult, right: number), operation: .floatDiv, right: AST.number(.integer(4)))
-        let plus = AST.binaryOperation(left: AST.binaryOperation(left: AST.number(.integer(10)), operation: .mult, right: a), operation: .plus, right: division)
-        let aAssignment = AST.assignment(left: a, right: plus)
-        let compound = AST.compound(children: [AST.assignment(left: number, right: two), AST.assignment(left: a, right: number), aAssignment, empty])
-        let node = AST.program(name: "Part10AST", block: AST.block(declarations: [], compound: AST.compound(children: [compound, xAssignment, empty])))
-        XCTAssert(result == node)
+        let empty = NoOp()
+        let eleven = Number.integer(11)
+        let x = Variable(name: "x")
+        let xAssignment = Assignment(left: x, right: eleven)
+        let two = Number.integer(2)
+        let number = Variable(name: "number")
+        let a = Variable(name: "a")
+        let division = BinaryOperation(left: BinaryOperation(left: Number.integer(10), operation: .mult, right: number), operation: .floatDiv, right: Number.integer(4))
+        let plus = BinaryOperation(left: BinaryOperation(left: Number.integer(10), operation: .mult, right: a), operation: .plus, right: division)
+        let aAssignment = Assignment(left: a, right: plus)
+        let compound = Compound(children: [Assignment(left: number, right: two), Assignment(left: a, right: number), aAssignment, empty])
+        let node = Program(name: "Part10AST", block: Block(declarations: [], compound: Compound(children: [compound, xAssignment, empty])))
+        XCTAssertEqual(result, node)
     }
 
     func testProgramWithDeclarationsExpression() {
@@ -109,22 +109,22 @@ class ParserTests: XCTestCase {
 
         let parser = Parser(program)
         let result = parser.parse()
-        let empty = AST.noOp
-        let eleven = AST.number(.integer(11))
-        let x = AST.variable("x")
-        let xAssignment = AST.assignment(left: x, right: eleven)
-        let two = AST.number(.integer(2))
-        let number = AST.variable("number")
-        let a = AST.variable("a")
-        let division = AST.binaryOperation(left: AST.binaryOperation(left: AST.number(.integer(10)), operation: .mult, right: number), operation: .floatDiv, right: AST.number(.integer(4)))
-        let plus = AST.binaryOperation(left: AST.binaryOperation(left: AST.number(.integer(10)), operation: .mult, right: a), operation: .plus, right: division)
-        let aAssignment = AST.assignment(left: a, right: plus)
-        let compound = AST.compound(children: [AST.assignment(left: number, right: two), AST.assignment(left: a, right: number), aAssignment, empty])
-        let aDec = AST.variableDeclaration(name: AST.variable("a"), type: .type(.integer))
-        let bDec = AST.variableDeclaration(name: AST.variable("b"), type: .type(.integer))
-        let yDec = AST.variableDeclaration(name: AST.variable("y"), type: .type(.real))
-        let node = AST.program(name: "Part10AST", block: AST.block(declarations: [aDec, bDec, yDec], compound: AST.compound(children: [compound, xAssignment, empty])))
-        XCTAssert(result == node)
+        let empty = NoOp()
+        let eleven = Number.integer(11)
+        let x = Variable(name: "x")
+        let xAssignment = Assignment(left: x, right: eleven)
+        let two = Number.integer(2)
+        let number = Variable(name: "number")
+        let a = Variable(name: "a")
+        let division = BinaryOperation(left: BinaryOperation(left: Number.integer(10), operation: .mult, right: number), operation: .floatDiv, right: Number.integer(4))
+        let plus = BinaryOperation(left: BinaryOperation(left: Number.integer(10), operation: .mult, right: a), operation: .plus, right: division)
+        let aAssignment = Assignment(left: a, right: plus)
+        let compound = Compound(children: [Assignment(left: number, right: two), Assignment(left: a, right: number), aAssignment, empty])
+        let aDec = VariableDeclaration(variable: Variable(name: "a"), type: VariableType(type: .integer))
+        let bDec = VariableDeclaration(variable: Variable(name: "b"), type: VariableType(type: .integer))
+        let yDec = VariableDeclaration(variable: Variable(name: "y"), type: VariableType(type: .real))
+        let node = Program(name: "Part10AST", block: Block(declarations: [aDec, bDec, yDec], compound: Compound(children: [compound, xAssignment, empty])))
+        XCTAssertEqual(result, node)
     }
 
     func testBasicCompoundStatementFail() {
@@ -161,15 +161,15 @@ class ParserTests: XCTestCase {
 
         let parser = Parser(program)
         let result = parser.parse()
-        let empty = AST.noOp
-        let two = AST.number(.integer(2))
-        let a = AST.variable("a")
-        let compound = AST.compound(children: [AST.assignment(left: a, right: two), empty])
-        let aDec = AST.variableDeclaration(name: AST.variable("a"), type: .type(.integer))
-        let bDec = AST.variableDeclaration(name: AST.variable("b"), type: .type(.integer))
-        let p1 = AST.procedure(name: "P1", params: [], block: AST.block(declarations: [], compound: AST.compound(children: [.noOp])))
-        let node = AST.program(name: "Part10AST", block: AST.block(declarations: [aDec, bDec, p1], compound: compound))
-        XCTAssert(result == node)
+        let empty = NoOp()
+        let two = Number.integer(2)
+        let a = Variable(name: "a")
+        let compound = Compound(children: [Assignment(left: a, right: two), empty])
+        let aDec = VariableDeclaration(variable: Variable(name: "a"), type: VariableType(type: .integer))
+        let bDec = VariableDeclaration(variable: Variable(name: "b"), type: VariableType(type: .integer))
+        let p1 = Procedure(name: "P1", params: [], block: Block(declarations: [], compound: Compound(children: [empty])))
+        let node = Program(name: "Part10AST", block: Block(declarations: [aDec, bDec, p1], compound: compound))
+        XCTAssertEqual(result, node)
     }
 
     func testProgramWithNestedProcedures() {
@@ -202,14 +202,69 @@ class ParserTests: XCTestCase {
 
         let parser = Parser(program)
         let result = parser.parse()
-        let empty = AST.noOp
-        let ten = AST.number(.integer(10))
-        let a = AST.variable("a")
-        let compound = AST.compound(children: [AST.assignment(left: a, right: ten), empty])
-        let aDec = AST.variableDeclaration(name: AST.variable("a"), type: .type(.integer))
-        let p2 = AST.procedure(name: "P2", params: [], block: AST.block(declarations: [AST.variableDeclaration(name: .variable("a"), type: .type(.integer)), AST.variableDeclaration(name: .variable("z"), type: .type(.integer))], compound: AST.compound(children: [AST.assignment(left: AST.variable("z"), right: AST.number(.integer(777))), empty])))
-        let p1 = AST.procedure(name: "P1", params: [], block: AST.block(declarations: [AST.variableDeclaration(name: .variable("a"), type: .type(.real)), AST.variableDeclaration(name: .variable("k"), type: .type(.integer)), p2], compound: AST.compound(children: [empty])))
-        let node = AST.program(name: "Part12", block: AST.block(declarations: [aDec, p1], compound: compound))
-        XCTAssert(result == node)
+        let empty = NoOp()
+        let ten = Number.integer(10)
+        let a = Variable(name: "a")
+        let compound = Compound(children: [Assignment(left: a, right: ten), empty])
+        let aDec = VariableDeclaration(variable: Variable(name: "a"), type: VariableType(type: .integer))
+        let p2 = Procedure(name: "P2", params: [], block: Block(declarations: [VariableDeclaration(variable: Variable(name: "a"), type: VariableType(type: .integer)), VariableDeclaration(variable: Variable(name: "z"), type: VariableType(type: .integer))], compound: Compound(children: [Assignment(left: Variable(name: "z"), right: Number.integer(777)), empty])))
+        let p1 = Procedure(name: "P1", params: [], block: Block(declarations: [VariableDeclaration(variable: Variable(name: "a"), type: VariableType(type: .real)), VariableDeclaration(variable: Variable(name: "k"), type: VariableType(type: .integer)), p2], compound: Compound(children: [empty])))
+        let node = Program(name: "Part12", block: Block(declarations: [aDec, p1], compound: compound))
+        XCTAssertEqual(result, node)
+    }
+
+    func testProgramWithProcedureCall() {
+        let program =
+            """
+            program Main;
+            var x, y: real;
+
+            procedure Alpha();
+            begin
+            x := 5;
+            end;
+
+            begin { Main }
+            Alpha();
+            y := 5;
+            Alpha();
+            end.  { Main }
+            """
+
+        let parser = Parser(program)
+        let result = parser.parse()
+        let alpha = Procedure(name: "Alpha", params: [], block: Block(declarations: [], compound: Compound(children: [Assignment(left: Variable(name: "x"), right: Number.integer(5)), NoOp()])))
+        let xDec = VariableDeclaration(variable: Variable(name: "x"), type: VariableType(type: .real))
+        let yDec = VariableDeclaration(variable: Variable(name: "y"), type: VariableType(type: .real))
+        let compound = Compound(children: [ProcedureCall(name: "Alpha", actualParameters: []), Assignment(left: Variable(name: "y"), right: Number.integer(5)), ProcedureCall(name: "Alpha", actualParameters: []), NoOp()])
+        let node = Program(name: "Main", block: Block(declarations: [xDec, yDec, alpha], compound: compound))
+        XCTAssertEqual(result, node)
+    }
+
+    func testProgramWithProcedureCallAndParameters() {
+        let program =
+            """
+            program Main;
+            var x, y: real;
+
+            procedure Alpha(a: Integer);
+            begin
+            x := 5 + a;
+            end;
+
+            begin { Main }
+            y := 5;
+            Alpha(5);
+            end.  { Main }
+            """
+
+        let parser = Parser(program)
+        let result = parser.parse()
+        let alpha = Procedure(name: "Alpha", params: [Param(name: "a", type: VariableType(type: .integer))], block: Block(declarations: [], compound: Compound(children: [Assignment(left: Variable(name: "x"), right: BinaryOperation(left: Number.integer(5), operation: .plus, right: Variable(name: "a"))), NoOp()])))
+        let xDec = VariableDeclaration(variable: Variable(name: "x"), type: VariableType(type: .real))
+        let yDec = VariableDeclaration(variable: Variable(name: "y"), type: VariableType(type: .real))
+        let compound = Compound(children: [Assignment(left: Variable(name: "y"), right: Number.integer(5)), ProcedureCall(name: "Alpha", actualParameters: [Number.integer(5)]), NoOp()])
+        let node = Program(name: "Main", block: Block(declarations: [xDec, yDec, alpha], compound: compound))
+        XCTAssertEqual(result, node)
     }
 }

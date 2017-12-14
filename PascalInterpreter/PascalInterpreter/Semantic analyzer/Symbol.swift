@@ -8,13 +8,42 @@
 
 import Foundation
 
-public enum BuiltInType {
-    case integer
-    case real
+protocol Symbol {
+    var name: String { get }
 }
 
-public indirect enum Symbol {
-    case builtIn(BuiltInType)
-    case variable(name: String, type: Symbol)
-    case procedure(name: String, params: [Symbol])
+public enum BuiltInTypeSymbol: Symbol {
+    case integer
+    case real
+
+    var name: String {
+        switch self {
+        case .integer:
+            return "INTEGER"
+        case .real:
+            return "REAL"
+        }
+    }
+}
+
+class VariableSymbol: Symbol {
+    let name: String
+    let type: Symbol
+
+    init(name: String, type: Symbol) {
+        self.name = name
+        self.type = type
+    }
+}
+
+class ProcedureSymbol: Symbol {
+    let name: String
+    let params: [Symbol]
+    let body: Procedure
+
+    init(name: String, parameters: [Symbol], body: Procedure) {
+        self.name = name
+        self.params = parameters
+        self.body = body
+    }
 }

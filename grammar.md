@@ -22,8 +22,11 @@ statement_list : statement
                | statement SEMI statement_list
 
 statement : compound_statement
+		  | procedure_call
           | assignment_statement
           | empty
+
+procedure_call : id( (factor [,])* );          
 
 assignment_statement : variable ASSIGN expr
 
