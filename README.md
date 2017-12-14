@@ -11,7 +11,7 @@ Simple Swift interpreter for the Pascal language inspired by the [Let’s Build 
 
 The [Lexer](PascalInterpreter/PascalInterpreter/Lexer/Lexer.swift) reads the Pascal program as `String` (a sequence of characters) and converts it into a sequence of [Tokens](PascalInterpreter/PascalInterpreter/Lexer/Token.swift). You can see the result by trying it our in the Playground or on the [unit tests](PascalInterpreter/PascalInterpreterTests/LexerTests.swift).
 
-![Lexer](https://github.com/igorkulman/SwiftPascalInterpreter/raw/master/Images/lexer.png)
+![Lexer](Images/lexer.png)
 
 ### Parser
 
@@ -19,7 +19,7 @@ The [Parser](PascalInterpreter/PascalInterpreter/Parser/Parser.swift) reads the 
 
 You can see what the AST looks like in the [unit tests](PascalInterpreter/PascalInterpreterTests/ParserTests.swift) or in the Playground where you can also use the `printTree()` method on any AST to see its visual representation printed into the console.
 
-![Parser](https://github.com/igorkulman/SwiftPascalInterpreter/raw/master/Images/parser.png)
+![Parser](Images/parser.png)
 
 ### Semantic analyzer
 
