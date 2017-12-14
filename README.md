@@ -7,7 +7,7 @@ Simple Swift interpreter for the Pascal language inspired by the [Let’s Build 
 
 There is a Swift playground in the project where you can try out the lexer, parser and the interpreter. The lexer shows the tokens recognized, the parses prints the abstract syntax tree of the program and interpreter prints the resulting memory state.
 
-![Playground](https://github.com/igorkulman/SwiftPascalInterpreter/raw/master/playground.png)
+![Playground](https://github.com/igorkulman/SwiftPascalInterpreter/raw/master/Images/playground.png)
 
 ## Scructure
 
@@ -15,15 +15,28 @@ There is a Swift playground in the project where you can try out the lexer, pars
 
 The [Lexer](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreter/Lexer/Lexer.swift) reads the Pascal program as `String` (a sequence of characters) and converts it into a sequence of [Tokens](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreter/Lexer/Token.swift). You can see the result by trying it our in the Playground or on the [unit tests](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreterTests/LexerTests.swift).
 
+![Lexer](https://github.com/igorkulman/SwiftPascalInterpreter/raw/master/Images/lexer.png)
+
 ### Parser
 
 The [Parser](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreter/Parser/Parser.swift) reads the sequence of tokens produced by the Lexer and builds an [Abstract Syntax Tree representation](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreter/Parser/AST.swift)(AST for short) of the Pascal program according to the [grammar](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/grammar.md). 
 
 You can see what the AST looks like in the [unit tests](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreterTests/ParserTests.swift) or in the Playground where you can also use the `printTree()` method on any AST to see its visual representation printed into the console.
 
+![Parser](https://github.com/igorkulman/SwiftPascalInterpreter/raw/master/Images/parser.png)
+
 ### Semantic analyzer
 
 The [Semantic analyzer](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreter/Semantic%20analyzer/SemanticAnalyzer.swift) does static semantic checks on the Pascal program AST. It currently checks if all the used variables are declared beforehand and if there are any duplicate declarations. The result of semantic analysis is a [Symbol table](https://github.com/igorkulman/SwiftPascalInterpreter/blob/master/PascalInterpreter/PascalInterpreter/Semantic%20analyzer/SymbolTable.swift) that holds all the symbols used by a Pascal program, currently built in types (Integer, Real) and declared variable names. 
+
+Implemented checks
+
+* Check if a variable was declared with a known type (Integer, Real)
+* Check if a variable was declared before usage
+* Check if variable is not declared more than once
+* Check if a procedure was declared
+* Check if a procedure is called with the correct number of parameters
+* Check if a procedure is called with parameters of the right type
 
 ### Interpreter
 
