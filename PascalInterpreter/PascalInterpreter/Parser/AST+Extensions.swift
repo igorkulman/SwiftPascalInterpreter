@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+/*
 extension AST: Equatable {
     public static func == (lhs: AST, rhs: AST) -> Bool {
         switch (lhs, rhs) {
@@ -178,3 +178,4 @@ extension AST {
 
     public func printTree() { print(treeLines().joined(separator: "\n")) }
 }
+*/

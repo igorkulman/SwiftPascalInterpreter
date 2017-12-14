@@ -10,5 +10,5 @@ import Foundation
 
 public struct SemanticData {
     let scopes: [String: ScopedSymbolTable]
-    let procedures: [String: AST]
+    let procedures: [String: Procedure]
 }

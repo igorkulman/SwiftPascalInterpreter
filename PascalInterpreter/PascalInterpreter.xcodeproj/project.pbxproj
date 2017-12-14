@@ -29,6 +29,7 @@
 		F300A0F01FDDB77000E5894D /* LexerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0EB1FDDB77000E5894D /* LexerTests.swift */; };
 		F300A0F11FDDB77000E5894D /* InterpreterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0EC1FDDB77000E5894D /* InterpreterTests.swift */; };
 		F300A0F21FDDB77000E5894D /* SemanticAnalyzerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0ED1FDDB77000E5894D /* SemanticAnalyzerTests.swift */; };
+		F34109A81FE2683900271A57 /* Visitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34109A71FE2683900271A57 /* Visitor.swift */; };
 		F3EF28D01FE12EBF001F36AB /* Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EF28CF1FE12EBF001F36AB /* Frame.swift */; };
 		F3EF28D21FE12F4D001F36AB /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EF28D11FE12F4D001F36AB /* Stack.swift */; };
 		F3EF28FD1FE17754001F36AB /* SemanticData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EF28FC1FE17754001F36AB /* SemanticData.swift */; };
@@ -70,6 +71,7 @@
 		F300A0EB1FDDB77000E5894D /* LexerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LexerTests.swift; sourceTree = "<group>"; };
 		F300A0EC1FDDB77000E5894D /* InterpreterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterpreterTests.swift; sourceTree = "<group>"; };
 		F300A0ED1FDDB77000E5894D /* SemanticAnalyzerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SemanticAnalyzerTests.swift; sourceTree = "<group>"; };
+		F34109A71FE2683900271A57 /* Visitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Visitor.swift; sourceTree = "<group>"; };
 		F3EF28CF1FE12EBF001F36AB /* Frame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Frame.swift; sourceTree = "<group>"; };
 		F3EF28D11FE12F4D001F36AB /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		F3EF28FC1FE17754001F36AB /* SemanticData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticData.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 				F300A0E21FDDB74700E5894D /* Symbol.swift */,
 				F300A0E11FDDB74700E5894D /* Symbol+Extensions.swift */,
 				F300A0E31FDDB74700E5894D /* SymbolTable.swift */,
+				F34109A71FE2683900271A57 /* Visitor.swift */,
 			);
 			path = "Semantic analyzer";
 			sourceTree = "<group>";
@@ -351,6 +354,7 @@
 				F3EF28D21FE12F4D001F36AB /* Stack.swift in Sources */,
 				F300A0E71FDDB74800E5894D /* SymbolTable.swift in Sources */,
 				F300A0D81FDDB6F400E5894D /* AST+Extensions.swift in Sources */,
+				F34109A81FE2683900271A57 /* Visitor.swift in Sources */,
 				F300A0D11FDDB6E400E5894D /* Lexer.swift in Sources */,
 				F3EF28FD1FE17754001F36AB /* SemanticData.swift in Sources */,
 				F300A0D91FDDB6F400E5894D /* AST.swift in Sources */,
