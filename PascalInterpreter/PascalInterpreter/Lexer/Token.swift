@@ -24,11 +24,13 @@ public enum Parenthesis {
 public enum Constant {
     case integer(Int)
     case real(Double)
+    case boolean(Bool)
 }
 
 public enum Type {
     case integer
     case real
+    case boolean
 }
 
 public enum Token {

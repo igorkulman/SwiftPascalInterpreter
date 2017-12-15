@@ -22,6 +22,7 @@ public class ScopedSymbolTable {
 
         insert(BuiltInTypeSymbol.integer)
         insert(BuiltInTypeSymbol.real)
+        insert(BuiltInTypeSymbol.boolean)
     }
 
     func insert(_ symbol: Symbol) {

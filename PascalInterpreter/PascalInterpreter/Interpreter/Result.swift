@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum Result {
-    case none
+enum Value {
     case number(Number)
+    case boolean(Bool)
 }

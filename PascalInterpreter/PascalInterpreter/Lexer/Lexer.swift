@@ -27,9 +27,12 @@ public class Lexer {
         "DIV": .operation(.integerDiv),
         "INTEGER": .type(.integer),
         "REAL": .type(.real),
+        "BOOLEAN": .type(.boolean),
         "BEGIN": .begin,
         "END": .end,
-        "PROCEDURE": .procedure
+        "PROCEDURE": .procedure,
+        "TRUE": .constant(.boolean(true)),
+        "FALSE": .constant(.boolean(false))
     ]
 
     public init(_ text: String) {

@@ -86,6 +86,8 @@ extension Type: CustomStringConvertible {
             return "INTEGER"
         case .real:
             return "REAL"
+        case .boolean:
+            return "BOOLEAN"
         }
     }
 }
@@ -108,6 +110,8 @@ extension Constant: CustomStringConvertible {
             return "INTEGER_CONST(\(value))"
         case let .real(value):
             return "REAL_CONST(\(value))"
+        case let .boolean(value):
+            return "BOOLEAN_CONST(\(value))"
         }
     }
 }

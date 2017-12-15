@@ -25,6 +25,7 @@ public enum Number: AST {
     case integer(Int)
     case real(Double)
 }
+
 public protocol AST {
 }
 
@@ -144,9 +145,9 @@ class Param: AST {
 
 class ProcedureCall: AST {
     let name: String
-    let actualParameters: [Number]
+    let actualParameters: [AST]
 
-    init(name: String, actualParameters: [Number]) {
+    init(name: String, actualParameters: [AST]) {
         self.name = name
         self.actualParameters = actualParameters
     }

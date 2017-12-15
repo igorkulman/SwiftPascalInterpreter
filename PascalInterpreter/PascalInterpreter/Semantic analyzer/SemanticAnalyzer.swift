@@ -89,20 +89,8 @@ public class SemanticAnalyzer: Visitor {
         }
 
         for i in 0 ... procedure.params.count - 1 {
-            guard let variableSymbol = procedure.params[i] as? VariableSymbol, let type = variableSymbol.type as? BuiltInTypeSymbol else {
+            guard let variableSymbol = procedure.params[i] as? VariableSymbol, variableSymbol.type is BuiltInTypeSymbol else {
                 fatalError("Procedure declared with wrong parameters '\(call.name)'")
-            }
-
-            switch type {
-            case .integer:
-                switch call.actualParameters[i] {
-                case .integer:
-                    break
-                case .real:
-                    fatalError("Cannot assing Real to Integer parameter in procedure call '\(call.name)'")
-                }
-            case .real:
-                break
             }
         }
     }
