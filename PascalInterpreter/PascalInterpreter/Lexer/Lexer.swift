@@ -32,7 +32,10 @@ public class Lexer {
         "END": .end,
         "PROCEDURE": .procedure,
         "TRUE": .constant(.boolean(true)),
-        "FALSE": .constant(.boolean(false))
+        "FALSE": .constant(.boolean(false)),
+        "IF": .`if`,
+        "ELSE": .`else`,
+        "THEN": .then
     ]
 
     public init(_ text: String) {
@@ -221,6 +224,11 @@ public class Lexer {
             if currentCharacter == ")" {
                 advance()
                 return .parenthesis(.right)
+            }
+
+            if currentCharacter == "=" {
+                advance()
+                return .equals
             }
 
             fatalError("Unrecognized character \(currentCharacter) at position \(currentPosition)")

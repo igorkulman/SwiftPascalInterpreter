@@ -374,4 +374,20 @@ class LexerTests: XCTestCase {
             _ = lexer.getNextToken()
         }
     }
+
+    func testIfElseConditions() {
+        let lexer = Lexer("if x = 5 then y:=2 else y:= 8")
+        XCTAssert(lexer.getNextToken() == .if)
+        XCTAssert(lexer.getNextToken() == .id("x"))
+        XCTAssert(lexer.getNextToken() == .equals)
+        XCTAssert(lexer.getNextToken() == .constant(.integer(5)))
+        XCTAssert(lexer.getNextToken() == .then)
+        XCTAssert(lexer.getNextToken() == .id("y"))
+        XCTAssert(lexer.getNextToken() == .assign)
+        XCTAssert(lexer.getNextToken() == .constant(.integer(2)))
+        XCTAssert(lexer.getNextToken() == .else)
+        XCTAssert(lexer.getNextToken() == .id("y"))
+        XCTAssert(lexer.getNextToken() == .assign)
+        XCTAssert(lexer.getNextToken() == .constant(.integer(8)))
+    }
 }

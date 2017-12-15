@@ -16,16 +16,22 @@ lexer.getNextToken()
 let program =
     """
     program Main;
-    var x, y: integer;
+    var result: integer;
 
-    procedure Alpha(a, b: Integer);
+    procedure Factorial(number: Integer);
     begin
-    x := a + y + b;
+    if (number = 1) then
+        result:=result
+    else
+    begin
+        result := result * number;
+        Factorial(number-1)
+    end
     end;
 
     begin { Main }
-    y:=3;
-    Alpha(2, 13);
+    result := 1;
+    Factorial(6);
     end.  { Main }
     """
 

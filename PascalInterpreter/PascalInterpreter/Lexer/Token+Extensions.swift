@@ -43,6 +43,14 @@ extension Token: Equatable {
             return left == right
         case (.procedure, .procedure):
             return true
+        case (.if, .if):
+            return true
+        case (.else, .else):
+            return true
+        case (.equals, .equals):
+            return true
+        case (.then, .then):
+            return true
         default:
             return false
         }
@@ -55,6 +63,8 @@ extension Constant: Equatable {
         case let (.integer(left), .integer(right)):
             return left == right
         case let (.real(left), .real(right)):
+            return left == right
+        case let (.boolean(left), .boolean(right)):
             return left == right
         default:
             return false
@@ -151,6 +161,14 @@ extension Token: CustomStringConvertible {
             return constant.description
         case .procedure:
             return "PROCEDURE"
+        case .`if`:
+            return "IF"
+        case .`else`:
+            return "ELSE"
+        case .then:
+            return "THEN"
+        case .equals:
+            return "EQUALS"
         }
     }
 }

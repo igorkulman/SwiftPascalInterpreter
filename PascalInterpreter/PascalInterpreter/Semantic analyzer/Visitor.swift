@@ -24,6 +24,8 @@ protocol Visitor: class {
     func visit(procedure: Procedure)
     func visit(param: Param)
     func visit(call: ProcedureCall)
+    func visit(condition: Condition)
+    func visit(ifElse: IfElse)
 }
 
 extension Visitor {
@@ -57,6 +59,10 @@ extension Visitor {
             visit(param: param)
         case let call as ProcedureCall:
             visit(call: call)
+        case let condition as Condition:
+            break
+        case let ifElse as IfElse:
+            break
         default:
             fatalError("Unsupported node type \(node)")
         }
@@ -127,6 +133,20 @@ extension Visitor {
     func visit(call: ProcedureCall) {
         for parameter in call.actualParameters {
             visit(node: parameter)
+        }
+    }
+
+    func visit(condition: Condition) {
+        visit(node: condition.leftSide)
+        visit(node: condition.rightSide)
+    }
+
+    func visit(ifElse: IfElse) {
+        visit(node: ifElse.condition)
+        visit(node: ifElse.trueExpression)
+
+        if let falseExpression = ifElse.falseExpression {
+            visit(node: falseExpression)
         }
     }
 }

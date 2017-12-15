@@ -104,7 +104,7 @@ class InterpreterTests: XCTestCase {
 
     func testProgramWithProcedureCallAndParameters() {
         let program =
-        """
+            """
             program Main;
             var x, y: real;
 
@@ -124,5 +124,32 @@ class InterpreterTests: XCTestCase {
         let (integerState, realState) = interpeter.getState()
         XCTAssert(integerState == [:])
         XCTAssert(realState == ["x": 5, "y": 3])
+    }
+
+    func testProgramWithRecursiveFunction() {
+        let program =
+            """
+            program Main;
+            var result: integer;
+
+            procedure Factorial(number: Integer);
+            begin
+            if (number = 1) then
+                result:=number
+            else
+            begin
+                result := result * number;
+                Factorial(number-1)
+            end
+            end;
+
+            begin { Main }
+            result := 1;
+            Factorial(2);
+            end.  { Main }
+            """
+
+        let interpeter = Interpreter(program)
+        interpeter.interpret()
     }
 }

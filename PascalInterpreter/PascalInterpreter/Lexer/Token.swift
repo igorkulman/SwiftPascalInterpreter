@@ -50,4 +50,8 @@ public enum Token {
     case type(Type)
     case constant(Constant)
     case procedure
+    case `if`
+    case `else`
+    case then
+    case equals
 }

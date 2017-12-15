@@ -152,3 +152,25 @@ class ProcedureCall: AST {
         self.actualParameters = actualParameters
     }
 }
+
+class Condition: AST {
+    let leftSide: AST
+    let rightSide: AST
+
+    init(leftSide: AST, rightSide: AST) {
+        self.leftSide = leftSide
+        self.rightSide = rightSide
+    }
+}
+
+class IfElse: AST {
+    let condition: Condition
+    let trueExpression: AST
+    let falseExpression: AST?
+
+    init(condition: Condition, trueExpression: AST, falseExpression: AST?) {
+        self.condition = condition
+        self.trueExpression = trueExpression
+        self.falseExpression = falseExpression
+    }
+}

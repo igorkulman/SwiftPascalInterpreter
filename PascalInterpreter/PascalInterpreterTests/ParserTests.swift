@@ -267,4 +267,64 @@ class ParserTests: XCTestCase {
         let node = Program(name: "Main", block: Block(declarations: [xDec, yDec, alpha], compound: compound))
         XCTAssertEqual(result, node)
     }
+
+    func testProgramWithIfElseCondition() {
+        let program =
+            """
+            program Main;
+            var x, y: real;
+
+            begin { Main }
+            y := 5;
+            if (y = 5) then
+                x:=2
+            else
+                x:= 3
+            end.  { Main }
+            """
+        let parser = Parser(program)
+        let result = parser.parse()
+        let xDec = VariableDeclaration(variable: Variable(name: "x"), type: VariableType(type: .real))
+        let yDec = VariableDeclaration(variable: Variable(name: "y"), type: VariableType(type: .real))
+        let compound = Compound(children: [Assignment(left: Variable(name: "y"), right: Number.integer(5)), IfElse(condition: Condition(leftSide: Variable(name: "y"), rightSide: Number.integer(5)), trueExpression: Assignment(left: Variable(name: "x"), right: Number.integer(2)), falseExpression: Assignment(left: Variable(name: "x"), right: Number.integer(3)))])
+        let node = Program(name: "Main", block: Block(declarations: [xDec, yDec], compound: compound))
+        XCTAssertEqual(result, node)
+    }
+
+    func testProgramWithIfCondition() {
+        let program =
+        """
+            program Main;
+            var x, y: real;
+
+            begin { Main }
+            y := 5;
+            if (y = 5) then
+                x:=2
+            end.  { Main }
+            """
+        let parser = Parser(program)
+        let result = parser.parse()
+        let xDec = VariableDeclaration(variable: Variable(name: "x"), type: VariableType(type: .real))
+        let yDec = VariableDeclaration(variable: Variable(name: "y"), type: VariableType(type: .real))
+        let compound = Compound(children: [Assignment(left: Variable(name: "y"), right: Number.integer(5)), IfElse(condition: Condition(leftSide: Variable(name: "y"), rightSide: Number.integer(5)), trueExpression: Assignment(left: Variable(name: "x"), right: Number.integer(2)), falseExpression: nil)])
+        let node = Program(name: "Main", block: Block(declarations: [xDec, yDec], compound: compound))
+        XCTAssertEqual(result, node)
+    }
+
+    func testProgramWithProcedureWithVariable() {
+        let program =
+        """
+            program Main;
+            begin { Main }
+            Factorial(x);
+            end.  { Main }
+            """
+
+        let parser = Parser(program)
+        let result = parser.parse()
+        let compound = Compound(children: [ProcedureCall(name: "Factorial", actualParameters: [])])
+        let node = Program(name: "Main", block: Block(declarations: [], compound: compound))
+        XCTAssertEqual(result, node)
+    }
 }

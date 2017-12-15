@@ -40,6 +40,10 @@ public class Interpreter {
             return eval(program: program)
         case let call as ProcedureCall:
             return eval(call: call)
+        case let condition as Condition:
+            return eval(condition: condition)
+        case let ifElse as IfElse:
+            return eval(ifElse: ifElse)
         default:
             return nil
         }
@@ -56,28 +60,28 @@ public class Interpreter {
 
         switch unaryOperation.operation {
         case .plus:
-            return  .number(+result)
+            return .number(+result)
         case .minus:
-            return  .number(-result)
+            return .number(-result)
         }
     }
     func eval(binaryOperation: BinaryOperation) -> Value? {
-        guard let leftValue = eval(node: binaryOperation.left), case let  .number(leftResult) = leftValue,
+        guard let leftValue = eval(node: binaryOperation.left), case let .number(leftResult) = leftValue,
             let rightValue = eval(node: binaryOperation.right), case let .number(rightResult) = rightValue else {
             fatalError("Cannot use binary \(binaryOperation.operation) on non numbers")
         }
 
         switch binaryOperation.operation {
         case .plus:
-            return  .number(leftResult + rightResult)
+            return .number(leftResult + rightResult)
         case .minus:
-            return  .number(leftResult - rightResult)
+            return .number(leftResult - rightResult)
         case .mult:
-            return  .number(leftResult * rightResult)
+            return .number(leftResult * rightResult)
         case .integerDiv:
-            return  .number(leftResult ‖ rightResult)
+            return .number(leftResult ‖ rightResult)
         case .floatDiv:
-            return  .number(leftResult / rightResult)
+            return .number(leftResult / rightResult)
         }
     }
 
@@ -101,7 +105,6 @@ public class Interpreter {
         guard let currentFrame = callStack.peek() else {
             fatalError("No call stack frame")
         }
-
         return currentFrame.get(variable: variable.name)
     }
 
@@ -121,11 +124,37 @@ public class Interpreter {
 
     func eval(call: ProcedureCall) -> Value? {
         let current = callStack.peek()!
-        let frame = Frame(scope: scopes[call.name]!, previousFrame: current)
+        let newScope = current.scope.level == 1 ? scopes[call.name]! : ScopedSymbolTable(name: call.name, level: scopes[call.name]!.level+1, enclosingScope: scopes[call.name]!)
+        let frame = Frame(scope: newScope, previousFrame: current)
         callStack.push(frame)
         callProcedure(procedure: call.name, params: call.actualParameters, frame: frame)
         callStack.pop()
         return nil
+    }
+
+    func eval(condition: Condition) -> Value {
+        let left = eval(node: condition.leftSide)
+        let right = eval(node: condition.rightSide)
+
+        guard let leftResult = left, let rightResult = right else {
+            fatalError("Invalid condition \(left) = \(right)")
+        }
+
+        return .boolean(leftResult == rightResult)
+    }
+
+    func eval(ifElse: IfElse) -> Value? {
+        guard case let .boolean(value) = eval(condition: ifElse.condition) else {
+            fatalError("Condition not boolean")
+        }
+
+        if value {
+            return eval(node: ifElse.trueExpression)
+        } else if let falseExpression = ifElse.falseExpression {
+            return eval(node: falseExpression)
+        } else {
+            return nil
+        }
     }
 
     private func callProcedure(procedure: String, params: [AST], frame: Frame) {

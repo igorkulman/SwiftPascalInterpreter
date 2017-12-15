@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		F300A0A51FDDB63F00E5894D /* PascalInterpreter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300A09B1FDDB63F00E5894D /* PascalInterpreter.framework */; };
 		F300A0AC1FDDB63F00E5894D /* PascalInterpreter.h in Headers */ = {isa = PBXBuildFile; fileRef = F300A09E1FDDB63F00E5894D /* PascalInterpreter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F300A0C71FDDB6BE00E5894D /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0C41FDDB6BD00E5894D /* Result.swift */; };
+		F300A0C71FDDB6BE00E5894D /* Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0C41FDDB6BD00E5894D /* Value.swift */; };
 		F300A0C81FDDB6BE00E5894D /* Arithmetics.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0C51FDDB6BE00E5894D /* Arithmetics.swift */; };
 		F300A0C91FDDB6BE00E5894D /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0C61FDDB6BE00E5894D /* Interpreter.swift */; };
 		F300A0D11FDDB6E400E5894D /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F300A0CE1FDDB6E300E5894D /* Lexer.swift */; };
@@ -50,7 +50,7 @@
 		F300A09F1FDDB63F00E5894D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F300A0A41FDDB63F00E5894D /* PascalInterpreterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PascalInterpreterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F300A0AB1FDDB63F00E5894D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F300A0C41FDDB6BD00E5894D /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		F300A0C41FDDB6BD00E5894D /* Value.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Value.swift; sourceTree = "<group>"; };
 		F300A0C51FDDB6BE00E5894D /* Arithmetics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arithmetics.swift; sourceTree = "<group>"; };
 		F300A0C61FDDB6BE00E5894D /* Interpreter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interpreter.swift; sourceTree = "<group>"; };
 		F300A0CE1FDDB6E300E5894D /* Lexer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lexer.swift; sourceTree = "<group>"; };
@@ -142,7 +142,7 @@
 				F300A0C51FDDB6BE00E5894D /* Arithmetics.swift */,
 				F3EF28CF1FE12EBF001F36AB /* Frame.swift */,
 				F300A0C61FDDB6BE00E5894D /* Interpreter.swift */,
-				F300A0C41FDDB6BD00E5894D /* Result.swift */,
+				F300A0C41FDDB6BD00E5894D /* Value.swift */,
 				F3EF28D11FE12F4D001F36AB /* Stack.swift */,
 			);
 			path = Interpreter;
@@ -347,7 +347,7 @@
 			files = (
 				F300A0C91FDDB6BE00E5894D /* Interpreter.swift in Sources */,
 				F3EF28D01FE12EBF001F36AB /* Frame.swift in Sources */,
-				F300A0C71FDDB6BE00E5894D /* Result.swift in Sources */,
+				F300A0C71FDDB6BE00E5894D /* Value.swift in Sources */,
 				F3EF28D21FE12F4D001F36AB /* Stack.swift in Sources */,
 				F300A0E71FDDB74800E5894D /* SymbolTable.swift in Sources */,
 				F300A0D81FDDB6F400E5894D /* AST+Extensions.swift in Sources */,

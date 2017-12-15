@@ -243,6 +243,7 @@ public class Parser {
 
      statement : compound_statement
      | procedure_call
+     | if_else_statement
      | assignment_statement
      | empty
      */
@@ -250,6 +251,8 @@ public class Parser {
         switch currentToken {
         case .begin:
             return compoundStatement()
+        case .if:
+            return ifElseStatement()
         case .id:
             if nextToken == .parenthesis(.left) {
                 return procedureCall()
@@ -264,23 +267,21 @@ public class Parser {
     /**
      Rule:
 
-     procedure_call : id( (factor [,])* );
+     procedure_call : id( (factor (factor,)* )* );
      */
     private func procedureCall() -> ProcedureCall {
         guard case let .id(name) = currentToken else {
             fatalError("Procedure name expected, got \(currentToken)")
         }
 
-        var parameters: [Number] = []
+        var parameters: [AST] = []
 
         eat(.id(name))
         eat(.parenthesis(.left))
         if currentToken == .parenthesis(.right) { // no parameters
             eat(.parenthesis(.right))
         } else {
-            if let number = factor() as? Number {
-                parameters.append(number)
-            }
+            parameters.append(expr())
             while currentToken == .coma {
                 eat(.coma)
                 if let value = factor() as? Number {
@@ -291,6 +292,39 @@ public class Parser {
         }
 
         return ProcedureCall(name: name, actualParameters: parameters)
+    }
+
+    /**
+     Rule:
+
+     if_else_statement : IF condition statement
+     | IF condition THEN statement ELSE statement
+     */
+    private func ifElseStatement() -> IfElse {
+        eat(.if)
+        let cond = condition()
+        eat(.then)
+        let trueStatement = statement()
+        var falseStatement: AST?
+        if currentToken == .else {
+            eat(.else)
+            falseStatement = statement()
+        }
+
+        return IfElse(condition: cond, trueExpression: trueStatement, falseExpression: falseStatement)
+    }
+
+    /**
+     Rule:
+     condition: expr = expr
+     */
+    private func condition() -> Condition {
+        eat(.parenthesis(.left))
+        let left = expr()
+        eat(.equals)
+        let right = expr()
+        eat(.parenthesis(.right))
+        return Condition(leftSide: left, rightSide: right)
     }
 
     /**
