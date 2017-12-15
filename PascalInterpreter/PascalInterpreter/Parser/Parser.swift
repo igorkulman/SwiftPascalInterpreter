@@ -316,15 +316,28 @@ public class Parser {
 
     /**
      Rule:
-     condition: expr = expr
+     condition: expr (= | < | >) expr
      */
     private func condition() -> Condition {
         eat(.parenthesis(.left))
         let left = expr()
-        eat(.equals)
+        var type: ConditionType = .equals
+        switch currentToken {
+        case .equals:
+            eat(.equals)
+            type = .equals
+        case .lessThan:
+            eat(.lessThan)
+            type = .lessThan
+        case .greaterThan:
+            eat(.greaterThan)
+            type = .greaterThan
+        default:
+            fatalError("Invalid condition type \(type)")
+        }
         let right = expr()
         eat(.parenthesis(.right))
-        return Condition(leftSide: left, rightSide: right)
+        return Condition(type: type, leftSide: left, rightSide: right)
     }
 
     /**

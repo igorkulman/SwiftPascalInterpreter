@@ -231,6 +231,16 @@ public class Lexer {
                 return .equals
             }
 
+            if currentCharacter == ">" {
+                advance()
+                return .greaterThan
+            }
+
+            if currentCharacter == "<" {
+                advance()
+                return .lessThan
+            }
+
             fatalError("Unrecognized character \(currentCharacter) at position \(currentPosition)")
         }
 

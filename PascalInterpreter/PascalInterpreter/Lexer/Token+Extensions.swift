@@ -51,6 +51,10 @@ extension Token: Equatable {
             return true
         case (.then, .then):
             return true
+        case (.lessThan, .lessThan):
+            return true
+        case (.greaterThan, .greaterThan):
+            return true
         default:
             return false
         }
@@ -168,7 +172,11 @@ extension Token: CustomStringConvertible {
         case .then:
             return "THEN"
         case .equals:
-            return "EQUALS"
+            return "EQ"
+        case .lessThan:
+            return "LT"
+        case .greaterThan:
+            return "GT"
         }
     }
 }

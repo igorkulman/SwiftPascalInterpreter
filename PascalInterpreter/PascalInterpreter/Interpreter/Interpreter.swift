@@ -124,7 +124,7 @@ public class Interpreter {
 
     func eval(call: ProcedureCall) -> Value? {
         let current = callStack.peek()!
-        let newScope = current.scope.level == 1 ? scopes[call.name]! : ScopedSymbolTable(name: call.name, level: scopes[call.name]!.level+1, enclosingScope: scopes[call.name]!)
+        let newScope = current.scope.level == 1 ? scopes[call.name]! : ScopedSymbolTable(name: call.name, level: scopes[call.name]!.level + 1, enclosingScope: scopes[call.name]!)
         let frame = Frame(scope: newScope, previousFrame: current)
         callStack.push(frame)
         callProcedure(procedure: call.name, params: call.actualParameters, frame: frame)
@@ -137,10 +137,17 @@ public class Interpreter {
         let right = eval(node: condition.rightSide)
 
         guard let leftResult = left, let rightResult = right else {
-            fatalError("Invalid condition \(left) = \(right)")
+            fatalError("Invalid condition \(String(describing: left)) = \(String(describing: right))")
         }
 
-        return .boolean(leftResult == rightResult)
+        switch condition.type {
+        case .equals:
+            return .boolean(leftResult == rightResult)
+        case .greaterThan:
+            return .boolean(leftResult > rightResult)
+        case .lessThan:
+            return .boolean(leftResult < rightResult)
+        }
     }
 
     func eval(ifElse: IfElse) -> Value? {

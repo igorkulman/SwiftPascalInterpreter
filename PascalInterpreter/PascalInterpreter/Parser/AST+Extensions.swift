@@ -62,6 +62,19 @@ extension BinaryOperationType: CustomStringConvertible {
     }
 }
 
+extension ConditionType: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .equals:
+            return "="
+        case .greaterThan:
+            return ">"
+        case .lessThan:
+            return "<"
+        }
+    }
+}
+
 extension AST {
     var value: String {
         switch self {
@@ -95,8 +108,8 @@ extension AST {
             return "\(call.name)()"
         case is IfElse:
             return "IF"
-        case is Condition:
-            return "="
+        case let condition as Condition:
+            return condition.type.description
         default:
             fatalError("Missed AST case \(self)")
         }

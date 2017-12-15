@@ -54,4 +54,6 @@ public enum Token {
     case `else`
     case then
     case equals
+    case lessThan
+    case greaterThan
 }

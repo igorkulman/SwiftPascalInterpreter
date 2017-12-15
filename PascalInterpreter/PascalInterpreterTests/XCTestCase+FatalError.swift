@@ -103,6 +103,7 @@ func XCTAssertEqual(_ left: AST, _ right: AST) {
         XCTAssert(left.name == right.name)
         XCTAssertEqual(left.type, right.type)
     case let (left as Condition, right as Condition):
+        XCTAssertEqual(left.type, right.type)
         XCTAssertEqual(left.leftSide, right.leftSide)
         XCTAssertEqual(left.rightSide, right.rightSide)
     case let (left as IfElse, right as IfElse):
@@ -115,10 +116,10 @@ func XCTAssertEqual(_ left: AST, _ right: AST) {
         default:
             break
         }
+        XCTAssertEqual(left.condition, right.condition)
         if let leftFalse = left.falseExpression, let rightFalse = right.falseExpression {
             XCTAssertEqual(leftFalse, rightFalse)
         }
-       XCTAssertEqual(left.condition, right.condition)
     default:
         XCTFail("\(left) and \(right) are not equal")
     }

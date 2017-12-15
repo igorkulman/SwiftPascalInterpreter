@@ -20,9 +20,7 @@ let program =
 
     procedure Factorial(number: Integer);
     begin
-    if (number = 1) then
-        result:=result
-    else
+    if (number > 1) then
     begin
         result := result * number;
         Factorial(number-1)

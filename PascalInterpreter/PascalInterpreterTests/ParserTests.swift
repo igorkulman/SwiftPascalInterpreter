@@ -286,7 +286,7 @@ class ParserTests: XCTestCase {
         let result = parser.parse()
         let xDec = VariableDeclaration(variable: Variable(name: "x"), type: VariableType(type: .real))
         let yDec = VariableDeclaration(variable: Variable(name: "y"), type: VariableType(type: .real))
-        let compound = Compound(children: [Assignment(left: Variable(name: "y"), right: Number.integer(5)), IfElse(condition: Condition(leftSide: Variable(name: "y"), rightSide: Number.integer(5)), trueExpression: Assignment(left: Variable(name: "x"), right: Number.integer(2)), falseExpression: Assignment(left: Variable(name: "x"), right: Number.integer(3)))])
+        let compound = Compound(children: [Assignment(left: Variable(name: "y"), right: Number.integer(5)), IfElse(condition: Condition(type: .equals, leftSide: Variable(name: "y"), rightSide: Number.integer(5)), trueExpression: Assignment(left: Variable(name: "x"), right: Number.integer(2)), falseExpression: Assignment(left: Variable(name: "x"), right: Number.integer(3)))])
         let node = Program(name: "Main", block: Block(declarations: [xDec, yDec], compound: compound))
         XCTAssertEqual(result, node)
     }
@@ -307,7 +307,7 @@ class ParserTests: XCTestCase {
         let result = parser.parse()
         let xDec = VariableDeclaration(variable: Variable(name: "x"), type: VariableType(type: .real))
         let yDec = VariableDeclaration(variable: Variable(name: "y"), type: VariableType(type: .real))
-        let compound = Compound(children: [Assignment(left: Variable(name: "y"), right: Number.integer(5)), IfElse(condition: Condition(leftSide: Variable(name: "y"), rightSide: Number.integer(5)), trueExpression: Assignment(left: Variable(name: "x"), right: Number.integer(2)), falseExpression: nil)])
+        let compound = Compound(children: [Assignment(left: Variable(name: "y"), right: Number.integer(5)), IfElse(condition: Condition(type: .equals, leftSide: Variable(name: "y"), rightSide: Number.integer(5)), trueExpression: Assignment(left: Variable(name: "x"), right: Number.integer(2)), falseExpression: nil)])
         let node = Program(name: "Main", block: Block(declarations: [xDec, yDec], compound: compound))
         XCTAssertEqual(result, node)
     }

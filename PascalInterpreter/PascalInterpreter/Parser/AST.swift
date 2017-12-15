@@ -21,6 +21,12 @@ public enum UnaryOperationType {
     case minus
 }
 
+public enum ConditionType {
+    case equals
+    case lessThan
+    case greaterThan
+}
+
 public enum Number: AST {
     case integer(Int)
     case real(Double)
@@ -154,10 +160,12 @@ class ProcedureCall: AST {
 }
 
 class Condition: AST {
+    let type: ConditionType
     let leftSide: AST
     let rightSide: AST
 
-    init(leftSide: AST, rightSide: AST) {
+    init(type: ConditionType, leftSide: AST, rightSide: AST) {
+        self.type = type
         self.leftSide = leftSide
         self.rightSide = rightSide
     }
