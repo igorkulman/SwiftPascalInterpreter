@@ -267,7 +267,7 @@ public class Parser {
     /**
      Rule:
 
-     procedure_call : id( (factor (factor,)* )* );
+     procedure_call : id( (factor (factor,)* )* )
      */
     private func procedureCall() -> ProcedureCall {
         guard case let .id(name) = currentToken else {

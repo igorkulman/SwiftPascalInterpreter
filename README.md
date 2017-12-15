@@ -32,7 +32,6 @@ Implemented checks
 * Check if variable is not declared more than once
 * Check if a procedure was declared
 * Check if a procedure is called with the correct number of parameters
-* Check if a procedure is called with parameters of the right type
 
 ### Interpreter
 
