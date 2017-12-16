@@ -14,7 +14,7 @@ enum Value {
 }
 
 extension Value: Equatable {
-    static func ==(lhs: Value, rhs: Value) -> Bool {
+    static func == (lhs: Value, rhs: Value) -> Bool {
         switch (lhs, rhs) {
         case let (.number(left), .number(right)):
             return left == right

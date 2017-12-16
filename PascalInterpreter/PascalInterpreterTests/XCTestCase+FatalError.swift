@@ -58,7 +58,7 @@ func XCTAssertEqual(_ left: AST, _ right: AST) {
         XCTAssertEqual(left.compound, right.compound)
     case let (left as Compound, right as Compound):
         XCTAssert(left.children.count == right.children.count)
-        if left.children.count > 0 {
+        if left.children.count > 0 && left.children.count == right.children.count {
             for i in 0 ... left.children.count - 1 {
                 XCTAssertEqual(left.children[i], right.children[i])
             }
@@ -94,7 +94,7 @@ func XCTAssertEqual(_ left: AST, _ right: AST) {
     case let (left as ProcedureCall, right as ProcedureCall):
         XCTAssert(left.name == right.name)
         XCTAssert(left.actualParameters.count == right.actualParameters.count)
-        if left.actualParameters.count > 0 {
+        if left.actualParameters.count > 0 && left.actualParameters.count == right.actualParameters.count {
             for i in 0 ... left.actualParameters.count - 1 {
                 XCTAssertEqual(left.actualParameters[i], right.actualParameters[i])
             }
@@ -110,9 +110,9 @@ func XCTAssertEqual(_ left: AST, _ right: AST) {
         XCTAssertEqual(left.trueExpression, right.trueExpression)
         switch (left.falseExpression == nil, right.falseExpression == nil) {
         case (true, false):
-            XCTFail("\(left.falseExpression) and \(right.falseExpression) are not equal")
+            XCTFail("\(String(describing: left.falseExpression)) and \(String(describing: right.falseExpression)) are not equal")
         case (false, true):
-            XCTFail("\(left.falseExpression) and \(right.falseExpression) are not equal")
+            XCTFail("\(String(describing: left.falseExpression)) and \(String(describing: right.falseExpression)) are not equal")
         default:
             break
         }

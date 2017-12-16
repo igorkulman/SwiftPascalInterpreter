@@ -34,7 +34,15 @@ class SemanticAnalyzerTests: XCTestCase {
         let node = parser.parse()
 
         let analyzer = SemanticAnalyzer()
-        analyzer.analyze(node: node)
+        let state = analyzer.analyze(node: node)
+        XCTAssert(state.keys.count == 1)
+        XCTAssert(state["global"] != nil)
+        XCTAssert(state["global"]!.level == 1)
+        XCTAssert(state["global"]!.lookup("y") != nil)
+        XCTAssert(state["global"]!.lookup("a") != nil)
+        XCTAssert(state["global"]!.lookup("b") != nil)
+        XCTAssert(state["global"]!.lookup("number") != nil)
+        XCTAssert(state["global"]!.lookup("c") == nil)
     }
 
     func testSemanticAnalyzerAssignUndeclaredVariable() {
@@ -59,7 +67,7 @@ class SemanticAnalyzerTests: XCTestCase {
 
         let analyzer = SemanticAnalyzer()
         expectFatalError(expectedMessage: "Symbol(indetifier) not found 'x'") {
-            analyzer.analyze(node: node)
+            _ = analyzer.analyze(node: node)
         }
     }
 
@@ -79,7 +87,7 @@ class SemanticAnalyzerTests: XCTestCase {
 
         let analyzer = SemanticAnalyzer()
         expectFatalError(expectedMessage: "Symbol(indetifier) not found 'y'") {
-            analyzer.analyze(node: node)
+            _ = analyzer.analyze(node: node)
         }
     }
 
@@ -100,7 +108,7 @@ class SemanticAnalyzerTests: XCTestCase {
 
         let analyzer = SemanticAnalyzer()
         expectFatalError(expectedMessage: "Duplicate identifier 'y' found") {
-            analyzer.analyze(node: node)
+            _ = analyzer.analyze(node: node)
         }
     }
 
@@ -125,7 +133,19 @@ class SemanticAnalyzerTests: XCTestCase {
         let node = parser.parse()
 
         let analyzer = SemanticAnalyzer()
-        analyzer.analyze(node: node)
+        let state = analyzer.analyze(node: node)
+        XCTAssert(state.keys.count == 2)
+        XCTAssert(state["global"] != nil)
+        XCTAssert(state["global"]!.level == 1)
+        XCTAssert(state["global"]!.lookup("x") != nil)
+        XCTAssert(state["global"]!.lookup("y") != nil)
+        XCTAssert(state["global"]!.lookup("a") == nil)
+        XCTAssert(state.keys.count == 2)
+        XCTAssert(state["Alpha"] != nil)
+        XCTAssert(state["Alpha"]!.level == 2)
+        XCTAssert(state["Alpha"]!.lookup("x") != nil)
+        XCTAssert(state["Alpha"]!.lookup("y") != nil)
+        XCTAssert(state["Alpha"]!.lookup("a") != nil)
     }
 
     func testSemanticAnalyzerUndeclaredProcedure() {
@@ -150,7 +170,7 @@ class SemanticAnalyzerTests: XCTestCase {
 
         let analyzer = SemanticAnalyzer()
         expectFatalError(expectedMessage: "Symbol(procedure) not found 'Beta'") {
-            analyzer.analyze(node: node)
+            _ = analyzer.analyze(node: node)
         }
     }
 
@@ -175,7 +195,19 @@ class SemanticAnalyzerTests: XCTestCase {
         let node = parser.parse()
 
         let analyzer = SemanticAnalyzer()
-        analyzer.analyze(node: node)
+        let state = analyzer.analyze(node: node)
+        XCTAssert(state.keys.count == 2)
+        XCTAssert(state["global"] != nil)
+        XCTAssert(state["global"]!.level == 1)
+        XCTAssert(state["global"]!.lookup("x") != nil)
+        XCTAssert(state["global"]!.lookup("y") != nil)
+        XCTAssert(state["global"]!.lookup("a") == nil)
+        XCTAssert(state.keys.count == 2)
+        XCTAssert(state["Alpha"] != nil)
+        XCTAssert(state["Alpha"]!.level == 2)
+        XCTAssert(state["Alpha"]!.lookup("x") != nil)
+        XCTAssert(state["Alpha"]!.lookup("y") != nil)
+        XCTAssert(state["Alpha"]!.lookup("a") == nil)
     }
 
     func testSemanticAnalyzerProcedureUndeclaredVariable() {
@@ -200,13 +232,13 @@ class SemanticAnalyzerTests: XCTestCase {
 
         let analyzer = SemanticAnalyzer()
         expectFatalError(expectedMessage: "Symbol(indetifier) not found 'b'") {
-            analyzer.analyze(node: node)
+            _ = analyzer.analyze(node: node)
         }
     }
 
     func testSemanticAnalyzerProcedureCallWithoutParameter() {
         let program =
-        """
+            """
             program Main;
             var x, y: real;
 
@@ -226,13 +258,13 @@ class SemanticAnalyzerTests: XCTestCase {
 
         let analyzer = SemanticAnalyzer()
         expectFatalError(expectedMessage: "Procedure called with wrong number of parameters 'Alpha'") {
-            analyzer.analyze(node: node)
+            _ = analyzer.analyze(node: node)
         }
     }
 
     func testSemanticAnalyzerProcedureCallWithParameter() {
         let program =
-        """
+            """
             program Main;
             var x, y: real;
 
@@ -251,12 +283,24 @@ class SemanticAnalyzerTests: XCTestCase {
         let node = parser.parse()
 
         let analyzer = SemanticAnalyzer()
-        analyzer.analyze(node: node)
+        let state = analyzer.analyze(node: node)
+        XCTAssert(state.keys.count == 2)
+        XCTAssert(state["global"] != nil)
+        XCTAssert(state["global"]!.level == 1)
+        XCTAssert(state["global"]!.lookup("x") != nil)
+        XCTAssert(state["global"]!.lookup("y") != nil)
+        XCTAssert(state["global"]!.lookup("a") == nil)
+        XCTAssert(state.keys.count == 2)
+        XCTAssert(state["Alpha"] != nil)
+        XCTAssert(state["Alpha"]!.level == 2)
+        XCTAssert(state["Alpha"]!.lookup("x") != nil)
+        XCTAssert(state["Alpha"]!.lookup("y") != nil)
+        XCTAssert(state["Alpha"]!.lookup("a") != nil)
     }
 
     func testSemanticAnalyzerProcedureCallWithParameterWrongType() {
         let program =
-        """
+            """
             program Main;
             var x, y: real;
 
@@ -276,7 +320,7 @@ class SemanticAnalyzerTests: XCTestCase {
 
         let analyzer = SemanticAnalyzer()
         expectFatalError(expectedMessage: "Cannot assing Real to Integer parameter in procedure call 'Alpha'") {
-            analyzer.analyze(node: node)
+            _ = analyzer.analyze(node: node)
         }
     }
 }

@@ -60,9 +60,9 @@ extension Visitor {
         case let call as ProcedureCall:
             visit(call: call)
         case let condition as Condition:
-            break
+            visit(condition: condition)
         case let ifElse as IfElse:
-            break
+            visit(ifElse: ifElse)
         default:
             fatalError("Unsupported node type \(node)")
         }
