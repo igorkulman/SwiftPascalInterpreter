@@ -22,11 +22,15 @@ statement_list : statement
                | statement SEMI statement_list
 
 statement : compound_statement
-		  | procedure_call
+		      | procedure_call
+          | if_else_statement
           | assignment_statement
           | empty
 
-procedure_call : id( (factor [,])* );          
+procedure_call : procedure_call : id( (factor (factor,)* )* )          
+
+if_else_statement : IF condition statement
+                  | IF condition THEN statement ELSE statement
 
 assignment_statement : variable ASSIGN expr
 

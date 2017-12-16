@@ -30,6 +30,21 @@ extension Number: CustomStringConvertible {
     }
 }
 
+extension Number: Equatable {
+    public static func == (lhs: Number, rhs: Number) -> Bool {
+        switch (lhs, rhs) {
+        case let (.integer(left), .integer(right)):
+            return left == right
+        case let (.real(left), .real(right)):
+            return left == right
+        case let (.real(left), .integer(right)):
+            return left == Double(right)
+        case let (.integer(left), .real(right)):
+            return Double(left) == right
+        }
+    }
+}
+
 extension BinaryOperationType: CustomStringConvertible {
     public var description: String {
         switch self {
@@ -43,6 +58,19 @@ extension BinaryOperationType: CustomStringConvertible {
             return "//"
         case .integerDiv:
             return "/"
+        }
+    }
+}
+
+extension ConditionType: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .equals:
+            return "="
+        case .greaterThan:
+            return ">"
+        case .lessThan:
+            return "<"
         }
     }
 }
@@ -78,6 +106,10 @@ extension AST {
             return "param(\(param.name))"
         case let call as ProcedureCall:
             return "\(call.name)()"
+        case is IfElse:
+            return "IF"
+        case let condition as Condition:
+            return condition.type.description
         default:
             fatalError("Missed AST case \(self)")
         }
@@ -123,6 +155,13 @@ extension AST {
             return [param.type]
         case let call as ProcedureCall:
             return call.actualParameters
+        case let ifelse as IfElse:
+            if let falseExpression = ifelse.falseExpression {
+                return [ifelse.condition, ifelse.trueExpression, falseExpression]
+            }
+            return [ifelse.condition, ifelse.trueExpression]
+        case let condition as Condition:
+            return [condition.leftSide, condition.rightSide]
         default:
             fatalError("Missed AST case \(self)")
         }

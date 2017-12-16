@@ -20,7 +20,7 @@ public class Interpreter {
         scopes = semanticAnalyzer.analyze(node: tree)
     }
 
-    @discardableResult private func eval(node: AST) -> Number? {
+    @discardableResult private func eval(node: AST) -> Value? {
         switch node {
         case let number as Number:
             return eval(number: number)
@@ -40,54 +40,59 @@ public class Interpreter {
             return eval(program: program)
         case let call as ProcedureCall:
             return eval(call: call)
+        case let condition as Condition:
+            return eval(condition: condition)
+        case let ifElse as IfElse:
+            return eval(ifElse: ifElse)
         default:
             return nil
         }
     }
 
-    func eval(number: Number) -> Number? {
-        return number
+    func eval(number: Number) -> Value? {
+        return .number(number)
     }
 
-    func eval(unaryOperation: UnaryOperation) -> Number? {
-        guard let result = eval(node: unaryOperation.operand) else {
+    func eval(unaryOperation: UnaryOperation) -> Value? {
+        guard let value = eval(node: unaryOperation.operand), case let .number(result) = value else {
             fatalError("Cannot use unary \(unaryOperation.operation) on non number")
         }
 
         switch unaryOperation.operation {
         case .plus:
-            return +result
+            return .number(+result)
         case .minus:
-            return -result
+            return .number(-result)
         }
     }
-    func eval(binaryOperation: BinaryOperation) -> Number? {
-        guard let leftResult = eval(node: binaryOperation.left), let rightResult = eval(node: binaryOperation.right) else {
+    func eval(binaryOperation: BinaryOperation) -> Value? {
+        guard let leftValue = eval(node: binaryOperation.left), case let .number(leftResult) = leftValue,
+            let rightValue = eval(node: binaryOperation.right), case let .number(rightResult) = rightValue else {
             fatalError("Cannot use binary \(binaryOperation.operation) on non numbers")
         }
 
         switch binaryOperation.operation {
         case .plus:
-            return leftResult + rightResult
+            return .number(leftResult + rightResult)
         case .minus:
-            return leftResult - rightResult
+            return .number(leftResult - rightResult)
         case .mult:
-            return leftResult * rightResult
+            return .number(leftResult * rightResult)
         case .integerDiv:
-            return leftResult ‖ rightResult
+            return .number(leftResult ‖ rightResult)
         case .floatDiv:
-            return leftResult / rightResult
+            return .number(leftResult / rightResult)
         }
     }
 
-    func eval(compound: Compound) -> Number? {
+    func eval(compound: Compound) -> Value? {
         for child in compound.children {
             eval(node: child)
         }
         return nil
     }
 
-    func eval(assignment: Assignment) -> Number? {
+    func eval(assignment: Assignment) -> Value? {
         guard let currentFrame = callStack.peek() else {
             fatalError("No call stack frame")
         }
@@ -96,15 +101,14 @@ public class Interpreter {
         return nil
     }
 
-    func eval(variable: Variable) -> Number? {
+    func eval(variable: Variable) -> Value? {
         guard let currentFrame = callStack.peek() else {
             fatalError("No call stack frame")
         }
-
         return currentFrame.get(variable: variable.name)
     }
 
-    func eval(block: Block) -> Number? {
+    func eval(block: Block) -> Value? {
         for declaration in block.declarations {
             eval(node: declaration)
         }
@@ -112,22 +116,55 @@ public class Interpreter {
         return eval(node: block.compound)
     }
 
-    func eval(program: Program) -> Number? {
+    func eval(program: Program) -> Value? {
         let frame = Frame(scope: scopes["global"]!, previousFrame: nil)
         callStack.push(frame)
         return eval(node: program.block)
     }
 
-    func eval(call: ProcedureCall) -> Number? {
+    func eval(call: ProcedureCall) -> Value? {
         let current = callStack.peek()!
-        let frame = Frame(scope: scopes[call.name]!, previousFrame: current)
+        let newScope = current.scope.level == 1 ? scopes[call.name]! : ScopedSymbolTable(name: call.name, level: scopes[call.name]!.level + 1, enclosingScope: scopes[call.name]!)
+        let frame = Frame(scope: newScope, previousFrame: current)
         callStack.push(frame)
         callProcedure(procedure: call.name, params: call.actualParameters, frame: frame)
         callStack.pop()
         return nil
     }
 
-    private func callProcedure(procedure: String, params: [Number], frame: Frame) {
+    func eval(condition: Condition) -> Value {
+        let left = eval(node: condition.leftSide)
+        let right = eval(node: condition.rightSide)
+
+        guard let leftResult = left, let rightResult = right else {
+            fatalError("Invalid condition \(String(describing: left)) = \(String(describing: right))")
+        }
+
+        switch condition.type {
+        case .equals:
+            return .boolean(leftResult == rightResult)
+        case .greaterThan:
+            return .boolean(leftResult > rightResult)
+        case .lessThan:
+            return .boolean(leftResult < rightResult)
+        }
+    }
+
+    func eval(ifElse: IfElse) -> Value? {
+        guard case let .boolean(value) = eval(condition: ifElse.condition) else {
+            fatalError("Condition not boolean")
+        }
+
+        if value {
+            return eval(node: ifElse.trueExpression)
+        } else if let falseExpression = ifElse.falseExpression {
+            return eval(node: falseExpression)
+        } else {
+            return nil
+        }
+    }
+
+    private func callProcedure(procedure: String, params: [AST], frame: Frame) {
         guard let symbol = frame.scope.lookup(procedure), let procedureSymbol = symbol as? ProcedureSymbol else {
             fatalError("Symbol(procedure) not found '\(procedure)'")
         }
@@ -135,7 +172,10 @@ public class Interpreter {
         if procedureSymbol.params.count > 0 {
 
             for i in 0 ... procedureSymbol.params.count - 1 {
-                frame.set(variable: procedureSymbol.params[i].name, value: params[i])
+                guard let evaluated = eval(node: params[i]) else {
+                    fatalError("Cannot assing empty value")
+                }
+                frame.set(variable: procedureSymbol.params[i].name, value: evaluated)
             }
         }
 

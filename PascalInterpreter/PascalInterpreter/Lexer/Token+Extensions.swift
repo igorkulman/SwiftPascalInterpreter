@@ -43,6 +43,18 @@ extension Token: Equatable {
             return left == right
         case (.procedure, .procedure):
             return true
+        case (.if, .if):
+            return true
+        case (.else, .else):
+            return true
+        case (.equals, .equals):
+            return true
+        case (.then, .then):
+            return true
+        case (.lessThan, .lessThan):
+            return true
+        case (.greaterThan, .greaterThan):
+            return true
         default:
             return false
         }
@@ -55,6 +67,8 @@ extension Constant: Equatable {
         case let (.integer(left), .integer(right)):
             return left == right
         case let (.real(left), .real(right)):
+            return left == right
+        case let (.boolean(left), .boolean(right)):
             return left == right
         default:
             return false
@@ -86,6 +100,8 @@ extension Type: CustomStringConvertible {
             return "INTEGER"
         case .real:
             return "REAL"
+        case .boolean:
+            return "BOOLEAN"
         }
     }
 }
@@ -108,6 +124,8 @@ extension Constant: CustomStringConvertible {
             return "INTEGER_CONST(\(value))"
         case let .real(value):
             return "REAL_CONST(\(value))"
+        case let .boolean(value):
+            return "BOOLEAN_CONST(\(value))"
         }
     }
 }
@@ -147,6 +165,18 @@ extension Token: CustomStringConvertible {
             return constant.description
         case .procedure:
             return "PROCEDURE"
+        case .`if`:
+            return "IF"
+        case .`else`:
+            return "ELSE"
+        case .then:
+            return "THEN"
+        case .equals:
+            return "EQ"
+        case .lessThan:
+            return "LT"
+        case .greaterThan:
+            return "GT"
         }
     }
 }

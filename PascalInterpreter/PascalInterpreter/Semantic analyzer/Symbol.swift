@@ -15,6 +15,7 @@ protocol Symbol {
 public enum BuiltInTypeSymbol: Symbol {
     case integer
     case real
+    case boolean
 
     var name: String {
         switch self {
@@ -22,6 +23,8 @@ public enum BuiltInTypeSymbol: Symbol {
             return "INTEGER"
         case .real:
             return "REAL"
+        case .boolean:
+            return "BOOLEAN"
         }
     }
 }

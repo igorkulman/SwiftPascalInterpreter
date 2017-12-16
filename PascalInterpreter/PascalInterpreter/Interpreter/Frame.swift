@@ -11,6 +11,7 @@ import Foundation
 class Frame {
     var integerMemory: [String: Int] = [:]
     var realMemory: [String: Double] = [:]
+    var booleanMemory: [String: Bool] = [:]
     let scope: ScopedSymbolTable
     let previousFrame: Frame?
 
@@ -19,7 +20,7 @@ class Frame {
         self.previousFrame = previousFrame
     }
 
-    func set(variable: String, value: Number) {
+    func set(variable: String, value: Value) {
         // variable define in current scole (procedure declataion, etc)
         if let symbol = scope.lookup(variable, currentScopeOnly: true),
             let variableSymbol = symbol as? VariableSymbol,
@@ -28,17 +29,34 @@ class Frame {
             switch type {
             case .integer:
                 switch value {
-                case .integer(let value):
-                    integerMemory[variable] = value
-                case .real:
-                    fatalError("Cannot assign Real value to Int variable \(variable)")
+                case let .number(number):
+                    switch number {
+                    case let .integer(value):
+                        integerMemory[variable] = value
+                    case .real:
+                        fatalError("Cannot assign Real value to Int variable \(variable)")
+                    }
+                case .boolean:
+                    fatalError("Cannot assign Boolean value to Int variable \(variable)")
                 }
             case .real:
                 switch value {
-                case .integer(let value):
-                    realMemory[variable] = Double(value)
-                case .real(let value):
-                    realMemory[variable] = value
+                case let .number(number):
+                    switch number {
+                    case let .integer(value):
+                        realMemory[variable] = Double(value)
+                    case let .real(value):
+                        realMemory[variable] = value
+                    }
+                case .boolean:
+                    fatalError("Cannot assign Boolean value to Real variable \(variable)")
+                }
+            case .boolean:
+                switch value {
+                case let .boolean(boolean):
+                    booleanMemory[variable] = boolean
+                default:
+                    fatalError("Cannot assign \(value) value to Boolean variable \(variable)")
                 }
             }
             return
@@ -48,7 +66,7 @@ class Frame {
         previousFrame!.set(variable: variable, value: value)
     }
 
-    func get(variable: String) -> Number {
+    func get(variable: String) -> Value {
         // variable define in current scole (procedure declataion, etc)
         if let symbol = scope.lookup(variable, currentScopeOnly: true),
             let variableSymbol = symbol as? VariableSymbol,
@@ -56,9 +74,11 @@ class Frame {
 
             switch type {
             case .integer:
-                return .integer(integerMemory[variable]!)
+                return .number(.integer(integerMemory[variable]!))
             case .real:
-                return .real(realMemory[variable]!)
+                return .number(.real(realMemory[variable]!))
+            case .boolean:
+                return .boolean(booleanMemory[variable]!)
             }
         }
 

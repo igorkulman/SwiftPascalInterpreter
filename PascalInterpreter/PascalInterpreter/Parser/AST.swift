@@ -21,10 +21,17 @@ public enum UnaryOperationType {
     case minus
 }
 
+public enum ConditionType {
+    case equals
+    case lessThan
+    case greaterThan
+}
+
 public enum Number: AST {
     case integer(Int)
     case real(Double)
 }
+
 public protocol AST {
 }
 
@@ -144,10 +151,34 @@ class Param: AST {
 
 class ProcedureCall: AST {
     let name: String
-    let actualParameters: [Number]
+    let actualParameters: [AST]
 
-    init(name: String, actualParameters: [Number]) {
+    init(name: String, actualParameters: [AST]) {
         self.name = name
         self.actualParameters = actualParameters
+    }
+}
+
+class Condition: AST {
+    let type: ConditionType
+    let leftSide: AST
+    let rightSide: AST
+
+    init(type: ConditionType, leftSide: AST, rightSide: AST) {
+        self.type = type
+        self.leftSide = leftSide
+        self.rightSide = rightSide
+    }
+}
+
+class IfElse: AST {
+    let condition: Condition
+    let trueExpression: AST
+    let falseExpression: AST?
+
+    init(condition: Condition, trueExpression: AST, falseExpression: AST?) {
+        self.condition = condition
+        self.trueExpression = trueExpression
+        self.falseExpression = falseExpression
     }
 }

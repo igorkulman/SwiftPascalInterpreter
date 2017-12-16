@@ -24,11 +24,13 @@ public enum Parenthesis {
 public enum Constant {
     case integer(Int)
     case real(Double)
+    case boolean(Bool)
 }
 
 public enum Type {
     case integer
     case real
+    case boolean
 }
 
 public enum Token {
@@ -48,4 +50,10 @@ public enum Token {
     case type(Type)
     case constant(Constant)
     case procedure
+    case `if`
+    case `else`
+    case then
+    case equals
+    case lessThan
+    case greaterThan
 }

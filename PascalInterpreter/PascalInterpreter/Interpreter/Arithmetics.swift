@@ -136,4 +136,50 @@ extension Number {
             fatalError("Integer division DIV can only be applied to two integers")
         }
     }
+
+    static func < (left: Number, right: Number) -> Bool {
+        switch (left, right) {
+        case let (.integer(left), .integer(right)):
+            return Double(left) < Double(right)
+        case let (.real(left), .real(right)):
+            return left < right
+        case let (.integer(left), .real(right)):
+            return Double(left) < right
+        case let (.real(left), .integer(right)):
+            return left < Double(right)
+        }
+    }
+
+    static func > (left: Number, right: Number) -> Bool {
+        switch (left, right) {
+        case let (.integer(left), .integer(right)):
+            return Double(left) > Double(right)
+        case let (.real(left), .real(right)):
+            return left > right
+        case let (.integer(left), .real(right)):
+            return Double(left) > right
+        case let (.real(left), .integer(right)):
+            return left > Double(right)
+        }
+    }
+}
+
+extension Value {
+    static func < (lhs: Value, rhs: Value) -> Bool {
+        switch (lhs, rhs) {
+        case let (.number(left), .number(right)):
+            return left < right
+        default:
+            fatalError("Cannot compare \(lhs) and \(rhs)")
+        }
+    }
+
+    static func > (lhs: Value, rhs: Value) -> Bool {
+        switch (lhs, rhs) {
+        case let (.number(left), .number(right)):
+            return left > right
+        default:
+            fatalError("Cannot compare \(lhs) and \(rhs)")
+        }
+    }
 }
