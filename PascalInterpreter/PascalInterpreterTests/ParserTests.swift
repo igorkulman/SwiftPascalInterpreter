@@ -323,7 +323,7 @@ class ParserTests: XCTestCase {
 
         let parser = Parser(program)
         let result = parser.parse()
-        let compound = Compound(children: [ProcedureCall(name: "Factorial", actualParameters: [])])
+        let compound = Compound(children: [ProcedureCall(name: "Factorial", actualParameters: [Variable(name: "x")]), NoOp()])
         let node = Program(name: "Main", block: Block(declarations: [], compound: compound))
         XCTAssertEqual(result, node)
     }
