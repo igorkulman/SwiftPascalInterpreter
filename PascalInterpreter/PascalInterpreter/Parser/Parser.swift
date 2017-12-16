@@ -294,7 +294,7 @@ public class Parser {
 
      procedure_call : id LPAREN (factor (factor COLON)* )* RPAREN
      */
-    private func procedureCall() -> ProcedureCall {
+    private func procedureCall() -> FunctionCall {
         guard case let .id(name) = currentToken else {
             fatalError("Procedure name expected, got \(currentToken)")
         }
@@ -316,7 +316,7 @@ public class Parser {
             eat(.parenthesis(.right))
         }
 
-        return ProcedureCall(name: name, actualParameters: parameters)
+        return FunctionCall(name: name, actualParameters: parameters)
     }
 
     /**
@@ -456,6 +456,7 @@ public class Parser {
      | REAL_CONST
      | LPAREN expr RPAREN
      | variable
+     | function_call
      */
     private func factor() -> AST {
         let token = currentToken
@@ -478,7 +479,11 @@ public class Parser {
             eat(.parenthesis(.right))
             return result
         default:
-            return variable()
+            if nextToken == .parenthesis(.left) {
+                return procedureCall()
+            } else {
+                return variable()
+            }
         }
     }
 

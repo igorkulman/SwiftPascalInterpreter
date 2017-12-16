@@ -139,17 +139,12 @@ class Procedure: Declaration {
     }
 }
 
-class Function: Declaration {
-    let name: String
-    let params: [Param]
-    let block: Block
+class Function: Procedure {
     let returnType: VariableType
 
     init(name: String, params: [Param], block: Block, returnType: VariableType) {
         self.returnType = returnType
-        self.name = name
-        self.block = block
-        self.params = params
+        super.init(name: name, params: params, block: block)
     }
 }
 
@@ -163,7 +158,7 @@ class Param: AST {
     }
 }
 
-class ProcedureCall: AST {
+class FunctionCall: AST {
     let name: String
     let actualParameters: [AST]
 

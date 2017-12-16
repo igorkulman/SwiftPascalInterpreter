@@ -100,13 +100,13 @@ extension AST {
             return "\(type.type)"
         case let program as Program:
             return program.name
-        case let procedure as Procedure:
-            return procedure.name
         case let function as Function:
             return "\(function.name):\(function.returnType.type)"
+        case let procedure as Procedure:
+            return procedure.name
         case let param as Param:
             return "param(\(param.name))"
-        case let call as ProcedureCall:
+        case let call as FunctionCall:
             return "\(call.name)()"
         case is IfElse:
             return "IF"
@@ -146,13 +146,6 @@ extension AST {
             return []
         case let program as Program:
             return [program.block]
-        case let procedure as Procedure:
-            var nodes: [AST] = []
-            for param in procedure.params {
-                nodes.append(param)
-            }
-            nodes.append(procedure.block)
-            return nodes
         case let function as Function:
             var nodes: [AST] = []
             for param in function.params {
@@ -160,9 +153,16 @@ extension AST {
             }
             nodes.append(function.block)
             return nodes
+        case let procedure as Procedure:
+            var nodes: [AST] = []
+            for param in procedure.params {
+                nodes.append(param)
+            }
+            nodes.append(procedure.block)
+            return nodes
         case let param as Param:
             return [param.type]
-        case let call as ProcedureCall:
+        case let call as FunctionCall:
             return call.actualParameters
         case let ifelse as IfElse:
             if let falseExpression = ifelse.falseExpression {
