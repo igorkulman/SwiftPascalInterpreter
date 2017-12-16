@@ -132,20 +132,16 @@ class InterpreterTests: XCTestCase {
             program Main;
             var result: integer;
 
-            procedure Factorial(number: Integer);
+            function Factorial(number: Integer): Integer;
             begin
-            if (number = 1) then
-                result:=number
+            if (number > 1) then
+                Factorial := number * Factorial(number-1)
             else
-            begin
-                result := result * number;
-                Factorial(number-1)
-            end
+                Factorial := 1
             end;
 
             begin { Main }
-            result := 1;
-            Factorial(2);
+            result := Factorial(6);
             end.  { Main }
             """
 

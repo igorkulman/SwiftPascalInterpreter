@@ -22,8 +22,9 @@ protocol Visitor: class {
     func visit(type: VariableType)
     func visit(program: Program)
     func visit(procedure: Procedure)
+    func visit(function: Function)
     func visit(param: Param)
-    func visit(call: ProcedureCall)
+    func visit(call: FunctionCall)
     func visit(condition: Condition)
     func visit(ifElse: IfElse)
 }
@@ -53,11 +54,13 @@ extension Visitor {
             visit(type: type)
         case let program as Program:
             visit(program: program)
+        case let function as Function:
+            visit(function: function)
         case let procedure as Procedure:
             visit(procedure: procedure)
         case let param as Param:
             visit(param: param)
-        case let call as ProcedureCall:
+        case let call as FunctionCall:
             visit(call: call)
         case let condition as Condition:
             visit(condition: condition)
@@ -126,11 +129,19 @@ extension Visitor {
         visit(node: procedure.block)
     }
 
+    func visit(function: Function) {
+        for param in function.params {
+            visit(node: param)
+        }
+        visit(node: function.block)
+        visit(node: function.returnType)
+    }
+
     func visit(param: Param) {
         visit(node: param.type)
     }
 
-    func visit(call: ProcedureCall) {
+    func visit(call: FunctionCall) {
         for parameter in call.actualParameters {
             visit(node: parameter)
         }

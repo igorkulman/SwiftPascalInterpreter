@@ -280,7 +280,7 @@ public class Parser {
             return ifElseStatement()
         case .id:
             if nextToken == .parenthesis(.left) {
-                return procedureCall()
+                return functionCall()
             } else {
                 return assignmentStatement()
             }
@@ -292,9 +292,9 @@ public class Parser {
     /**
      Rule:
 
-     procedure_call : id LPAREN (factor (factor COLON)* )* RPAREN
+     function_call : id LPAREN (factor (factor COLON)* )* RPAREN
      */
-    private func procedureCall() -> FunctionCall {
+    private func functionCall() -> FunctionCall {
         guard case let .id(name) = currentToken else {
             fatalError("Procedure name expected, got \(currentToken)")
         }
@@ -480,7 +480,7 @@ public class Parser {
             return result
         default:
             if nextToken == .parenthesis(.left) {
-                return procedureCall()
+                return functionCall()
             } else {
                 return variable()
             }

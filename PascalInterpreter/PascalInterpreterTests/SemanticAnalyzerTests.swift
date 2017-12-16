@@ -323,4 +323,40 @@ class SemanticAnalyzerTests: XCTestCase {
             _ = analyzer.analyze(node: node)
         }
     }
+
+    func testSemanticAnalyzerFunctionCallWithParameter() {
+        let program =
+        """
+            program Main;
+            var x, y: real;
+
+            function Alpha(a : integer): Integer;
+            var y : integer;
+            begin
+                Alpha := a + x;
+            end;
+
+            begin { Main }
+            x := Alpha(5);
+            end.  { Main }
+            """
+
+        let parser = Parser(program)
+        let node = parser.parse()
+
+        let analyzer = SemanticAnalyzer()
+        let state = analyzer.analyze(node: node)
+        XCTAssert(state.keys.count == 2)
+        XCTAssert(state["global"] != nil)
+        XCTAssert(state["global"]!.level == 1)
+        XCTAssert(state["global"]!.lookup("x") != nil)
+        XCTAssert(state["global"]!.lookup("y") != nil)
+        XCTAssert(state["global"]!.lookup("a") == nil)
+        XCTAssert(state.keys.count == 2)
+        XCTAssert(state["Alpha"] != nil)
+        XCTAssert(state["Alpha"]!.level == 2)
+        XCTAssert(state["Alpha"]!.lookup("x") != nil)
+        XCTAssert(state["Alpha"]!.lookup("y") != nil)
+        XCTAssert(state["Alpha"]!.lookup("a") != nil)
+    }
 }

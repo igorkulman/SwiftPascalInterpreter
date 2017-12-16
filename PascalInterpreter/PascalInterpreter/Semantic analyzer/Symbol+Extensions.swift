@@ -21,7 +21,12 @@ extension VariableSymbol: CustomStringConvertible {
 
 extension ProcedureSymbol: CustomStringConvertible {
     public var description: String {
-        return "<ProcedureSymbol(name=\(name), parameters=[\(params.reduce("", { $0.description + "\($1)," }))]>"
+        switch self {
+        case let function as FunctionSymbol:
+            return "<FunctionSymbol(name=\(name), parameters=[\(params.reduce("", { $0.description + "\($1)," })), returnType=\(function.returnType)]>"
+        default:
+            return "<ProcedureSymbol(name=\(name), parameters=[\(params.reduce("", { $0.description + "\($1)," }))]>"
+        }
     }
 }
 
@@ -32,8 +37,10 @@ extension Symbol {
             return 0
         case is VariableSymbol:
             return 1
-        case is ProcedureSymbol:
+        case is FunctionSymbol:
             return 2
+        case is ProcedureSymbol:
+            return 3
         default:
             fatalError("Add sort order for \(self)")
         }

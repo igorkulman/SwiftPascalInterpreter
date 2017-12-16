@@ -5,6 +5,7 @@ block : declarations compound_statement
 
 declarations : (VAR (variable_declaration SEMI)+)*
              | (PROCEDURE ID (LPAREN formal_parameter_list RPAREN)? SEMI block SEMI)*
+             | (FUNCTION ID (LPAREN formal_parameter_list RPAREN)? COLON type_spec SEMI block SEMI)*
              | empty
 
 formal_parameter_list : formal_parameters
@@ -22,12 +23,12 @@ statement_list : statement
                | statement SEMI statement_list
 
 statement : compound_statement
-		      | procedure_call
+		  | procedure_call
           | if_else_statement
           | assignment_statement
           | empty
 
-procedure_call : procedure_call : id( (factor (factor,)* )* )          
+function_call : id LPAREN (factor (factor COLON)* )* RPAREN  (COLON type_spec){0,1}       
 
 if_else_statement : IF condition statement
                   | IF condition THEN statement ELSE statement
@@ -46,6 +47,7 @@ factor : PLUS factor
        | REAL_CONST
        | LPAREN expr RPAREN
        | variable
+       | function_call
 
 variable: ID
 ````

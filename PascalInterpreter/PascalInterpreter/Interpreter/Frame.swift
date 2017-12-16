@@ -14,6 +14,7 @@ class Frame {
     var booleanMemory: [String: Bool] = [:]
     let scope: ScopedSymbolTable
     let previousFrame: Frame?
+    var returnValue: Value?
 
     init(scope: ScopedSymbolTable, previousFrame: Frame?) {
         self.scope = scope
@@ -21,6 +22,12 @@ class Frame {
     }
 
     func set(variable: String, value: Value) {
+        // setting function return value
+        if variable == scope.name && scope.level > 1 {
+            returnValue = value
+            return
+        }
+
         // variable define in current scole (procedure declataion, etc)
         if let symbol = scope.lookup(variable, currentScopeOnly: true),
             let variableSymbol = symbol as? VariableSymbol,

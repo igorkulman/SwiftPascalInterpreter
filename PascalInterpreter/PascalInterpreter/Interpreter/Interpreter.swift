@@ -38,7 +38,7 @@ public class Interpreter {
             return eval(block: block)
         case let program as Program:
             return eval(program: program)
-        case let call as ProcedureCall:
+        case let call as FunctionCall:
             return eval(call: call)
         case let condition as Condition:
             return eval(condition: condition)
@@ -122,14 +122,14 @@ public class Interpreter {
         return eval(node: program.block)
     }
 
-    func eval(call: ProcedureCall) -> Value? {
+    func eval(call: FunctionCall) -> Value? {
         let current = callStack.peek()!
         let newScope = current.scope.level == 1 ? scopes[call.name]! : ScopedSymbolTable(name: call.name, level: scopes[call.name]!.level + 1, enclosingScope: scopes[call.name]!)
         let frame = Frame(scope: newScope, previousFrame: current)
         callStack.push(frame)
-        callProcedure(procedure: call.name, params: call.actualParameters, frame: frame)
+        let result = callFunction(function: call.name, params: call.actualParameters, frame: frame)
         callStack.pop()
-        return nil
+        return result
     }
 
     func eval(condition: Condition) -> Value {
@@ -164,9 +164,9 @@ public class Interpreter {
         }
     }
 
-    private func callProcedure(procedure: String, params: [AST], frame: Frame) {
-        guard let symbol = frame.scope.lookup(procedure), let procedureSymbol = symbol as? ProcedureSymbol else {
-            fatalError("Symbol(procedure) not found '\(procedure)'")
+    private func callFunction(function: String, params: [AST], frame: Frame) -> Value? {
+        guard let symbol = frame.scope.lookup(function), let procedureSymbol = symbol as? ProcedureSymbol else {
+            fatalError("Symbol(procedure) not found '\(function)'")
         }
 
         if procedureSymbol.params.count > 0 {
@@ -180,6 +180,7 @@ public class Interpreter {
         }
 
         eval(node: procedureSymbol.body.block)
+        return frame.returnValue
     }
 
     public func interpret() {
