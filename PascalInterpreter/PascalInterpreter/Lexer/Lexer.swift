@@ -35,7 +35,8 @@ public class Lexer {
         "FALSE": .constant(.boolean(false)),
         "IF": .`if`,
         "ELSE": .`else`,
-        "THEN": .then
+        "THEN": .then,
+        "FUNCTION": .function
     ]
 
     public init(_ text: String) {

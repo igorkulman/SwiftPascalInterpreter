@@ -293,7 +293,7 @@ class ParserTests: XCTestCase {
 
     func testProgramWithIfCondition() {
         let program =
-        """
+            """
             program Main;
             var x, y: real;
 
@@ -314,7 +314,7 @@ class ParserTests: XCTestCase {
 
     func testProgramWithProcedureWithVariable() {
         let program =
-        """
+            """
             program Main;
             begin { Main }
             Factorial(x);
@@ -325,6 +325,31 @@ class ParserTests: XCTestCase {
         let result = parser.parse()
         let compound = Compound(children: [ProcedureCall(name: "Factorial", actualParameters: [Variable(name: "x")]), NoOp()])
         let node = Program(name: "Main", block: Block(declarations: [], compound: compound))
+        XCTAssertEqual(result, node)
+    }
+
+    func testProgramWithFucntionDeclaration() {
+        let program =
+            """
+            program Main;
+            function Alpha(number: Integer): Integer;
+            begin
+            a := number
+            end;
+
+            begin { Main }
+
+            end.  { Main }
+            """
+
+        let parser = Parser(program)
+        let result = parser.parse()
+        let compound = Compound(children: [NoOp()])
+        let a = Variable(name: "a")
+        let number = Variable(name: "number")
+        let block = Block(declarations: [], compound: Compound(children: [Assignment(left: a, right: number)]))
+        let alpha = Function(name: "Alpha", params: [Param(name: "number", type: VariableType(type: .integer))], block: block, returnType: VariableType(type: .integer))
+        let node = Program(name: "Main", block: Block(declarations: [alpha], compound: compound))
         XCTAssertEqual(result, node)
     }
 }

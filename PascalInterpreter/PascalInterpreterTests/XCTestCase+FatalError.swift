@@ -50,7 +50,7 @@ func XCTAssertEqual(_ left: AST, _ right: AST) {
         XCTAssertEqual(left.block, right.block)
     case let (left as Block, right as Block):
         XCTAssert(left.declarations.count == right.declarations.count)
-        if left.declarations.count > 0 {
+        if left.declarations.count > 0 && left.declarations.count == right.declarations.count {
             for i in 0 ... left.declarations.count - 1 {
                 XCTAssertEqual(left.declarations[i], right.declarations[i])
             }
@@ -83,6 +83,16 @@ func XCTAssertEqual(_ left: AST, _ right: AST) {
     case let (left as VariableType, right as VariableType):
         XCTAssert(left.type == right.type)
     case let (left as Procedure, right as Procedure):
+        XCTAssert(left.name == right.name)
+        XCTAssertEqual(left.block, right.block)
+        XCTAssert(left.params.count == right.params.count)
+        if left.params.count > 0 {
+            for i in 0 ... left.params.count - 1 {
+                XCTAssertEqual(left.params[i], right.params[i])
+            }
+        }
+    case let (left as Function, right as Function):
+        XCTAssertEqual(left.returnType, right.returnType)
         XCTAssert(left.name == right.name)
         XCTAssertEqual(left.block, right.block)
         XCTAssert(left.params.count == right.params.count)

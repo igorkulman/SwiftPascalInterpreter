@@ -102,6 +102,8 @@ extension AST {
             return program.name
         case let procedure as Procedure:
             return procedure.name
+        case let function as Function:
+            return "\(function.name):\(function.returnType.type)"
         case let param as Param:
             return "param(\(param.name))"
         case let call as ProcedureCall:
@@ -150,6 +152,13 @@ extension AST {
                 nodes.append(param)
             }
             nodes.append(procedure.block)
+            return nodes
+        case let function as Function:
+            var nodes: [AST] = []
+            for param in function.params {
+                nodes.append(param)
+            }
+            nodes.append(function.block)
             return nodes
         case let param as Param:
             return [param.type]

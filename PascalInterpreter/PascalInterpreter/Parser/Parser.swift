@@ -81,6 +81,7 @@ public class Parser {
     /**
      declarations : VAR (variable_declaration SEMI)+
      | (PROCEDURE ID (LPAREN formal_parameter_list RPAREN)? SEMI block SEMI)*
+     | (FUNCTION ID (LPAREN formal_parameter_list RPAREN)? COLON type_spec SEMI block SEMI)*
      | empty
      */
     private func declarations() -> [Declaration] {
@@ -115,6 +116,30 @@ public class Parser {
             let body = block()
             let procedure = Procedure(name: name, params: params, block: body)
             declarations.append(procedure)
+            eat(.semi)
+        }
+
+        while currentToken == .function {
+            eat(.function)
+            guard case let .id(name) = currentToken else {
+                fatalError("Function name expected, got \(currentToken)")
+            }
+            eat(.id(name))
+
+            var params: [Param] = []
+            if currentToken == .parenthesis(.left) {
+                eat(.parenthesis(.left))
+                params = formalParameterList()
+                eat(.parenthesis(.right))
+            }
+
+            eat(.colon)
+            let type = typeSpec()
+
+            eat(.semi)
+            let body = block()
+            let function = Function(name: name, params: params, block: body, returnType: type)
+            declarations.append(function)
             eat(.semi)
         }
 
@@ -267,7 +292,7 @@ public class Parser {
     /**
      Rule:
 
-     procedure_call : id( (factor (factor,)* )* )
+     procedure_call : id LPAREN (factor (factor COLON)* )* RPAREN
      */
     private func procedureCall() -> ProcedureCall {
         guard case let .id(name) = currentToken else {
