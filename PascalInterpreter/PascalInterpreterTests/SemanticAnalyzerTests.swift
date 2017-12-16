@@ -333,7 +333,7 @@ class SemanticAnalyzerTests: XCTestCase {
             function Alpha(a : integer): Integer;
             var y : integer;
             begin
-                Alpha := a + x;
+                Alpha := a + X;
             end;
 
             begin { Main }

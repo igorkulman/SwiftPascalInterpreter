@@ -26,11 +26,11 @@ public class ScopedSymbolTable {
     }
 
     func insert(_ symbol: Symbol) {
-        symbols[symbol.name] = symbol
+        symbols[symbol.name.lowercased()] = symbol
     }
 
     func lookup(_ name: String, currentScopeOnly: Bool = false) -> Symbol? {
-        if let symbol = symbols[name] {
+        if let symbol = symbols[name.lowercased()] {
             return symbol
         }
 
