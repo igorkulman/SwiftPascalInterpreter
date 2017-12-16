@@ -41,6 +41,23 @@ At the end of the Pascal program interpretation you can check the resulting memo
 
 ## Try it out
 
-There is a Swift playground in the project where you can try out the lexer, parser and the interpreter. The lexer shows the tokens recognized, the parses prints the abstract syntax tree of the program and interpreter prints the resulting memory state.
+There is a Swift playground in the project where you can try out the lexer, parser and the interpreter. The Playground interprets then following Pascal program defining and calling a factorial function
+
+```` Pascal
+program Main;
+var result: integer;
+
+function Factorial(number: Integer): Integer;
+begin
+if (number > 1) then
+    Factorial := number * Factorial(number-1)
+else
+    Factorial := 1
+end;
+
+begin
+result := Factorial(6);
+end.
+````
 
 ![Playground](Images/playground.png) 
