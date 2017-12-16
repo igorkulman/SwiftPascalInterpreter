@@ -390,4 +390,44 @@ class LexerTests: XCTestCase {
         XCTAssert(lexer.getNextToken() == .assign)
         XCTAssert(lexer.getNextToken() == .constant(.integer(8)))
     }
+
+    func testComparisons() {
+        let lexer = Lexer("x = 5; a <4; 5 > 8")
+        XCTAssert(lexer.getNextToken() == .id("x"))
+        XCTAssert(lexer.getNextToken() == .equals)
+        XCTAssert(lexer.getNextToken() == .constant(.integer(5)))
+        XCTAssert(lexer.getNextToken() == .semi)
+        XCTAssert(lexer.getNextToken() == .id("a"))
+        XCTAssert(lexer.getNextToken() == .lessThan)
+        XCTAssert(lexer.getNextToken() == .constant(.integer(4)))
+        XCTAssert(lexer.getNextToken() == .semi)
+        XCTAssert(lexer.getNextToken() == .constant(.integer(5)))
+        XCTAssert(lexer.getNextToken() == .greaterThan)
+        XCTAssert(lexer.getNextToken() == .constant(.integer(8)))
+        XCTAssert(lexer.getNextToken() == .eof)
+    }
+
+    func testDataTypes() {
+        let lexer = Lexer("a: Integer; b: Real; c: Boolean; c:= true; c:=false")
+        XCTAssert(lexer.getNextToken() == .id("a"))
+        XCTAssert(lexer.getNextToken() == .colon)
+        XCTAssert(lexer.getNextToken() == .type(.integer))
+        XCTAssert(lexer.getNextToken() == .semi)
+        XCTAssert(lexer.getNextToken() == .id("b"))
+        XCTAssert(lexer.getNextToken() == .colon)
+        XCTAssert(lexer.getNextToken() == .type(.real))
+        XCTAssert(lexer.getNextToken() == .semi)
+        XCTAssert(lexer.getNextToken() == .id("c"))
+        XCTAssert(lexer.getNextToken() == .colon)
+        XCTAssert(lexer.getNextToken() == .type(.boolean))
+        XCTAssert(lexer.getNextToken() == .semi)
+        XCTAssert(lexer.getNextToken() == .id("c"))
+        XCTAssert(lexer.getNextToken() == .assign)
+        XCTAssert(lexer.getNextToken() == .constant(.boolean(true)))
+        XCTAssert(lexer.getNextToken() == .semi)
+        XCTAssert(lexer.getNextToken() == .id("c"))
+        XCTAssert(lexer.getNextToken() == .assign)
+        XCTAssert(lexer.getNextToken() == .constant(.boolean(false)))
+        XCTAssert(lexer.getNextToken() == .eof)
+    }
 }
