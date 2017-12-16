@@ -50,3 +50,12 @@ class ProcedureSymbol: Symbol {
         self.body = body
     }
 }
+
+class FunctionSymbol: ProcedureSymbol {
+    let returnType: Symbol
+
+    init(name: String, parameters: [Symbol], body: Procedure, returnType: Symbol) {
+        self.returnType = returnType
+        super.init(name: name, parameters: parameters, body: body)
+    }
+}

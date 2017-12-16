@@ -54,6 +54,10 @@ public class SemanticAnalyzer: Visitor {
         scope.insert(VariableSymbol(name: variableDeclaration.variable.name, type: symbolType))
     }
 
+    func visit(function: Function) {
+        visit(procedure: function)
+    }
+
     func visit(procedure: Procedure) {
         let scope = ScopedSymbolTable(name: procedure.name, level: (currentScope?.level ?? 0) + 1, enclosingScope: currentScope)
         scopes[scope.name] = scope
@@ -68,14 +72,24 @@ public class SemanticAnalyzer: Visitor {
             parameters.append(variable)
             scope.insert(variable)
         }
-        let proc = ProcedureSymbol(name: procedure.name, parameters: parameters, body: procedure)
-        scope.enclosingScope?.insert(proc)
+
+        switch procedure {
+        case let function as Function:
+            guard let symbol = scope.lookup(function.returnType.type.description) else {
+                fatalError("Type not found '\(function.returnType.type.description)'")
+            }
+            let fn = FunctionSymbol(name: procedure.name, parameters: parameters, body: procedure, returnType: symbol)
+            scope.enclosingScope?.insert(fn)
+        default:
+            let proc = ProcedureSymbol(name: procedure.name, parameters: parameters, body: procedure)
+            scope.enclosingScope?.insert(proc)
+        }
 
         visit(node: procedure.block)
         currentScope = currentScope?.enclosingScope
     }
 
-    func visit(call: ProcedureCall) {
+    func visit(call: FunctionCall) {
         guard let symbol = currentScope?.lookup(call.name), let procedure = symbol as? ProcedureSymbol else {
             fatalError("Symbol(procedure) not found '\(call.name)'")
         }

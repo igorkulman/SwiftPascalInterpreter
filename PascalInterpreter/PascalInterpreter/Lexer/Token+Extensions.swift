@@ -55,6 +55,8 @@ extension Token: Equatable {
             return true
         case (.greaterThan, .greaterThan):
             return true
+        case (.function, .function):
+            return true
         default:
             return false
         }
@@ -177,6 +179,8 @@ extension Token: CustomStringConvertible {
             return "LT"
         case .greaterThan:
             return "GT"
+        case .function:
+            return "FUNCTION"
         }
     }
 }

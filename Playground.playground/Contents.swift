@@ -18,18 +18,16 @@ let program =
     program Main;
     var result: integer;
 
-    procedure Factorial(number: Integer);
+    function Factorial(number: Integer): Integer;
     begin
     if (number > 1) then
-    begin
-        result := result * number;
-        Factorial(number-1)
-    end
+        Factorial := number * Factorial(number-1)
+    else
+        Factorial := 1
     end;
 
     begin { Main }
-    result := 1;
-    Factorial(6);
+    result := Factorial(6);
     end.  { Main }
     """
 

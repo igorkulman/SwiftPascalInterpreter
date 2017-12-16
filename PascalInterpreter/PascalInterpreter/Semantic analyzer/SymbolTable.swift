@@ -26,11 +26,11 @@ public class ScopedSymbolTable {
     }
 
     func insert(_ symbol: Symbol) {
-        symbols[symbol.name] = symbol
+        symbols[symbol.name.lowercased()] = symbol
     }
 
     func lookup(_ name: String, currentScopeOnly: Bool = false) -> Symbol? {
-        if let symbol = symbols[name] {
+        if let symbol = symbols[name.lowercased()] {
             return symbol
         }
 
@@ -50,7 +50,7 @@ extension ScopedSymbolTable: CustomStringConvertible {
         lines.append("Scope (Scoped symbol table) contents")
         lines.append("------------------------------------")
         lines.append(contentsOf: symbols.sorted(by: {$0.value.sortOrder < $1.value.sortOrder}).map({ key, value in
-            return "\(key.padding(toLength: 7, withPad: " ", startingAt: 0)): \(value)"
+            return "\(key.padding(toLength: 12, withPad: " ", startingAt: 0)): \(value)"
         }))
         return lines.reduce("", { $0 + "\n" + $1 })
     }
