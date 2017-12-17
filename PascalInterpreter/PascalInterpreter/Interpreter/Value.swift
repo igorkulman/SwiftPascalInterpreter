@@ -9,6 +9,7 @@
 import Foundation
 
 enum Value {
+    case none
     case number(Number)
     case boolean(Bool)
     case string(String)
