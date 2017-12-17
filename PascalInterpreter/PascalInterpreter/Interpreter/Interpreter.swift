@@ -197,7 +197,7 @@ public class Interpreter {
             write(params: params, newLine: true)
             return nil
         case "READ":
-            read()
+            read(params: params, frame: frame)
             return nil
         default:
             fatalError("Implement built in procedure \(procedure)")
@@ -229,8 +229,29 @@ public class Interpreter {
         }
     }
 
-    private func read() {
+    private func read(params: [AST], frame: Frame) {
+        guard let line = readLine() else {
+            fatalError("Empty input")
+        }
 
+        let parts = line.components(separatedBy: CharacterSet.whitespaces)
+        for i in 0 ... params.count - 1 {
+            let param = params[i]
+            guard let variable = param as? Variable else {
+                fatalError("READ parameter must be a variable")
+            }
+            guard let symbol = frame.scope.lookup(variable.name), let variableSymbol = symbol as? VariableSymbol, let type = variableSymbol.type as? BuiltInTypeSymbol else {
+                fatalError("Symbol(variable) not found '\(variable.name)'")
+            }
+            switch type {
+            case .integer:
+                frame.set(variable: variable.name, value: .number(.integer(Int(parts[i])!)))
+            case .real:
+                frame.set(variable: variable.name, value: .number(.real(Double(parts[i])!)))
+            case .boolean:
+                frame.set(variable: variable.name, value: .boolean(Bool(parts[i])!))
+            }
+        }
     }
 
     public func interpret() {
