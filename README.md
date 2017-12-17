@@ -58,7 +58,9 @@ else
 end;
 
 begin
+writeln('Factorial');
 result := Factorial(6);
+writeln(result)
 end.
 ````
 
