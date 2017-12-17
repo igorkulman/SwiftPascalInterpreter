@@ -380,8 +380,12 @@ class ParserTests: XCTestCase {
         let program =
         """
             program Main;
+            var s: String;
+                a: Boolean;
             begin { Main }
-            writeln('Test');
+            s := 'Test';
+            a := false;
+            writeln(s,a);
             end.  { Main }
             """
 

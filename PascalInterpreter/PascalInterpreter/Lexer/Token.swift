@@ -32,6 +32,7 @@ public enum Type {
     case integer
     case real
     case boolean
+    case string
 }
 
 public enum Token {

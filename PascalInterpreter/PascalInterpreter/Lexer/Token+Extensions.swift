@@ -108,6 +108,8 @@ extension Type: CustomStringConvertible {
             return "REAL"
         case .boolean:
             return "BOOLEAN"
+        case .string:
+            return "STRING"
         }
     }
 }

@@ -227,6 +227,12 @@ public class Parser {
         case .type(.real):
             eat(.type(.real))
             return VariableType(type: .real)
+        case .type(.boolean):
+            eat(.type(.boolean))
+            return VariableType(type: .boolean)
+        case .type(.string):
+            eat(.type(.string))
+            return VariableType(type: .string)
         default:
             fatalError("Expected type, got \(currentToken)")
         }

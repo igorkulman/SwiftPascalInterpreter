@@ -28,6 +28,7 @@ public class Lexer {
         "INTEGER": .type(.integer),
         "REAL": .type(.real),
         "BOOLEAN": .type(.boolean),
+        "STRING": .type(.string),
         "BEGIN": .begin,
         "END": .end,
         "PROCEDURE": .procedure,
