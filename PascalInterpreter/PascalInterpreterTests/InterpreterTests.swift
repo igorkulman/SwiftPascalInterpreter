@@ -192,4 +192,33 @@ class InterpreterTests: XCTestCase {
         XCTAssert(boolState == [:])
         XCTAssert(stringState == [:])
     }
+
+    func testProgramWithRecursiveFunctionsAndParameterTheSameName() {
+        let program =
+        """
+            program Main;
+            var number, result: integer;
+
+            function Factorial(number: Integer): Integer;
+            begin
+            if (number > 1) then
+                Factorial := number * Factorial(number-1)
+            else
+                Factorial := 1
+            end;
+
+            begin { Main }
+            number := 6;
+            result := Factorial(number);
+            end.  { Main }
+            """
+
+        let interpeter = Interpreter(program)
+        interpeter.interpret()
+        let (integerState, realState, boolState, stringState) = interpeter.getState()
+        XCTAssert(realState == [:])
+        XCTAssert(integerState == ["result": 720, "number": 6])
+        XCTAssert(boolState == [:])
+        XCTAssert(stringState == [:])
+    }
 }

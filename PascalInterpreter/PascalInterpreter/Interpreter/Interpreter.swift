@@ -134,12 +134,7 @@ public class Interpreter {
             return callBuiltInProcedure(procedure: call.name, params: call.actualParameters, frame: current)
         }
 
-        let newScope = current.scope.level == 1 ? scopes[call.name]! : ScopedSymbolTable(name: call.name, level: scopes[call.name]!.level + 1, enclosingScope: scopes[call.name]!)
-        let frame = Frame(scope: newScope, previousFrame: current)
-        callStack.push(frame)
-        let result = callFunction(function: call.name, params: call.actualParameters, frame: frame)
-        callStack.pop()
-        return result
+        return callFunction(function: call.name, params: call.actualParameters, frame: current)
     }
 
     func eval(condition: Condition) -> Value {
@@ -175,16 +170,21 @@ public class Interpreter {
             fatalError("Symbol(procedure) not found '\(function)'")
         }
 
+        let newScope = frame.scope.level == 1 ? scopes[function]! : ScopedSymbolTable(name: function, level: scopes[function]!.level + 1, enclosingScope: scopes[function]!)
+        let newFrame = Frame(scope: newScope, previousFrame: frame)
+
         if procedureSymbol.params.count > 0 {
 
             for i in 0 ... procedureSymbol.params.count - 1 {
                 let evaluated = eval(node: params[i])
-                frame.set(variable: procedureSymbol.params[i].name, value: evaluated)
+                newFrame.set(variable: procedureSymbol.params[i].name, value: evaluated)
             }
         }
 
+        callStack.push(newFrame)
         eval(node: procedureSymbol.body.block)
-        return frame.returnValue
+        callStack.pop()
+        return newFrame.returnValue
     }
 
     public func interpret() {

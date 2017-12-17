@@ -399,7 +399,7 @@ class ParserTests: XCTestCase {
 
         let parser = Parser(program)
         let result = parser.parse()
-        let compound = Compound(children: [Assignment(left: Variable(name: "s"), right: "Test"), Assignment(left: Variable(name: "a"), right: false), FunctionCall(name: "writeln", actualParameters: [Variable(name:"s"), Variable(name:"a")]), NoOp()])
+        let compound = Compound(children: [Assignment(left: Variable(name: "s"), right: "Test"), Assignment(left: Variable(name: "a"), right: false), FunctionCall(name: "writeln", actualParameters: [Variable(name: "s"), Variable(name: "a")]), NoOp()])
         let block = Block(declarations: [VariableDeclaration(variable: Variable(name: "s"), type: VariableType(type: .string)), VariableDeclaration(variable: Variable(name: "a"), type: VariableType(type: .boolean))], compound: compound)
         let node = Program(name: "Main", block: block)
         XCTAssertEqual(result, node)
