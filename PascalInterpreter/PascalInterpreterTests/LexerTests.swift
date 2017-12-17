@@ -408,7 +408,7 @@ class LexerTests: XCTestCase {
     }
 
     func testDataTypes() {
-        let lexer = Lexer("a: Integer; b: Real; c: Boolean; c:= true; c:=false")
+        let lexer = Lexer("a: Integer; b: Real; c: Boolean; c:= true; c:=false; d:= 'Test string'")
         XCTAssert(lexer.getNextToken() == .id("a"))
         XCTAssert(lexer.getNextToken() == .colon)
         XCTAssert(lexer.getNextToken() == .type(.integer))
@@ -428,6 +428,10 @@ class LexerTests: XCTestCase {
         XCTAssert(lexer.getNextToken() == .id("c"))
         XCTAssert(lexer.getNextToken() == .assign)
         XCTAssert(lexer.getNextToken() == .constant(.boolean(false)))
+        XCTAssert(lexer.getNextToken() == .semi)
+        XCTAssert(lexer.getNextToken() == .id("d"))
+        XCTAssert(lexer.getNextToken() == .assign)
+        XCTAssert(lexer.getNextToken() == .constant(.string("Test string")))
         XCTAssert(lexer.getNextToken() == .eof)
     }
 }
