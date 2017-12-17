@@ -16,5 +16,5 @@ writeln('Enter number and press Enter');
 read(input);
 result := Factorial(input);
 writeln('');
-writeln(input,' != ', result)
+writeln(input,'! = ', result)
 end.  { Main }
