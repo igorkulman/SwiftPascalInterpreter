@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F385B5C41FE6CBB9001B57F4 /* Interpreter+Standard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F385B5C31FE6CBB9001B57F4 /* Interpreter+Standard.swift */; };
 		F3D90DD91FE68E4C00FA79B3 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DD81FE68E4C00FA79B3 /* main.swift */; };
 		F3D90E001FE68EE300FA79B3 /* AST+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DEA1FE68EE300FA79B3 /* AST+Extensions.swift */; };
 		F3D90E011FE68EE300FA79B3 /* AST.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DEB1FE68EE300FA79B3 /* AST.swift */; };
@@ -41,6 +42,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F385B5C31FE6CBB9001B57F4 /* Interpreter+Standard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Interpreter+Standard.swift"; sourceTree = "<group>"; };
 		F3D90DD51FE68E4C00FA79B3 /* SPI */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SPI; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3D90DD81FE68E4C00FA79B3 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		F3D90DEA1FE68EE300FA79B3 /* AST+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AST+Extensions.swift"; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				F3D90DF51FE68EE300FA79B3 /* Arithmetics.swift */,
 				F3D90DF61FE68EE300FA79B3 /* Frame.swift */,
 				F3D90DF71FE68EE300FA79B3 /* Interpreter.swift */,
+				F385B5C31FE6CBB9001B57F4 /* Interpreter+Standard.swift */,
 				F3D90DF81FE68EE300FA79B3 /* Stack.swift */,
 				F3D90DF91FE68EE300FA79B3 /* Value.swift */,
 			);
@@ -232,6 +235,7 @@
 				F3D90E021FE68EE300FA79B3 /* Parser.swift in Sources */,
 				F3D90E0D1FE68EE300FA79B3 /* Value.swift in Sources */,
 				F3D90E0C1FE68EE300FA79B3 /* Stack.swift in Sources */,
+				F385B5C41FE6CBB9001B57F4 /* Interpreter+Standard.swift in Sources */,
 				F3D90E061FE68EE300FA79B3 /* SymbolTable.swift in Sources */,
 				F3D90E011FE68EE300FA79B3 /* AST.swift in Sources */,
 				F3D90E0E1FE68EE300FA79B3 /* Lexer.swift in Sources */,
