@@ -33,7 +33,9 @@ public enum Number: AST {
 }
 
 extension String: AST {
+}
 
+extension Bool: AST {
 }
 
 public protocol AST {

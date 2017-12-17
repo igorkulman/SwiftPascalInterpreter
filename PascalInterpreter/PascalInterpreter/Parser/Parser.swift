@@ -480,6 +480,9 @@ public class Parser {
         case .constant(.string(let value)):
             eat(.constant(.string(value)))
             return value
+        case .constant(.boolean(let value)):
+            eat(.constant(.boolean(value)))
+            return value
         default:
             if nextToken == .parenthesis(.left) {
                 return functionCall()

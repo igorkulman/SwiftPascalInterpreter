@@ -45,6 +45,8 @@ factor : PLUS factor
        | MINUS factor
        | INTEGER_CONST
        | REAL_CONST
+       | STRING_CONST
+       | BOOLEAN_CONST
        | LPAREN expr RPAREN
        | variable
        | function_call
