@@ -199,5 +199,7 @@ public class Interpreter {
         print("Final interpreter memory state (\(callStack.peek()!.scope.name)):")
         print("Int: \(callStack.peek()!.integerMemory)")
         print("Real: \(callStack.peek()!.realMemory)")
+        print("Boolean: \(callStack.peek()!.booleanMemory)")
+        print("String: \(callStack.peek()!.stringMemory)")
     }
 }
