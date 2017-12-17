@@ -191,8 +191,8 @@ public class Interpreter {
         eval(node: tree)
     }
 
-    func getState() -> ([String: Int], [String: Double]) {
-        return (callStack.peek()!.integerMemory, callStack.peek()!.realMemory)
+    func getState() -> ([String: Int], [String: Double], [String: Bool], [String: String]) {
+        return (callStack.peek()!.integerMemory, callStack.peek()!.realMemory, callStack.peek()!.booleanMemory, callStack.peek()!.stringMemory)
     }
 
     public func printState() {
