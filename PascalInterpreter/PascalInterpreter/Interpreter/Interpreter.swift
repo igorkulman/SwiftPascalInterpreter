@@ -20,10 +20,12 @@ public class Interpreter {
         scopes = semanticAnalyzer.analyze(node: tree)
     }
 
-    @discardableResult private func eval(node: AST) -> Value? {
+    @discardableResult func eval(node: AST) -> Value {
         switch node {
         case let number as Number:
             return eval(number: number)
+        case let string as String:
+            return eval(string: string)
         case let unaryOperation as UnaryOperation:
             return eval(unaryOperation: unaryOperation)
         case let binaryOperation as BinaryOperation:
@@ -45,16 +47,20 @@ public class Interpreter {
         case let ifElse as IfElse:
             return eval(ifElse: ifElse)
         default:
-            return nil
+            return .none
         }
     }
 
-    func eval(number: Number) -> Value? {
+    func eval(number: Number) -> Value {
         return .number(number)
     }
 
-    func eval(unaryOperation: UnaryOperation) -> Value? {
-        guard let value = eval(node: unaryOperation.operand), case let .number(result) = value else {
+    func eval(string: String) -> Value {
+        return .string(string)
+    }
+
+    func eval(unaryOperation: UnaryOperation) -> Value {
+        guard case let .number(result) = eval(node: unaryOperation.operand) else {
             fatalError("Cannot use unary \(unaryOperation.operation) on non number")
         }
 
@@ -65,9 +71,8 @@ public class Interpreter {
             return .number(-result)
         }
     }
-    func eval(binaryOperation: BinaryOperation) -> Value? {
-        guard let leftValue = eval(node: binaryOperation.left), case let .number(leftResult) = leftValue,
-            let rightValue = eval(node: binaryOperation.right), case let .number(rightResult) = rightValue else {
+    func eval(binaryOperation: BinaryOperation) -> Value {
+        guard case let .number(leftResult) = eval(node: binaryOperation.left), case let .number(rightResult) = eval(node: binaryOperation.right) else {
             fatalError("Cannot use binary \(binaryOperation.operation) on non numbers")
         }
 
@@ -85,30 +90,30 @@ public class Interpreter {
         }
     }
 
-    func eval(compound: Compound) -> Value? {
+    func eval(compound: Compound) -> Value {
         for child in compound.children {
             eval(node: child)
         }
-        return nil
+        return .none
     }
 
-    func eval(assignment: Assignment) -> Value? {
+    func eval(assignment: Assignment) -> Value {
         guard let currentFrame = callStack.peek() else {
             fatalError("No call stack frame")
         }
 
-        currentFrame.set(variable: assignment.left.name, value: eval(node: assignment.right)!)
-        return nil
+        currentFrame.set(variable: assignment.left.name, value: eval(node: assignment.right))
+        return .none
     }
 
-    func eval(variable: Variable) -> Value? {
+    func eval(variable: Variable) -> Value {
         guard let currentFrame = callStack.peek() else {
             fatalError("No call stack frame")
         }
         return currentFrame.get(variable: variable.name)
     }
 
-    func eval(block: Block) -> Value? {
+    func eval(block: Block) -> Value {
         for declaration in block.declarations {
             eval(node: declaration)
         }
@@ -116,41 +121,37 @@ public class Interpreter {
         return eval(node: block.compound)
     }
 
-    func eval(program: Program) -> Value? {
+    func eval(program: Program) -> Value {
         let frame = Frame(scope: scopes["global"]!, previousFrame: nil)
         callStack.push(frame)
         return eval(node: program.block)
     }
 
-    func eval(call: FunctionCall) -> Value? {
+    func eval(call: FunctionCall) -> Value {
         let current = callStack.peek()!
-        let newScope = current.scope.level == 1 ? scopes[call.name]! : ScopedSymbolTable(name: call.name, level: scopes[call.name]!.level + 1, enclosingScope: scopes[call.name]!)
-        let frame = Frame(scope: newScope, previousFrame: current)
-        callStack.push(frame)
-        let result = callFunction(function: call.name, params: call.actualParameters, frame: frame)
-        callStack.pop()
-        return result
+
+        guard let symbol = current.scope.lookup(call.name), symbol is ProcedureSymbol else {
+            return callBuiltInProcedure(procedure: call.name, params: call.actualParameters, frame: current)
+        }
+
+        return callFunction(function: call.name, params: call.actualParameters, frame: current)
     }
 
     func eval(condition: Condition) -> Value {
         let left = eval(node: condition.leftSide)
         let right = eval(node: condition.rightSide)
 
-        guard let leftResult = left, let rightResult = right else {
-            fatalError("Invalid condition \(String(describing: left)) = \(String(describing: right))")
-        }
-
         switch condition.type {
         case .equals:
-            return .boolean(leftResult == rightResult)
+            return .boolean(left == right)
         case .greaterThan:
-            return .boolean(leftResult > rightResult)
+            return .boolean(left > right)
         case .lessThan:
-            return .boolean(leftResult < rightResult)
+            return .boolean(left < right)
         }
     }
 
-    func eval(ifElse: IfElse) -> Value? {
+    func eval(ifElse: IfElse) -> Value {
         guard case let .boolean(value) = eval(condition: ifElse.condition) else {
             fatalError("Condition not boolean")
         }
@@ -160,40 +161,45 @@ public class Interpreter {
         } else if let falseExpression = ifElse.falseExpression {
             return eval(node: falseExpression)
         } else {
-            return nil
+            return .none
         }
     }
 
-    private func callFunction(function: String, params: [AST], frame: Frame) -> Value? {
+    private func callFunction(function: String, params: [AST], frame: Frame) -> Value {
         guard let symbol = frame.scope.lookup(function), let procedureSymbol = symbol as? ProcedureSymbol else {
             fatalError("Symbol(procedure) not found '\(function)'")
         }
 
+        let newScope = frame.scope.level == 1 ? scopes[function]! : ScopedSymbolTable(name: function, level: scopes[function]!.level + 1, enclosingScope: scopes[function]!)
+        let newFrame = Frame(scope: newScope, previousFrame: frame)
+
         if procedureSymbol.params.count > 0 {
 
             for i in 0 ... procedureSymbol.params.count - 1 {
-                guard let evaluated = eval(node: params[i]) else {
-                    fatalError("Cannot assing empty value")
-                }
-                frame.set(variable: procedureSymbol.params[i].name, value: evaluated)
+                let evaluated = eval(node: params[i])
+                newFrame.set(variable: procedureSymbol.params[i].name, value: evaluated)
             }
         }
 
+        callStack.push(newFrame)
         eval(node: procedureSymbol.body.block)
-        return frame.returnValue
+        callStack.pop()
+        return newFrame.returnValue
     }
 
     public func interpret() {
         eval(node: tree)
     }
 
-    func getState() -> ([String: Int], [String: Double]) {
-        return (callStack.peek()!.integerMemory, callStack.peek()!.realMemory)
+    func getState() -> ([String: Int], [String: Double], [String: Bool], [String: String]) {
+        return (callStack.peek()!.integerMemory, callStack.peek()!.realMemory, callStack.peek()!.booleanMemory, callStack.peek()!.stringMemory)
     }
 
     public func printState() {
         print("Final interpreter memory state (\(callStack.peek()!.scope.name)):")
         print("Int: \(callStack.peek()!.integerMemory)")
         print("Real: \(callStack.peek()!.realMemory)")
+        print("Boolean: \(callStack.peek()!.booleanMemory)")
+        print("String: \(callStack.peek()!.stringMemory)")
     }
 }

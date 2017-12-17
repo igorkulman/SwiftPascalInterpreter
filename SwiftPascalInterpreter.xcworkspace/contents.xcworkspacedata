@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:SPI/SPI.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:PascalInterpreter/PascalInterpreter.xcodeproj">
    </FileRef>
    <FileRef

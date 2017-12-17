@@ -1,0 +1,409 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F385B5C41FE6CBB9001B57F4 /* Interpreter+Standard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F385B5C31FE6CBB9001B57F4 /* Interpreter+Standard.swift */; };
+		F3D90DD91FE68E4C00FA79B3 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DD81FE68E4C00FA79B3 /* main.swift */; };
+		F3D90E001FE68EE300FA79B3 /* AST+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DEA1FE68EE300FA79B3 /* AST+Extensions.swift */; };
+		F3D90E011FE68EE300FA79B3 /* AST.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DEB1FE68EE300FA79B3 /* AST.swift */; };
+		F3D90E021FE68EE300FA79B3 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DEC1FE68EE300FA79B3 /* Parser.swift */; };
+		F3D90E031FE68EE300FA79B3 /* SemanticAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DEE1FE68EE300FA79B3 /* SemanticAnalyzer.swift */; };
+		F3D90E041FE68EE300FA79B3 /* Symbol+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DEF1FE68EE300FA79B3 /* Symbol+Extensions.swift */; };
+		F3D90E051FE68EE300FA79B3 /* Symbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DF01FE68EE300FA79B3 /* Symbol.swift */; };
+		F3D90E061FE68EE300FA79B3 /* SymbolTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DF11FE68EE300FA79B3 /* SymbolTable.swift */; };
+		F3D90E071FE68EE300FA79B3 /* Visitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DF21FE68EE300FA79B3 /* Visitor.swift */; };
+		F3D90E081FE68EE300FA79B3 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DF31FE68EE300FA79B3 /* Utils.swift */; };
+		F3D90E091FE68EE300FA79B3 /* Arithmetics.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DF51FE68EE300FA79B3 /* Arithmetics.swift */; };
+		F3D90E0A1FE68EE300FA79B3 /* Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DF61FE68EE300FA79B3 /* Frame.swift */; };
+		F3D90E0B1FE68EE300FA79B3 /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DF71FE68EE300FA79B3 /* Interpreter.swift */; };
+		F3D90E0C1FE68EE300FA79B3 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DF81FE68EE300FA79B3 /* Stack.swift */; };
+		F3D90E0D1FE68EE300FA79B3 /* Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DF91FE68EE300FA79B3 /* Value.swift */; };
+		F3D90E0E1FE68EE300FA79B3 /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DFB1FE68EE300FA79B3 /* Lexer.swift */; };
+		F3D90E0F1FE68EE300FA79B3 /* Token+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DFC1FE68EE300FA79B3 /* Token+Extensions.swift */; };
+		F3D90E101FE68EE300FA79B3 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DFD1FE68EE300FA79B3 /* Token.swift */; };
+		F3D90E111FE68EE300FA79B3 /* Naming+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DFF1FE68EE300FA79B3 /* Naming+Extensions.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F3D90DD31FE68E4C00FA79B3 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F385B5C31FE6CBB9001B57F4 /* Interpreter+Standard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Interpreter+Standard.swift"; sourceTree = "<group>"; };
+		F3D90DD51FE68E4C00FA79B3 /* SPI */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SPI; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3D90DD81FE68E4C00FA79B3 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		F3D90DEA1FE68EE300FA79B3 /* AST+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AST+Extensions.swift"; sourceTree = "<group>"; };
+		F3D90DEB1FE68EE300FA79B3 /* AST.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AST.swift; sourceTree = "<group>"; };
+		F3D90DEC1FE68EE300FA79B3 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		F3D90DEE1FE68EE300FA79B3 /* SemanticAnalyzer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SemanticAnalyzer.swift; sourceTree = "<group>"; };
+		F3D90DEF1FE68EE300FA79B3 /* Symbol+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Symbol+Extensions.swift"; sourceTree = "<group>"; };
+		F3D90DF01FE68EE300FA79B3 /* Symbol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Symbol.swift; sourceTree = "<group>"; };
+		F3D90DF11FE68EE300FA79B3 /* SymbolTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SymbolTable.swift; sourceTree = "<group>"; };
+		F3D90DF21FE68EE300FA79B3 /* Visitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Visitor.swift; sourceTree = "<group>"; };
+		F3D90DF31FE68EE300FA79B3 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = ../PascalInterpreter/PascalInterpreter/Utils.swift; sourceTree = "<group>"; };
+		F3D90DF51FE68EE300FA79B3 /* Arithmetics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arithmetics.swift; sourceTree = "<group>"; };
+		F3D90DF61FE68EE300FA79B3 /* Frame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Frame.swift; sourceTree = "<group>"; };
+		F3D90DF71FE68EE300FA79B3 /* Interpreter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interpreter.swift; sourceTree = "<group>"; };
+		F3D90DF81FE68EE300FA79B3 /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
+		F3D90DF91FE68EE300FA79B3 /* Value.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Value.swift; sourceTree = "<group>"; };
+		F3D90DFB1FE68EE300FA79B3 /* Lexer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lexer.swift; sourceTree = "<group>"; };
+		F3D90DFC1FE68EE300FA79B3 /* Token+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Token+Extensions.swift"; sourceTree = "<group>"; };
+		F3D90DFD1FE68EE300FA79B3 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		F3D90DFF1FE68EE300FA79B3 /* Naming+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Naming+Extensions.swift"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F3D90DD21FE68E4C00FA79B3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F3D90DCC1FE68E4C00FA79B3 = {
+			isa = PBXGroup;
+			children = (
+				F3D90DE11FE68E7400FA79B3 /* PascalInterpreter */,
+				F3D90DD71FE68E4C00FA79B3 /* SPI */,
+				F3D90DD61FE68E4C00FA79B3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F3D90DD61FE68E4C00FA79B3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F3D90DD51FE68E4C00FA79B3 /* SPI */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F3D90DD71FE68E4C00FA79B3 /* SPI */ = {
+			isa = PBXGroup;
+			children = (
+				F3D90DD81FE68E4C00FA79B3 /* main.swift */,
+			);
+			path = SPI;
+			sourceTree = "<group>";
+		};
+		F3D90DE11FE68E7400FA79B3 /* PascalInterpreter */ = {
+			isa = PBXGroup;
+			children = (
+				F3D90DFE1FE68EE300FA79B3 /* Extensions */,
+				F3D90DF41FE68EE300FA79B3 /* Interpreter */,
+				F3D90DFA1FE68EE300FA79B3 /* Lexer */,
+				F3D90DE91FE68EE300FA79B3 /* Parser */,
+				F3D90DED1FE68EE300FA79B3 /* Semantic analyzer */,
+				F3D90DF31FE68EE300FA79B3 /* Utils.swift */,
+			);
+			name = PascalInterpreter;
+			sourceTree = "<group>";
+		};
+		F3D90DE91FE68EE300FA79B3 /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				F3D90DEA1FE68EE300FA79B3 /* AST+Extensions.swift */,
+				F3D90DEB1FE68EE300FA79B3 /* AST.swift */,
+				F3D90DEC1FE68EE300FA79B3 /* Parser.swift */,
+			);
+			name = Parser;
+			path = ../PascalInterpreter/PascalInterpreter/Parser;
+			sourceTree = "<group>";
+		};
+		F3D90DED1FE68EE300FA79B3 /* Semantic analyzer */ = {
+			isa = PBXGroup;
+			children = (
+				F3D90DEE1FE68EE300FA79B3 /* SemanticAnalyzer.swift */,
+				F3D90DEF1FE68EE300FA79B3 /* Symbol+Extensions.swift */,
+				F3D90DF01FE68EE300FA79B3 /* Symbol.swift */,
+				F3D90DF11FE68EE300FA79B3 /* SymbolTable.swift */,
+				F3D90DF21FE68EE300FA79B3 /* Visitor.swift */,
+			);
+			name = "Semantic analyzer";
+			path = "../PascalInterpreter/PascalInterpreter/Semantic analyzer";
+			sourceTree = "<group>";
+		};
+		F3D90DF41FE68EE300FA79B3 /* Interpreter */ = {
+			isa = PBXGroup;
+			children = (
+				F3D90DF51FE68EE300FA79B3 /* Arithmetics.swift */,
+				F3D90DF61FE68EE300FA79B3 /* Frame.swift */,
+				F3D90DF71FE68EE300FA79B3 /* Interpreter.swift */,
+				F385B5C31FE6CBB9001B57F4 /* Interpreter+Standard.swift */,
+				F3D90DF81FE68EE300FA79B3 /* Stack.swift */,
+				F3D90DF91FE68EE300FA79B3 /* Value.swift */,
+			);
+			name = Interpreter;
+			path = ../PascalInterpreter/PascalInterpreter/Interpreter;
+			sourceTree = "<group>";
+		};
+		F3D90DFA1FE68EE300FA79B3 /* Lexer */ = {
+			isa = PBXGroup;
+			children = (
+				F3D90DFB1FE68EE300FA79B3 /* Lexer.swift */,
+				F3D90DFC1FE68EE300FA79B3 /* Token+Extensions.swift */,
+				F3D90DFD1FE68EE300FA79B3 /* Token.swift */,
+			);
+			name = Lexer;
+			path = ../PascalInterpreter/PascalInterpreter/Lexer;
+			sourceTree = "<group>";
+		};
+		F3D90DFE1FE68EE300FA79B3 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F3D90DFF1FE68EE300FA79B3 /* Naming+Extensions.swift */,
+			);
+			name = Extensions;
+			path = ../PascalInterpreter/PascalInterpreter/Extensions;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F3D90DD41FE68E4C00FA79B3 /* SPI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F3D90DDC1FE68E4C00FA79B3 /* Build configuration list for PBXNativeTarget "SPI" */;
+			buildPhases = (
+				F3D90DD11FE68E4C00FA79B3 /* Sources */,
+				F3D90DD21FE68E4C00FA79B3 /* Frameworks */,
+				F3D90DD31FE68E4C00FA79B3 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SPI;
+			productName = SPI;
+			productReference = F3D90DD51FE68E4C00FA79B3 /* SPI */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F3D90DCD1FE68E4C00FA79B3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0920;
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = "Igor Kulman";
+				TargetAttributes = {
+					F3D90DD41FE68E4C00FA79B3 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = F3D90DD01FE68E4C00FA79B3 /* Build configuration list for PBXProject "SPI" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F3D90DCC1FE68E4C00FA79B3;
+			productRefGroup = F3D90DD61FE68E4C00FA79B3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F3D90DD41FE68E4C00FA79B3 /* SPI */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F3D90DD11FE68E4C00FA79B3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F3D90E031FE68EE300FA79B3 /* SemanticAnalyzer.swift in Sources */,
+				F3D90E0F1FE68EE300FA79B3 /* Token+Extensions.swift in Sources */,
+				F3D90E021FE68EE300FA79B3 /* Parser.swift in Sources */,
+				F3D90E0D1FE68EE300FA79B3 /* Value.swift in Sources */,
+				F3D90E0C1FE68EE300FA79B3 /* Stack.swift in Sources */,
+				F385B5C41FE6CBB9001B57F4 /* Interpreter+Standard.swift in Sources */,
+				F3D90E061FE68EE300FA79B3 /* SymbolTable.swift in Sources */,
+				F3D90E011FE68EE300FA79B3 /* AST.swift in Sources */,
+				F3D90E0E1FE68EE300FA79B3 /* Lexer.swift in Sources */,
+				F3D90E091FE68EE300FA79B3 /* Arithmetics.swift in Sources */,
+				F3D90E101FE68EE300FA79B3 /* Token.swift in Sources */,
+				F3D90E0B1FE68EE300FA79B3 /* Interpreter.swift in Sources */,
+				F3D90E111FE68EE300FA79B3 /* Naming+Extensions.swift in Sources */,
+				F3D90E001FE68EE300FA79B3 /* AST+Extensions.swift in Sources */,
+				F3D90E081FE68EE300FA79B3 /* Utils.swift in Sources */,
+				F3D90E051FE68EE300FA79B3 /* Symbol.swift in Sources */,
+				F3D90DD91FE68E4C00FA79B3 /* main.swift in Sources */,
+				F3D90E0A1FE68EE300FA79B3 /* Frame.swift in Sources */,
+				F3D90E071FE68EE300FA79B3 /* Visitor.swift in Sources */,
+				F3D90E041FE68EE300FA79B3 /* Symbol+Extensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F3D90DDA1FE68E4C00FA79B3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F3D90DDB1FE68E4C00FA79B3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+			};
+			name = Release;
+		};
+		F3D90DDD1FE68E4C00FA79B3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = S6EJ3ZVM4G;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		F3D90DDE1FE68E4C00FA79B3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = S6EJ3ZVM4G;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F3D90DD01FE68E4C00FA79B3 /* Build configuration list for PBXProject "SPI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F3D90DDA1FE68E4C00FA79B3 /* Debug */,
+				F3D90DDB1FE68E4C00FA79B3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F3D90DDC1FE68E4C00FA79B3 /* Build configuration list for PBXNativeTarget "SPI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F3D90DDD1FE68E4C00FA79B3 /* Debug */,
+				F3D90DDE1FE68E4C00FA79B3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F3D90DCD1FE68E4C00FA79B3 /* Project object */;
+}

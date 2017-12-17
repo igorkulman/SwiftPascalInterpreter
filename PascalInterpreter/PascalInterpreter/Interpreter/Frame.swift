@@ -12,9 +12,10 @@ class Frame {
     var integerMemory: [String: Int] = [:]
     var realMemory: [String: Double] = [:]
     var booleanMemory: [String: Bool] = [:]
+    var stringMemory: [String: String] = [:]
     let scope: ScopedSymbolTable
     let previousFrame: Frame?
-    var returnValue: Value?
+    var returnValue: Value = .none
 
     init(scope: ScopedSymbolTable, previousFrame: Frame?) {
         self.scope = scope
@@ -43,8 +44,8 @@ class Frame {
                     case .real:
                         fatalError("Cannot assign Real value to Int variable \(variable)")
                     }
-                case .boolean:
-                    fatalError("Cannot assign Boolean value to Int variable \(variable)")
+                default:
+                    fatalError("Cannot assign \(value) to Int variable \(variable)")
                 }
             case .real:
                 switch value {
@@ -55,8 +56,8 @@ class Frame {
                     case let .real(value):
                         realMemory[variable] = value
                     }
-                case .boolean:
-                    fatalError("Cannot assign Boolean value to Real variable \(variable)")
+                default:
+                    fatalError("Cannot assign \(value) to Real variable \(variable)")
                 }
             case .boolean:
                 switch value {
@@ -64,6 +65,13 @@ class Frame {
                     booleanMemory[variable] = boolean
                 default:
                     fatalError("Cannot assign \(value) value to Boolean variable \(variable)")
+                }
+            case .string:
+                switch value {
+                case let .string(string):
+                    stringMemory[variable] = string
+                default:
+                    fatalError("Cannot assign \(value) value to String variable \(variable)")
                 }
             }
             return
@@ -86,6 +94,8 @@ class Frame {
                 return .number(.real(realMemory[variable]!))
             case .boolean:
                 return .boolean(booleanMemory[variable]!)
+            case .string:
+                return .string(stringMemory[variable]!)
             }
         }
 

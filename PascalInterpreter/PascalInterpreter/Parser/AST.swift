@@ -32,6 +32,12 @@ public enum Number: AST {
     case real(Double)
 }
 
+extension String: AST {
+}
+
+extension Bool: AST {
+}
+
 public protocol AST {
 }
 

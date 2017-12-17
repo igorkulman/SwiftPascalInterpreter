@@ -5,6 +5,8 @@
 
 Simple Swift interpreter for the Pascal language inspired by the [Let’s Build A Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/) article series.
 
+![Playground](Images/cli.gif) 
+
 ## Scructure
 
 ### Lexer
@@ -56,7 +58,9 @@ else
 end;
 
 begin
+writeln('Factorial');
 result := Factorial(6);
+writeln(result)
 end.
 ````
 

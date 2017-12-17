@@ -25,9 +25,11 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
-        let (integerState, realState) = interpeter.getState()
+        let (integerState, realState, boolState, stringState) = interpeter.getState()
         XCTAssert(integerState == ["a": 2])
         XCTAssert(realState == [:])
+        XCTAssert(boolState == [:])
+        XCTAssert(stringState == [:])
     }
 
     func testMoreComplexProgram() {
@@ -49,9 +51,11 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
-        let (integerState, realState) = interpeter.getState()
+        let (integerState, realState, boolState, stringState) = interpeter.getState()
         XCTAssert(integerState == ["b": 25, "number": 2, "a": 2, "x": 11, "c": 27])
         XCTAssert(realState == [:])
+        XCTAssert(boolState == [:])
+        XCTAssert(stringState == [:])
     }
 
     func testProgramWithDeclarations() {
@@ -71,9 +75,11 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
-        let (integerState, realState) = interpeter.getState()
+        let (integerState, realState, boolState, stringState) = interpeter.getState()
         XCTAssert(integerState == ["b": 25, "a": 2])
         XCTAssert(realState == ["y": 5.9971428571428573])
+        XCTAssert(boolState == [:])
+        XCTAssert(stringState == [:])
     }
 
     func testProgramWithProcedureCallAndNoParameters() {
@@ -97,9 +103,11 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
-        let (integerState, realState) = interpeter.getState()
+        let (integerState, realState, boolState, stringState) = interpeter.getState()
         XCTAssert(integerState == [:])
         XCTAssert(realState == ["x": 7, "y": 5])
+        XCTAssert(boolState == [:])
+        XCTAssert(stringState == [:])
     }
 
     func testProgramWithProcedureCallAndParameters() {
@@ -121,9 +129,11 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
-        let (integerState, realState) = interpeter.getState()
+        let (integerState, realState, boolState, stringState) = interpeter.getState()
         XCTAssert(integerState == [:])
         XCTAssert(realState == ["x": 5, "y": 3])
+        XCTAssert(boolState == [:])
+        XCTAssert(stringState == [:])
     }
 
     func testProgramWithRecursiveFunction() {
@@ -147,5 +157,68 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
+        let (integerState, realState, boolState, stringState) = interpeter.getState()
+        XCTAssert(realState == [:])
+        XCTAssert(integerState == ["result": 720])
+        XCTAssert(boolState == [:])
+        XCTAssert(stringState == [:])
+    }
+
+    func testProgramWithRecursiveAndBuiltInFunctions() {
+        let program =
+            """
+            program Main;
+            var result: integer;
+
+            function Factorial(number: Integer): Integer;
+            begin
+            if (number > 1) then
+                Factorial := number * Factorial(number-1)
+            else
+                Factorial := 1
+            end;
+
+            begin { Main }
+            result := Factorial(6);
+            writeln(result);
+            end.  { Main }
+            """
+
+        let interpeter = Interpreter(program)
+        interpeter.interpret()
+        let (integerState, realState, boolState, stringState) = interpeter.getState()
+        XCTAssert(realState == [:])
+        XCTAssert(integerState == ["result": 720])
+        XCTAssert(boolState == [:])
+        XCTAssert(stringState == [:])
+    }
+
+    func testProgramWithRecursiveFunctionsAndParameterTheSameName() {
+        let program =
+        """
+            program Main;
+            var number, result: integer;
+
+            function Factorial(number: Integer): Integer;
+            begin
+            if (number > 1) then
+                Factorial := number * Factorial(number-1)
+            else
+                Factorial := 1
+            end;
+
+            begin { Main }
+            number := 6;
+            result := Factorial(number);
+            end.  { Main }
+            """
+
+        let interpeter = Interpreter(program)
+        interpeter.interpret()
+        let (integerState, realState, boolState, stringState) = interpeter.getState()
+        XCTAssert(realState == [:])
+        XCTAssert(integerState == ["result": 720, "number": 6])
+        XCTAssert(boolState == [:])
+        XCTAssert(stringState == [:])
     }
 }

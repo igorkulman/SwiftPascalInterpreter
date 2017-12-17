@@ -374,5 +374,34 @@ class ParserTests: XCTestCase {
 
         let parser = Parser(program)
         let result = parser.parse()
+        let compound = Compound(children: [Assignment(left: Variable(name: "result"), right: FunctionCall(name: "Factorial", actualParameters: [Number.integer(6)])), NoOp()])
+        let resultDeclaration = VariableDeclaration(variable: Variable(name: "result"), type: VariableType(type: .integer))
+        let ifelse = IfElse(condition: Condition(type: .greaterThan, leftSide: Variable(name: "number"), rightSide: Number.integer(1)), trueExpression: Assignment(left: Variable(name: "Factorial"), right: BinaryOperation(left: Variable(name: "number"), operation: .mult, right: FunctionCall(name: "Factorial", actualParameters: [BinaryOperation(left: Variable(name: "number"), operation: .minus, right: Number.integer(1))]))), falseExpression: Assignment(left: Variable(name: "Factorial"), right: Number.integer(1)))
+        let factorialBlock = Block(declarations: [], compound: Compound(children: [ifelse]))
+        let factorialDeclarion = Function(name: "Factorial", params: [Param(name: "number", type: VariableType(type: .integer))], block: factorialBlock, returnType: VariableType(type: .integer))
+        let block = Block(declarations: [resultDeclaration, factorialDeclarion], compound: compound)
+        let node = Program(name: "Main", block: block)
+        XCTAssertEqual(result, node)
+    }
+
+    func testProgramWithStringConstants() {
+        let program =
+            """
+            program Main;
+            var s: String;
+                a: Boolean;
+            begin { Main }
+            s := 'Test';
+            a := false;
+            writeln(s,a);
+            end.  { Main }
+            """
+
+        let parser = Parser(program)
+        let result = parser.parse()
+        let compound = Compound(children: [Assignment(left: Variable(name: "s"), right: "Test"), Assignment(left: Variable(name: "a"), right: false), FunctionCall(name: "writeln", actualParameters: [Variable(name: "s"), Variable(name: "a")]), NoOp()])
+        let block = Block(declarations: [VariableDeclaration(variable: Variable(name: "s"), type: VariableType(type: .string)), VariableDeclaration(variable: Variable(name: "a"), type: VariableType(type: .boolean))], compound: compound)
+        let node = Program(name: "Main", block: block)
+        XCTAssertEqual(result, node)
     }
 }

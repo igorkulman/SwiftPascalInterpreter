@@ -90,10 +90,25 @@ public class SemanticAnalyzer: Visitor {
     }
 
     func visit(call: FunctionCall) {
-        guard let symbol = currentScope?.lookup(call.name), let procedure = symbol as? ProcedureSymbol else {
+        guard let symbol = currentScope?.lookup(call.name), symbol is ProcedureSymbol || symbol is BuiltInProcedureSymbol else {
             fatalError("Symbol(procedure) not found '\(call.name)'")
         }
 
+        switch symbol {
+        case let procedure as ProcedureSymbol:
+            checkFunction(call: call, procedure: procedure)
+        case let procedure as BuiltInProcedureSymbol:
+            checkBuiltInProcedure(call: call, procedure: procedure)
+        default:
+            break
+        }
+    }
+
+    private func checkBuiltInProcedure(call: FunctionCall, procedure: BuiltInProcedureSymbol) {
+
+    }
+
+    private func checkFunction(call: FunctionCall, procedure: ProcedureSymbol) {
         guard procedure.params.count == call.actualParameters.count else {
             fatalError("Procedure called with wrong number of parameters '\(call.name)'")
         }

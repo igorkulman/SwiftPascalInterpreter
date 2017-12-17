@@ -20,17 +20,30 @@ public class ScopedSymbolTable {
         self.level = level
         self.enclosingScope = enclosingScope
 
+        insertBuiltInTypes()
+        insertBuildInProcedures()
+    }
+
+    private func insertBuiltInTypes() {
         insert(BuiltInTypeSymbol.integer)
         insert(BuiltInTypeSymbol.real)
         insert(BuiltInTypeSymbol.boolean)
+        insert(BuiltInTypeSymbol.string)
+    }
+
+    private func insertBuildInProcedures() {
+        symbols["WRITELN"] = BuiltInProcedureSymbol(name: "WRITELN", parameters: [], hasVariableParameters: true)
+        symbols["WRITE"] = BuiltInProcedureSymbol(name: "WRITE", parameters: [], hasVariableParameters: true)
+        symbols["READ"] = BuiltInProcedureSymbol(name: "READ", parameters: [], hasVariableParameters: true)
+        symbols["READLN"] = BuiltInProcedureSymbol(name: "READLN", parameters: [], hasVariableParameters: true)
     }
 
     func insert(_ symbol: Symbol) {
-        symbols[symbol.name.lowercased()] = symbol
+        symbols[symbol.name.uppercased()] = symbol
     }
 
     func lookup(_ name: String, currentScopeOnly: Bool = false) -> Symbol? {
-        if let symbol = symbols[name.lowercased()] {
+        if let symbol = symbols[name.uppercased()] {
             return symbol
         }
 
@@ -49,8 +62,8 @@ extension ScopedSymbolTable: CustomStringConvertible {
         lines.append("Scope level   : \(level)")
         lines.append("Scope (Scoped symbol table) contents")
         lines.append("------------------------------------")
-        lines.append(contentsOf: symbols.sorted(by: {$0.value.sortOrder < $1.value.sortOrder}).map({ key, value in
-            return "\(key.padding(toLength: 12, withPad: " ", startingAt: 0)): \(value)"
+        lines.append(contentsOf: symbols.sorted(by: { $0.value.sortOrder < $1.value.sortOrder }).map({ key, value in
+            "\(key.padding(toLength: 12, withPad: " ", startingAt: 0)): \(value)"
         }))
         return lines.reduce("", { $0 + "\n" + $1 })
     }

@@ -112,6 +112,10 @@ extension AST {
             return "IF"
         case let condition as Condition:
             return condition.type.description
+        case let string as String:
+            return string
+        case let boolean as Bool:
+            return boolean ? "TRUE" : "FALSE"
         default:
             fatalError("Missed AST case \(self)")
         }
@@ -171,6 +175,10 @@ extension AST {
             return [ifelse.condition, ifelse.trueExpression]
         case let condition as Condition:
             return [condition.leftSide, condition.rightSide]
+        case is String:
+            return []
+        case is Bool:
+            return []
         default:
             fatalError("Missed AST case \(self)")
         }
