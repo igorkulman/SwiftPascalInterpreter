@@ -28,6 +28,7 @@ public class ScopedSymbolTable {
         insert(BuiltInTypeSymbol.integer)
         insert(BuiltInTypeSymbol.real)
         insert(BuiltInTypeSymbol.boolean)
+        insert(BuiltInTypeSymbol.string)
     }
 
     private func insertBuildInProcedures() {

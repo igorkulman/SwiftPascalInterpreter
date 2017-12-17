@@ -57,6 +57,8 @@ extension Token: Equatable {
             return true
         case (.function, .function):
             return true
+        case (.apostrophe, .apostrophe):
+            return true
         default:
             return false
         }
@@ -71,6 +73,8 @@ extension Constant: Equatable {
         case let (.real(left), .real(right)):
             return left == right
         case let (.boolean(left), .boolean(right)):
+            return left == right
+        case let (.string(left), .string(right)):
             return left == right
         default:
             return false
@@ -128,6 +132,8 @@ extension Constant: CustomStringConvertible {
             return "REAL_CONST(\(value))"
         case let .boolean(value):
             return "BOOLEAN_CONST(\(value))"
+        case let .string(value):
+            return "STRING_CONST(\(value))"
         }
     }
 }
@@ -167,9 +173,9 @@ extension Token: CustomStringConvertible {
             return constant.description
         case .procedure:
             return "PROCEDURE"
-        case .`if`:
+        case .if:
             return "IF"
-        case .`else`:
+        case .else:
             return "ELSE"
         case .then:
             return "THEN"
@@ -181,6 +187,8 @@ extension Token: CustomStringConvertible {
             return "GT"
         case .function:
             return "FUNCTION"
+        case .apostrophe:
+            return "APOSTROPHE"
         }
     }
 }

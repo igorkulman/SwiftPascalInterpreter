@@ -11,6 +11,7 @@ import Foundation
 enum Value {
     case number(Number)
     case boolean(Bool)
+    case string(String)
 }
 
 extension Value: Equatable {
@@ -19,6 +20,8 @@ extension Value: Equatable {
         case let (.number(left), .number(right)):
             return left == right
         case let (.boolean(left), .boolean(right)):
+            return left == right
+        case let (.string(left), .string(right)):
             return left == right
         default:
             return false

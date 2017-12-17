@@ -24,6 +24,8 @@ public class Interpreter {
         switch node {
         case let number as Number:
             return eval(number: number)
+        case let string as String:
+            return eval(string: string)
         case let unaryOperation as UnaryOperation:
             return eval(unaryOperation: unaryOperation)
         case let binaryOperation as BinaryOperation:
@@ -51,6 +53,10 @@ public class Interpreter {
 
     func eval(number: Number) -> Value? {
         return .number(number)
+    }
+
+    func eval(string: String) -> Value? {
+        return .string(string)
     }
 
     func eval(unaryOperation: UnaryOperation) -> Value? {
@@ -220,6 +226,8 @@ public class Interpreter {
                 case let .real(value):
                     s += String(value)
                 }
+            case let .string(value):
+                s += value
             }
         }
         if newLine {
@@ -250,6 +258,8 @@ public class Interpreter {
                 frame.set(variable: variable.name, value: .number(.real(Double(parts[i])!)))
             case .boolean:
                 frame.set(variable: variable.name, value: .boolean(Bool(parts[i])!))
+            case .string:
+                frame.set(variable: variable.name, value: .string(parts[i]))
             }
         }
     }

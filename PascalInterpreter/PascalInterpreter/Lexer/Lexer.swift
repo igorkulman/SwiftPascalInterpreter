@@ -33,8 +33,8 @@ public class Lexer {
         "PROCEDURE": .procedure,
         "TRUE": .constant(.boolean(true)),
         "FALSE": .constant(.boolean(false)),
-        "IF": .`if`,
-        "ELSE": .`else`,
+        "IF": .if,
+        "ELSE": .else,
         "THEN": .then,
         "FUNCTION": .function
     ]
@@ -140,6 +140,17 @@ public class Lexer {
         return .id(lexem)
     }
 
+    private func string() -> Token {
+        advance()
+        var lexem = ""
+        while let character = currentCharacter, character != "'" {
+            lexem += String(character)
+            advance()
+        }
+        advance()
+        return .constant(.string(lexem))
+    }
+
     // MARK: - Public methods
 
     /**
@@ -160,6 +171,10 @@ public class Lexer {
                 advance()
                 skipComments()
                 continue
+            }
+
+            if currentCharacter == "'" {
+                return string()
             }
 
             // if the character is a digit, convert it to int, create an integer token and move position

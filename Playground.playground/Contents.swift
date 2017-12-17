@@ -27,6 +27,7 @@ let program =
     end;
 
     begin { Main }
+    writeln('Factorial');
     result := Factorial(6);
     writeln(result)
     end.  { Main }

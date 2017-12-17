@@ -10,7 +10,11 @@ else
 end;
 
 begin { Main }
+writeln('Factorial');
+writeln('');
+writeln('Enter number and press Enter');
 read(input);
 result := Factorial(input);
-writeln(result)
+writeln('');
+writeln(input,' != ', result)
 end.  { Main }

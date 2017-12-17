@@ -16,6 +16,7 @@ public enum BuiltInTypeSymbol: Symbol {
     case integer
     case real
     case boolean
+    case string
 
     var name: String {
         switch self {
@@ -25,6 +26,8 @@ public enum BuiltInTypeSymbol: Symbol {
             return "REAL"
         case .boolean:
             return "BOOLEAN"
+        case .string:
+            return "STRING"
         }
     }
 }

@@ -373,6 +373,19 @@ class ParserTests: XCTestCase {
             """
 
         let parser = Parser(program)
-        let result = parser.parse()
+        _ = parser.parse()
+    }
+
+    func testProgramWithStringConstants() {
+        let program =
+        """
+            program Main;
+            begin { Main }
+            writeln('Test');
+            end.  { Main }
+            """
+
+        let parser = Parser(program)
+        _ = parser.parse()
     }
 }

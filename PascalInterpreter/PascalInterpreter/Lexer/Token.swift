@@ -25,6 +25,7 @@ public enum Constant {
     case integer(Int)
     case real(Double)
     case boolean(Bool)
+    case string(String)
 }
 
 public enum Type {
@@ -57,4 +58,5 @@ public enum Token {
     case lessThan
     case greaterThan
     case function
+    case apostrophe
 }

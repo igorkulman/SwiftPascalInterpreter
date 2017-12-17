@@ -12,6 +12,7 @@ class Frame {
     var integerMemory: [String: Int] = [:]
     var realMemory: [String: Double] = [:]
     var booleanMemory: [String: Bool] = [:]
+    var stringMemory: [String: String] = [:]
     let scope: ScopedSymbolTable
     let previousFrame: Frame?
     var returnValue: Value?
@@ -45,6 +46,8 @@ class Frame {
                     }
                 case .boolean:
                     fatalError("Cannot assign Boolean value to Int variable \(variable)")
+                case .string:
+                    fatalError("Cannot assign String value to Int variable \(variable)")
                 }
             case .real:
                 switch value {
@@ -57,6 +60,8 @@ class Frame {
                     }
                 case .boolean:
                     fatalError("Cannot assign Boolean value to Real variable \(variable)")
+                case .string:
+                    fatalError("Cannot assign String value to Real variable \(variable)")
                 }
             case .boolean:
                 switch value {
@@ -64,6 +69,13 @@ class Frame {
                     booleanMemory[variable] = boolean
                 default:
                     fatalError("Cannot assign \(value) value to Boolean variable \(variable)")
+                }
+            case .string:
+                switch value {
+                case let .string(string):
+                    stringMemory[variable] = string
+                default:
+                    fatalError("Cannot assign \(value) value to String variable \(variable)")
                 }
             }
             return
@@ -86,6 +98,8 @@ class Frame {
                 return .number(.real(realMemory[variable]!))
             case .boolean:
                 return .boolean(booleanMemory[variable]!)
+            case .string:
+                return .string(stringMemory[variable]!)
             }
         }
 

@@ -309,9 +309,7 @@ public class Parser {
             parameters.append(expr())
             while currentToken == .coma {
                 eat(.coma)
-                if let value = factor() as? Number {
-                    parameters.append(value)
-                }
+                parameters.append(factor())
             }
             eat(.parenthesis(.right))
         }
@@ -454,6 +452,7 @@ public class Parser {
      | MINUS factor
      | INTEGER_CONST
      | REAL_CONST
+     | STRING_CONST
      | LPAREN expr RPAREN
      | variable
      | function_call
@@ -478,6 +477,9 @@ public class Parser {
             let result = expr()
             eat(.parenthesis(.right))
             return result
+        case .constant(.string(let value)):
+            eat(.constant(.string(value)))
+            return value
         default:
             if nextToken == .parenthesis(.left) {
                 return functionCall()
