@@ -28,6 +28,7 @@ let program =
 
     begin { Main }
     result := Factorial(6);
+    writeln(result)
     end.  { Main }
     """
 

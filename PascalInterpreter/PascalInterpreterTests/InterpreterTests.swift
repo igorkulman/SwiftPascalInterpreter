@@ -148,4 +148,28 @@ class InterpreterTests: XCTestCase {
         let interpeter = Interpreter(program)
         interpeter.interpret()
     }
+
+    func testProgramWithRecursiveAndBuiltInFunctions() {
+        let program =
+        """
+            program Main;
+            var result: integer;
+
+            function Factorial(number: Integer): Integer;
+            begin
+            if (number > 1) then
+                Factorial := number * Factorial(number-1)
+            else
+                Factorial := 1
+            end;
+
+            begin { Main }
+            result := Factorial(6);
+            writeln(result);
+            end.  { Main }
+            """
+
+        let interpeter = Interpreter(program)
+        interpeter.interpret()
+    }
 }

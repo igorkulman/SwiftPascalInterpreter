@@ -59,3 +59,15 @@ class FunctionSymbol: ProcedureSymbol {
         super.init(name: name, parameters: parameters, body: body)
     }
 }
+
+class BuiltInProcedureSymbol: Symbol {
+    let name: String
+    let params: [Symbol]
+    let hasVariableParameters: Bool
+
+    init(name: String, parameters: [Symbol], hasVariableParameters: Bool) {
+        self.name = name
+        self.params = parameters
+        self.hasVariableParameters = hasVariableParameters
+    }
+}

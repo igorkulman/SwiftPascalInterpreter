@@ -124,6 +124,11 @@ public class Interpreter {
 
     func eval(call: FunctionCall) -> Value? {
         let current = callStack.peek()!
+
+        guard let symbol = current.scope.lookup(call.name), symbol is ProcedureSymbol else {
+            return callBuiltInProcedure(procedure: call.name, params: call.actualParameters, frame: current)
+        }
+
         let newScope = current.scope.level == 1 ? scopes[call.name]! : ScopedSymbolTable(name: call.name, level: scopes[call.name]!.level + 1, enclosingScope: scopes[call.name]!)
         let frame = Frame(scope: newScope, previousFrame: current)
         callStack.push(frame)
@@ -181,6 +186,51 @@ public class Interpreter {
 
         eval(node: procedureSymbol.body.block)
         return frame.returnValue
+    }
+
+    private func callBuiltInProcedure(procedure: String, params: [AST], frame: Frame) -> Value? {
+        switch procedure.uppercased() {
+        case "WRITE":
+            write(params: params, newLine: false)
+            return nil
+        case "WRITELN":
+            write(params: params, newLine: true)
+            return nil
+        case "READ":
+            read()
+            return nil
+        default:
+            fatalError("Implement built in procedure \(procedure)")
+        }
+    }
+
+    private func write(params: [AST], newLine: Bool) {
+        var s = ""
+        for param in params {
+            guard let value = eval(node: param) else {
+                fatalError("Cannot call writeln with a parameter without value")
+            }
+            switch value {
+            case let .boolean(value):
+                s += value ? "TRUE" : "FALSE"
+            case let .number(number):
+                switch number {
+                case let .integer(value):
+                    s += String(value)
+                case let .real(value):
+                    s += String(value)
+                }
+            }
+        }
+        if newLine {
+            print(s)
+        } else {
+            print(s, terminator: "")
+        }
+    }
+
+    private func read() {
+
     }
 
     public func interpret() {
