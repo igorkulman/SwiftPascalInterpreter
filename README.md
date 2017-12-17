@@ -5,7 +5,7 @@
 
 Simple Swift interpreter for the Pascal language inspired by the [Let’s Build A Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/) article series.
 
-![CLI](Images/cli.mp4) 
+![Playground](Images/cli.gif) 
 
 ## Scructure
 
