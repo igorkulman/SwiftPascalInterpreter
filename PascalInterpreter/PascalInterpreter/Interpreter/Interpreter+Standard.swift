@@ -20,12 +20,15 @@ extension Interpreter {
         case "READ":
             read(params: params, frame: frame)
             return .none
+        case "READLN":
+            read(params: params, frame: frame)
+            return .none
         default:
             fatalError("Implement built in procedure \(procedure)")
         }
     }
 
-    func write(params: [AST], newLine: Bool) {
+    private func write(params: [AST], newLine: Bool) {
         var s = ""
         for param in params {
             let value = eval(node: param)
@@ -52,7 +55,7 @@ extension Interpreter {
         }
     }
 
-    func read(params: [AST], frame: Frame) {
+    private func read(params: [AST], frame: Frame) {
         guard let line = readLine() else {
             fatalError("Empty input")
         }
