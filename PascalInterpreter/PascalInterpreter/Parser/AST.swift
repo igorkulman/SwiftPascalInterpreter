@@ -197,3 +197,13 @@ class IfElse: AST {
         self.falseExpression = falseExpression
     }
 }
+
+class RepeatUntil: AST {
+    let statement: AST
+    let condition: Condition
+
+    init(statement: AST, condition: Condition) {
+        self.statement = statement
+        self.condition = condition
+    }
+}

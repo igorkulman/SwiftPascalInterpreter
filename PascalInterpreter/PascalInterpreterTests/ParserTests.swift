@@ -276,7 +276,7 @@ class ParserTests: XCTestCase {
 
             begin { Main }
             y := 5;
-            if (y = 5) then
+            if y = 5 then
                 x:=2
             else
                 x:= 3
@@ -299,7 +299,7 @@ class ParserTests: XCTestCase {
 
             begin { Main }
             y := 5;
-            if (y = 5) then
+            if y = 5 then
                 x:=2
             end.  { Main }
             """
@@ -361,7 +361,7 @@ class ParserTests: XCTestCase {
 
             function Factorial(number: Integer): Integer;
             begin
-            if (number > 1) then
+            if number > 1 then
                 Factorial := number * Factorial(number-1)
             else
                 Factorial := 1
@@ -404,4 +404,29 @@ class ParserTests: XCTestCase {
         let node = Program(name: "Main", block: block)
         XCTAssertEqual(result, node)
     }
+
+    func testProgramWithRepeatUntil() {
+        let program =
+            """
+            program Main;
+            var x: integer;
+
+            begin
+            x:=0;
+            repeat
+                x:=x+1;
+            until x = 6;
+            writeln(x);
+            end.  { Main }
+            """
+
+        let parser = Parser(program)
+        let result = parser.parse()
+        let xDec = VariableDeclaration(variable: Variable(name: "x"), type: VariableType(type: .integer))
+        let compound = Compound(children: [Assignment(left: Variable(name: "x"), right: Number.integer(0)), RepeatUntil(statement: Assignment(left: Variable(name: "x"), right: BinaryOperation(left: Variable(name: "x"), operation: BinaryOperationType.plus, right: Number.integer(1))), condition: Condition(type: .equals, leftSide: Variable(name: "x"), rightSide: Number.integer(6))), FunctionCall(name: "writeln", actualParameters: [Variable(name: "x")]), NoOp()])
+        let block = Block(declarations: [xDec], compound: compound)
+        let node = Program(name: "Main", block: block)
+        XCTAssertEqual(result, node)
+    }
+
 }

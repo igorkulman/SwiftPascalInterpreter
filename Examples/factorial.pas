@@ -3,7 +3,7 @@ var input, result: integer;
 
 function Factorial(number: Integer): Integer;
 begin
-if (number > 1) then
+if number > 1 then
     Factorial := number * Factorial(number-1)
 else
     Factorial := 1

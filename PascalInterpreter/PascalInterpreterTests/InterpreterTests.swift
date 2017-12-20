@@ -144,7 +144,7 @@ class InterpreterTests: XCTestCase {
 
             function Factorial(number: Integer): Integer;
             begin
-            if (number > 1) then
+            if number > 1 then
                 Factorial := number * Factorial(number-1)
             else
                 Factorial := 1
@@ -172,7 +172,7 @@ class InterpreterTests: XCTestCase {
 
             function Factorial(number: Integer): Integer;
             begin
-            if (number > 1) then
+            if number > 1 then
                 Factorial := number * Factorial(number-1)
             else
                 Factorial := 1
@@ -195,13 +195,13 @@ class InterpreterTests: XCTestCase {
 
     func testProgramWithRecursiveFunctionsAndParameterTheSameName() {
         let program =
-        """
+            """
             program Main;
             var number, result: integer;
 
             function Factorial(number: Integer): Integer;
             begin
-            if (number > 1) then
+            if number > 1 then
                 Factorial := number * Factorial(number-1)
             else
                 Factorial := 1
@@ -218,6 +218,30 @@ class InterpreterTests: XCTestCase {
         let (integerState, realState, boolState, stringState) = interpeter.getState()
         XCTAssert(realState == [:])
         XCTAssert(integerState == ["result": 720, "number": 6])
+        XCTAssert(boolState == [:])
+        XCTAssert(stringState == [:])
+    }
+
+    func testProgramWithRepeatUntil() {
+        let program =
+            """
+            program Main;
+            var x: integer;
+
+            begin
+            x:=0;
+            repeat
+                x:=x+1;
+            until x = 6;
+            writeln(x);
+            end.  { Main }
+            """
+
+        let interpeter = Interpreter(program)
+        interpeter.interpret()
+        let (integerState, realState, boolState, stringState) = interpeter.getState()
+        XCTAssert(realState == [:])
+        XCTAssert(integerState == ["x": 6])
         XCTAssert(boolState == [:])
         XCTAssert(stringState == [:])
     }

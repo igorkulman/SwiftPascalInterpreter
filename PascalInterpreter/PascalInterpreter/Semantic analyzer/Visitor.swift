@@ -27,6 +27,7 @@ protocol Visitor: class {
     func visit(call: FunctionCall)
     func visit(condition: Condition)
     func visit(ifElse: IfElse)
+    func visit(repeatUntil: RepeatUntil)
 }
 
 extension Visitor {
@@ -66,6 +67,8 @@ extension Visitor {
             visit(condition: condition)
         case let ifElse as IfElse:
             visit(ifElse: ifElse)
+        case let repeatUntil as RepeatUntil:
+            visit(repeatUntil: repeatUntil)
         default:
             fatalError("Unsupported node type \(node)")
         }
@@ -159,5 +162,10 @@ extension Visitor {
         if let falseExpression = ifElse.falseExpression {
             visit(node: falseExpression)
         }
+    }
+
+    func visit(repeatUntil: RepeatUntil) {
+        visit(node: repeatUntil.statement)
+        visit(node: repeatUntil.condition)
     }
 }

@@ -59,6 +59,10 @@ extension Token: Equatable {
             return true
         case (.apostrophe, .apostrophe):
             return true
+        case (.repeat, .repeat):
+            return true
+        case (.until, .until):
+            return true
         default:
             return false
         }
@@ -191,6 +195,10 @@ extension Token: CustomStringConvertible {
             return "FUNCTION"
         case .apostrophe:
             return "APOSTROPHE"
+        case .repeat:
+            return "REPEAT"
+        case .until:
+            return "UNTIL"
         }
     }
 }

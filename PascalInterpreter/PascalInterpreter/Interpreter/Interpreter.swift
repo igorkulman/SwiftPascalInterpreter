@@ -46,6 +46,8 @@ public class Interpreter {
             return eval(condition: condition)
         case let ifElse as IfElse:
             return eval(ifElse: ifElse)
+        case let repeatUntil as RepeatUntil:
+            return eval(repeatUntil: repeatUntil)
         default:
             return .none
         }
@@ -163,6 +165,18 @@ public class Interpreter {
         } else {
             return .none
         }
+    }
+
+    func eval(repeatUntil: RepeatUntil) -> Value {
+        eval(node: repeatUntil.statement)
+        var value = eval(condition: repeatUntil.condition)
+
+        while case .boolean(false) = value {
+            eval(node: repeatUntil.statement)
+            value = eval(condition: repeatUntil.condition)
+        }
+
+        return .none
     }
 
     private func callFunction(function: String, params: [AST], frame: Frame) -> Value {

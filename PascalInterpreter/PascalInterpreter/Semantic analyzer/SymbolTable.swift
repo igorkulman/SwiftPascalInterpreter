@@ -36,6 +36,7 @@ public class ScopedSymbolTable {
         symbols["WRITE"] = BuiltInProcedureSymbol(name: "WRITE", parameters: [], hasVariableParameters: true)
         symbols["READ"] = BuiltInProcedureSymbol(name: "READ", parameters: [], hasVariableParameters: true)
         symbols["READLN"] = BuiltInProcedureSymbol(name: "READLN", parameters: [], hasVariableParameters: true)
+        symbols["RANDOM"] = BuiltInProcedureSymbol(name: "RANDOM", parameters: [BuiltInTypeSymbol.integer], hasVariableParameters: false)
     }
 
     func insert(_ symbol: Symbol) {
