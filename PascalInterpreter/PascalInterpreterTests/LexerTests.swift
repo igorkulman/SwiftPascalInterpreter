@@ -434,4 +434,19 @@ class LexerTests: XCTestCase {
         XCTAssert(lexer.getNextToken() == .constant(.string("Test string")))
         XCTAssert(lexer.getNextToken() == .eof)
     }
+
+    func testLoopTokens() {
+        let lexer = Lexer("repeat x:= x+1 until x=5")
+        XCTAssert(lexer.getNextToken() == .repeat)
+        XCTAssert(lexer.getNextToken() == .id("x"))
+        XCTAssert(lexer.getNextToken() == .assign)
+        XCTAssert(lexer.getNextToken() == .id("x"))
+        XCTAssert(lexer.getNextToken() == .operation(.plus))
+        XCTAssert(lexer.getNextToken() == .constant(.integer(1)))
+        XCTAssert(lexer.getNextToken() == .until)
+        XCTAssert(lexer.getNextToken() == .id("x"))
+        XCTAssert(lexer.getNextToken() == .equals)
+        XCTAssert(lexer.getNextToken() == .constant(.integer(5)))
+        XCTAssert(lexer.getNextToken() == .eof)
+    }
 }
