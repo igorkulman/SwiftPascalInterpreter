@@ -7,6 +7,8 @@ Simple Swift interpreter for the Pascal language inspired by the [Let’s Build 
 
 ![Playground](Images/cli.gif) 
 
+There are a few sample Pascal programs in the [Examples directory](Examples), like a simple [number guessing game](Examples/game.pas) and a [factorial computation](Examples/factorial.pas).
+
 ## Scructure
 
 ### Lexer
@@ -51,7 +53,7 @@ var result: integer;
 
 function Factorial(number: Integer): Integer;
 begin
-if (number > 1) then
+if number > 1 then
     Factorial := number * Factorial(number-1)
 else
     Factorial := 1
