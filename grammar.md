@@ -23,15 +23,21 @@ statement_list : statement
                | statement SEMI statement_list
 
 statement : compound_statement
-		  | procedure_call
+		      | procedure_call
           | if_else_statement
           | assignment_statement
+          | repeat_until
           | empty
 
 function_call : id LPAREN (factor (factor COLON)* )* RPAREN  (COLON type_spec){0,1}       
 
 if_else_statement : IF condition statement
                   | IF condition THEN statement ELSE statement
+
+condition : expr (= | < | >) expr
+          | LPAREN expr (= | < | >) expr RPAREN
+
+repeat_until : REPEAT statement UNTIL condition          
 
 assignment_statement : variable ASSIGN expr
 

@@ -370,9 +370,12 @@ public class Parser {
     /**
      Rule:
      condition: expr (= | < | >) expr
+     | LPAREN expr (= | < | >) expr RPAREN
      */
     private func condition() -> Condition {
-        eat(.parenthesis(.left))
+        if currentToken == .parenthesis(.left) {
+            eat(.parenthesis(.left))
+        }
         let left = expr()
         var type: ConditionType = .equals
         switch currentToken {
@@ -389,7 +392,9 @@ public class Parser {
             fatalError("Invalid condition type \(type)")
         }
         let right = expr()
-        eat(.parenthesis(.right))
+        if currentToken == .parenthesis(.right) {
+            eat(.parenthesis(.right))
+        }
         return Condition(type: type, leftSide: left, rightSide: right)
     }
 

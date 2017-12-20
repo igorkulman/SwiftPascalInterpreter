@@ -144,7 +144,7 @@ class InterpreterTests: XCTestCase {
 
             function Factorial(number: Integer): Integer;
             begin
-            if (number > 1) then
+            if number > 1 then
                 Factorial := number * Factorial(number-1)
             else
                 Factorial := 1
@@ -172,7 +172,7 @@ class InterpreterTests: XCTestCase {
 
             function Factorial(number: Integer): Integer;
             begin
-            if (number > 1) then
+            if number > 1 then
                 Factorial := number * Factorial(number-1)
             else
                 Factorial := 1
@@ -201,7 +201,7 @@ class InterpreterTests: XCTestCase {
 
             function Factorial(number: Integer): Integer;
             begin
-            if (number > 1) then
+            if number > 1 then
                 Factorial := number * Factorial(number-1)
             else
                 Factorial := 1
@@ -220,5 +220,24 @@ class InterpreterTests: XCTestCase {
         XCTAssert(integerState == ["result": 720, "number": 6])
         XCTAssert(boolState == [:])
         XCTAssert(stringState == [:])
+    }
+
+    func testProgramWithRepeatUntil() {
+        let program =
+        """
+            program Main;
+            var x: integer;
+
+            begin
+            x:=0;
+            repeat
+                x:=x+1;
+            until x = 6;
+            writeln(x);
+            end.  { Main }
+            """
+
+        let interpeter = Interpreter(program)
+        interpeter.interpret()
     }
 }
