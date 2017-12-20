@@ -37,7 +37,9 @@ public class Lexer {
         "IF": .if,
         "ELSE": .else,
         "THEN": .then,
-        "FUNCTION": .function
+        "FUNCTION": .function,
+        "REPEAT": .repeat,
+        "UNTIL": .until
     ]
 
     public init(_ text: String) {

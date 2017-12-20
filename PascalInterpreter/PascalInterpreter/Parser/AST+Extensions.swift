@@ -116,6 +116,8 @@ extension AST {
             return string
         case let boolean as Bool:
             return boolean ? "TRUE" : "FALSE"
+        case is RepeatUntil:
+            return "REPEAT"
         default:
             fatalError("Missed AST case \(self)")
         }
@@ -179,6 +181,8 @@ extension AST {
             return []
         case is Bool:
             return []
+        case let repeatUntil as RepeatUntil:
+            return [repeatUntil.condition, repeatUntil.statement]
         default:
             fatalError("Missed AST case \(self)")
         }

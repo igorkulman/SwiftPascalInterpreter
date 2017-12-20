@@ -60,4 +60,6 @@ public enum Token {
     case greaterThan
     case function
     case apostrophe
+    case `repeat`
+    case until
 }

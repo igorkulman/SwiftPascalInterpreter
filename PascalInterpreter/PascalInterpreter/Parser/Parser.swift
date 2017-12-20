@@ -276,6 +276,7 @@ public class Parser {
      | procedure_call
      | if_else_statement
      | assignment_statement
+     | repeat_until
      | empty
      */
     private func statement() -> AST {
@@ -284,6 +285,8 @@ public class Parser {
             return compoundStatement()
         case .if:
             return ifElseStatement()
+        case .repeat:
+            return repeatUntilLoop()
         case .id:
             if nextToken == .parenthesis(.left) {
                 return functionCall()
@@ -293,6 +296,27 @@ public class Parser {
         default:
             return empty()
         }
+    }
+
+    /**
+     Rule:
+     
+     repeat_until : REPEAT statement UNTIL condition
+     */
+    private func repeatUntilLoop() -> RepeatUntil {
+        eat(.repeat)
+
+        var statements: [AST] = []
+
+        while currentToken != .until {
+            statements.append(statement())
+            if currentToken == .semi {
+                eat(.semi)
+            }
+        }
+        eat(.until)
+        let condition = self.condition()
+        return RepeatUntil(statement: Compound(children: statements), condition: condition)
     }
 
     /**
@@ -483,10 +507,10 @@ public class Parser {
             let result = expr()
             eat(.parenthesis(.right))
             return result
-        case .constant(.string(let value)):
+        case let .constant(.string(value)):
             eat(.constant(.string(value)))
             return value
-        case .constant(.boolean(let value)):
+        case let .constant(.boolean(value)):
             eat(.constant(.boolean(value)))
             return value
         default:
