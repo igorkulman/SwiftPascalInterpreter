@@ -134,6 +134,9 @@ func XCTAssertEqual(_ left: AST, _ right: AST) {
         XCTAssert(left == right)
     case let (left as Bool, right as Bool):
         XCTAssert(left == right)
+    case let (left as RepeatUntil, right as RepeatUntil):
+        XCTAssertEqual(left.condition, right.condition)
+        XCTAssertEqual(left.statement, right.statement)
     default:
         XCTFail("\(left) and \(right) are not equal")
     }

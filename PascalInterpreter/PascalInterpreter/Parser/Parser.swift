@@ -300,7 +300,7 @@ public class Parser {
 
     /**
      Rule:
-     
+
      repeat_until : REPEAT statement UNTIL condition
      */
     private func repeatUntilLoop() -> RepeatUntil {
@@ -316,7 +316,7 @@ public class Parser {
         }
         eat(.until)
         let condition = self.condition()
-        return RepeatUntil(statement: Compound(children: statements), condition: condition)
+        return RepeatUntil(statement: statements.count == 1 ? statements[0] : Compound(children: statements), condition: condition)
     }
 
     /**

@@ -195,7 +195,7 @@ class InterpreterTests: XCTestCase {
 
     func testProgramWithRecursiveFunctionsAndParameterTheSameName() {
         let program =
-        """
+            """
             program Main;
             var number, result: integer;
 
@@ -224,7 +224,7 @@ class InterpreterTests: XCTestCase {
 
     func testProgramWithRepeatUntil() {
         let program =
-        """
+            """
             program Main;
             var x: integer;
 
@@ -239,5 +239,10 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
+        let (integerState, realState, boolState, stringState) = interpeter.getState()
+        XCTAssert(realState == [:])
+        XCTAssert(integerState == ["x": 6])
+        XCTAssert(boolState == [:])
+        XCTAssert(stringState == [:])
     }
 }
