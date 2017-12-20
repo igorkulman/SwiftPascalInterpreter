@@ -23,9 +23,20 @@ extension Interpreter {
         case "READLN":
             read(params: params, frame: frame)
             return .none
+        case "RANDOM":
+            return random(params: params)
         default:
             fatalError("Implement built in procedure \(procedure)")
         }
+    }
+
+    private func random(params: [AST]) -> Value {
+        guard params.count == 1, let first = params.first, case let .number(.integer(l)) = eval(node: first) else {
+            fatalError("Random called with invalid parameters")
+        }
+
+        let value = arc4random_uniform(UInt32(l))
+        return .number(.integer(Int(value)))
     }
 
     private func write(params: [AST], newLine: Bool) {
