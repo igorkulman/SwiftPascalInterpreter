@@ -27,6 +27,7 @@ statement : compound_statement
           | if_else_statement
           | assignment_statement
           | repeat_until
+          | for_loop
           | empty
 
 function_call : id LPAREN (factor (factor COLON)* )* RPAREN  (COLON type_spec){0,1}       
@@ -38,6 +39,8 @@ condition : expr (= | < | >) expr
           | LPAREN expr (= | < | >) expr RPAREN
 
 repeat_until : REPEAT statement UNTIL condition          
+
+for_loop : FOR variable ASSIGN expression TO expression DO statement
 
 assignment_statement : variable ASSIGN expr
 

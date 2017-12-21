@@ -323,6 +323,11 @@ public class Parser {
         return RepeatUntil(statement: statements.count == 1 ? statements[0] : Compound(children: statements), condition: condition)
     }
 
+    /**
+     Rule:
+     
+     for_loop : FOR variable ASSIGN expression TO expression DO statement
+     */
     private func forLoop() -> For {
         eat(.for)
         let variable = self.variable()
