@@ -63,6 +63,12 @@ extension Token: Equatable {
             return true
         case (.until, .until):
             return true
+        case (.for, .for):
+            return true
+        case (.to, .to):
+            return true
+        case (.do, .do):
+            return true
         default:
             return false
         }
@@ -199,6 +205,12 @@ extension Token: CustomStringConvertible {
             return "REPEAT"
         case .until:
             return "UNTIL"
+        case .for:
+            return "FOR"
+        case .to:
+            return "TO"
+        case .do:
+            return "DO"
         }
     }
 }

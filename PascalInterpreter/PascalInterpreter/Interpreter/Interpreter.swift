@@ -48,6 +48,8 @@ public class Interpreter {
             return eval(ifElse: ifElse)
         case let repeatUntil as RepeatUntil:
             return eval(repeatUntil: repeatUntil)
+        case let forLoop as For:
+            return eval(forLoop: forLoop)
         default:
             return .none
         }
@@ -73,6 +75,7 @@ public class Interpreter {
             return .number(-result)
         }
     }
+
     func eval(binaryOperation: BinaryOperation) -> Value {
         guard case let .number(leftResult) = eval(node: binaryOperation.left), case let .number(rightResult) = eval(node: binaryOperation.right) else {
             fatalError("Cannot use binary \(binaryOperation.operation) on non numbers")
@@ -175,6 +178,24 @@ public class Interpreter {
             eval(node: repeatUntil.statement)
             value = eval(condition: repeatUntil.condition)
         }
+
+        return .none
+    }
+
+    func eval(forLoop: For) -> Value {
+        guard let currentFrame = callStack.peek() else {
+            fatalError("No call stack frame")
+        }
+
+        guard case let .number(.integer(start)) = eval(node: forLoop.startValue), case let .number(.integer(end)) = eval(node: forLoop.endValue) else {
+            fatalError("Cannot do a for loop on non integer values")
+        }
+
+        for i in start ... end {
+            currentFrame.set(variable: forLoop.variable.name, value: .number(.integer(i)))
+            eval(node: forLoop.statement)
+        }
+        currentFrame.remove(variable: forLoop.variable.name)
 
         return .none
     }

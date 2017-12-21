@@ -18,6 +18,7 @@ public class Parser {
     private var currentToken: Token {
         return tokens[tokenIndex]
     }
+
     private var nextToken: Token {
         return tokens[tokenIndex + 1]
     }
@@ -277,6 +278,7 @@ public class Parser {
      | if_else_statement
      | assignment_statement
      | repeat_until
+     | for_loop
      | empty
      */
     private func statement() -> AST {
@@ -287,6 +289,8 @@ public class Parser {
             return ifElseStatement()
         case .repeat:
             return repeatUntilLoop()
+        case .for:
+            return forLoop()
         case .id:
             if nextToken == .parenthesis(.left) {
                 return functionCall()
@@ -317,6 +321,18 @@ public class Parser {
         eat(.until)
         let condition = self.condition()
         return RepeatUntil(statement: statements.count == 1 ? statements[0] : Compound(children: statements), condition: condition)
+    }
+
+    private func forLoop() -> For {
+        eat(.for)
+        let variable = self.variable()
+        eat(.assign)
+        let start = expr()
+        eat(.to)
+        let end = expr()
+        eat(.do)
+        let statement = self.statement()
+        return For(statement: statement, variable: variable, startValue: start, endValue: end)
     }
 
     /**

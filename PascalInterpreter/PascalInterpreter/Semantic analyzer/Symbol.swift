@@ -49,7 +49,7 @@ class ProcedureSymbol: Symbol {
 
     init(name: String, parameters: [Symbol], body: Procedure) {
         self.name = name
-        self.params = parameters
+        params = parameters
         self.body = body
     }
 }
@@ -70,7 +70,7 @@ class BuiltInProcedureSymbol: Symbol {
 
     init(name: String, parameters: [Symbol], hasVariableParameters: Bool) {
         self.name = name
-        self.params = parameters
+        params = parameters
         self.hasVariableParameters = hasVariableParameters
     }
 }

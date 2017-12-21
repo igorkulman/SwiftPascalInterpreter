@@ -435,7 +435,7 @@ class LexerTests: XCTestCase {
         XCTAssert(lexer.getNextToken() == .eof)
     }
 
-    func testLoopTokens() {
+    func testRepetUntilTokens() {
         let lexer = Lexer("repeat x:= x+1 until x=5")
         XCTAssert(lexer.getNextToken() == .repeat)
         XCTAssert(lexer.getNextToken() == .id("x"))
@@ -447,6 +447,22 @@ class LexerTests: XCTestCase {
         XCTAssert(lexer.getNextToken() == .id("x"))
         XCTAssert(lexer.getNextToken() == .equals)
         XCTAssert(lexer.getNextToken() == .constant(.integer(5)))
+        XCTAssert(lexer.getNextToken() == .eof)
+    }
+
+    func testForLoopTokens() {
+        let lexer = Lexer("for x:= 1 to 5 do writeln(5)")
+        XCTAssert(lexer.getNextToken() == .for)
+        XCTAssert(lexer.getNextToken() == .id("x"))
+        XCTAssert(lexer.getNextToken() == .assign)
+        XCTAssert(lexer.getNextToken() == .constant(.integer(1)))
+        XCTAssert(lexer.getNextToken() == .to)
+        XCTAssert(lexer.getNextToken() == .constant(.integer(5)))
+        XCTAssert(lexer.getNextToken() == .do)
+        XCTAssert(lexer.getNextToken() == .id("writeln"))
+        XCTAssert(lexer.getNextToken() == .parenthesis(.left))
+        XCTAssert(lexer.getNextToken() == .constant(.integer(5)))
+        XCTAssert(lexer.getNextToken() == .parenthesis(.right))
         XCTAssert(lexer.getNextToken() == .eof)
     }
 }

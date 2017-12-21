@@ -13,7 +13,6 @@ public class SemanticAnalyzer: Visitor {
     private var scopes: [String: ScopedSymbolTable] = [:]
 
     public init() {
-
     }
 
     public func analyze(node: AST) -> [String: ScopedSymbolTable] {
@@ -104,8 +103,7 @@ public class SemanticAnalyzer: Visitor {
         }
     }
 
-    private func checkBuiltInProcedure(call: FunctionCall, procedure: BuiltInProcedureSymbol) {
-
+    private func checkBuiltInProcedure(call _: FunctionCall, procedure _: BuiltInProcedureSymbol) {
     }
 
     private func checkFunction(call: FunctionCall, procedure: ProcedureSymbol) {
@@ -136,5 +134,13 @@ public class SemanticAnalyzer: Visitor {
                 fatalError("Variable type \(variableSymbol.name) in procedure \(procedure.name) cannot be of type \(variableSymbol.type)")
             }
         }
+    }
+
+    func visit(forLoop: For) {
+        currentScope?.insert(VariableSymbol(name: forLoop.variable.name, type: currentScope!.lookup("INTEGER")!))
+
+        visit(node: forLoop.startValue)
+        visit(node: forLoop.endValue)
+        visit(node: forLoop.statement)
     }
 }

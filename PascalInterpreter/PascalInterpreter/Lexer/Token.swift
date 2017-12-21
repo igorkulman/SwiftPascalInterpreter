@@ -62,4 +62,7 @@ public enum Token {
     case apostrophe
     case `repeat`
     case until
+    case `for`
+    case to
+    case `do`
 }

@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import XCTest
 @testable import PascalInterpreter
+import XCTest
 
 /**
  Taken from https://medium.com/@marcosantadev/how-to-test-fatalerror-in-swift-e1be9ff11a29
@@ -136,6 +136,11 @@ func XCTAssertEqual(_ left: AST, _ right: AST) {
         XCTAssert(left == right)
     case let (left as RepeatUntil, right as RepeatUntil):
         XCTAssertEqual(left.condition, right.condition)
+        XCTAssertEqual(left.statement, right.statement)
+    case let (left as For, right as For):
+        XCTAssertEqual(left.variable, right.variable)
+        XCTAssertEqual(left.startValue, right.startValue)
+        XCTAssertEqual(left.endValue, right.endValue)
         XCTAssertEqual(left.statement, right.statement)
     default:
         XCTFail("\(left) and \(right) are not equal")

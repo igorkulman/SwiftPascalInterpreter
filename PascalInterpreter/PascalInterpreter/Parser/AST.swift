@@ -207,3 +207,17 @@ class RepeatUntil: AST {
         self.condition = condition
     }
 }
+
+class For: AST {
+    let statement: AST
+    let variable: Variable
+    let startValue: AST
+    let endValue: AST
+
+    init(statement: AST, variable: Variable, startValue: AST, endValue: AST) {
+        self.statement = statement
+        self.variable = variable
+        self.startValue = startValue
+        self.endValue = endValue
+    }
+}

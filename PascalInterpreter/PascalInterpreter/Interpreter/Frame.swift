@@ -22,6 +22,24 @@ class Frame {
         self.previousFrame = previousFrame
     }
 
+    func remove(variable: String) {
+        if let symbol = scope.lookup(variable, currentScopeOnly: true),
+            let variableSymbol = symbol as? VariableSymbol,
+            let type = variableSymbol.type as? BuiltInTypeSymbol {
+
+            switch type {
+            case .integer:
+                integerMemory.removeValue(forKey: variable)
+            case .real:
+                realMemory.removeValue(forKey: variable)
+            case .boolean:
+                booleanMemory.removeValue(forKey: variable)
+            case .string:
+                stringMemory.removeValue(forKey: variable)
+            }
+        }
+    }
+
     func set(variable: String, value: Value) {
         // setting function return value
         if variable == scope.name && scope.level > 1 {
