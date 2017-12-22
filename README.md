@@ -7,6 +7,17 @@ Simple Swift interpreter for the Pascal language inspired by the [Let’s Build 
 
 ![Playground](Images/cli.gif) 
 
+### What is implemented
+
+* standard types (integer, real, boolean, string)
+* arithmetic expressions
+* function calls
+* procedure calls
+* recursion
+* loops (for, repet until)
+* logical conditions (if)
+* standard Pascal functions (writeln, write, readln, read, random)
+
 There are a few sample Pascal programs in the [Examples directory](Examples), like a simple [number guessing game](Examples/game.pas) and a [factorial computation](Examples/factorial.pas).
 
 ## Scructure
