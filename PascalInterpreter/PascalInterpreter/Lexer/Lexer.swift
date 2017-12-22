@@ -39,7 +39,10 @@ public class Lexer {
         "THEN": .then,
         "FUNCTION": .function,
         "REPEAT": .repeat,
-        "UNTIL": .until
+        "UNTIL": .until,
+        "FOR": .for,
+        "TO": .to,
+        "DO": .do,
     ]
 
     public init(_ text: String) {

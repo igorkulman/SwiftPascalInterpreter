@@ -245,4 +245,27 @@ class InterpreterTests: XCTestCase {
         XCTAssert(boolState == [:])
         XCTAssert(stringState == [:])
     }
+
+    func testProgramWithForLoop() {
+        let program =
+            """
+            program Main;
+            var x: Integer;
+
+            begin
+            for i:=1 to 6 do begin
+                writeln(i);
+                x:= i
+            end;
+            end.  { Main }
+            """
+
+        let interpeter = Interpreter(program)
+        interpeter.interpret()
+        let (integerState, realState, boolState, stringState) = interpeter.getState()
+        XCTAssert(realState == [:])
+        XCTAssert(integerState == ["x": 6])
+        XCTAssert(boolState == [:])
+        XCTAssert(stringState == [:])
+    }
 }

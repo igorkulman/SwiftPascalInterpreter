@@ -10,9 +10,10 @@ import Foundation
 
 extension BuiltInTypeSymbol: CustomStringConvertible {
     public var description: String {
-        return "<BuiltinTypeSymbol(name='\(self.name)')>"
+        return "<BuiltinTypeSymbol(name='\(name)')>"
     }
 }
+
 extension VariableSymbol: CustomStringConvertible {
     public var description: String {
         return "<VarSymbol(name='\(name)', type='\(type.name)')>"

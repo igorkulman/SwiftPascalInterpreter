@@ -28,6 +28,7 @@ protocol Visitor: class {
     func visit(condition: Condition)
     func visit(ifElse: IfElse)
     func visit(repeatUntil: RepeatUntil)
+    func visit(forLoop: For)
 }
 
 extension Visitor {
@@ -69,13 +70,14 @@ extension Visitor {
             visit(ifElse: ifElse)
         case let repeatUntil as RepeatUntil:
             visit(repeatUntil: repeatUntil)
+        case let forLoop as For:
+            visit(forLoop: forLoop)
         default:
             fatalError("Unsupported node type \(node)")
         }
     }
 
-    func visit(number: Number) {
-
+    func visit(number _: Number) {
     }
 
     func visit(unaryOperation: UnaryOperation) {
@@ -98,12 +100,10 @@ extension Visitor {
         visit(node: assignment.right)
     }
 
-    func visit(variable: Variable) {
-
+    func visit(variable _: Variable) {
     }
 
-    func visit(noOp: NoOp) {
-
+    func visit(noOp _: NoOp) {
     }
 
     func visit(block: Block) {
@@ -117,8 +117,7 @@ extension Visitor {
         visit(node: variableDeclaration.type)
     }
 
-    func visit(type: VariableType) {
-
+    func visit(type _: VariableType) {
     }
 
     func visit(program: Program) {
@@ -167,5 +166,12 @@ extension Visitor {
     func visit(repeatUntil: RepeatUntil) {
         visit(node: repeatUntil.statement)
         visit(node: repeatUntil.condition)
+    }
+
+    func visit(forLoop: For) {
+//        visit(node: forLoop.variable)
+        visit(node: forLoop.startValue)
+        visit(node: forLoop.endValue)
+        visit(node: forLoop.statement)
     }
 }

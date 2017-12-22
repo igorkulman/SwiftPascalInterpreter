@@ -7,7 +7,6 @@
 //
 
 import Foundation
-
 import Foundation
 @testable import PascalInterpreter
 import XCTest
@@ -326,7 +325,7 @@ class SemanticAnalyzerTests: XCTestCase {
 
     func testSemanticAnalyzerFunctionCallWithParameter() {
         let program =
-        """
+            """
             program Main;
             var x, y: real;
 
@@ -362,7 +361,7 @@ class SemanticAnalyzerTests: XCTestCase {
 
     func testSemanticAnalyzerBuildInFunction() {
         let program =
-        """
+            """
             program Main;
             var x: Integer;
 

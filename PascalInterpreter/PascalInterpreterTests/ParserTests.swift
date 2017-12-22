@@ -429,4 +429,44 @@ class ParserTests: XCTestCase {
         XCTAssertEqual(result, node)
     }
 
+    func testProgramWithForLoop() {
+        let program =
+            """
+            program Main;
+
+            begin
+            for i:=1 to 6 do writeln(i);
+            end.  { Main }
+            """
+
+        let parser = Parser(program)
+        let result = parser.parse()
+        let loop = For(statement: FunctionCall(name: "writeln", actualParameters: [Variable(name: "i")]), variable: Variable(name: "i"), startValue: Number.integer(1), endValue: Number.integer(6))
+        let compound = Compound(children: [loop, NoOp()])
+        let block = Block(declarations: [], compound: compound)
+        let node = Program(name: "Main", block: block)
+        XCTAssertEqual(result, node)
+    }
+
+    func testProgramWithForLoopAndCompoundStatement() {
+        let program =
+            """
+            program Main;
+
+            begin
+            for i:=1 to 6 do
+            begin
+                writeln(i);
+            end;
+            end.  { Main }
+            """
+
+        let parser = Parser(program)
+        let result = parser.parse()
+        let loop = For(statement: Compound(children: [FunctionCall(name: "writeln", actualParameters: [Variable(name: "i")]), NoOp()]), variable: Variable(name: "i"), startValue: Number.integer(1), endValue: Number.integer(6))
+        let compound = Compound(children: [loop, NoOp()])
+        let block = Block(declarations: [], compound: compound)
+        let node = Program(name: "Main", block: block)
+        XCTAssertEqual(result, node)
+    }
 }
