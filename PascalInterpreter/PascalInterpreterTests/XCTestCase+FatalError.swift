@@ -137,6 +137,9 @@ func XCTAssertEqual(_ left: AST, _ right: AST) {
     case let (left as RepeatUntil, right as RepeatUntil):
         XCTAssertEqual(left.condition, right.condition)
         XCTAssertEqual(left.statement, right.statement)
+    case let (left as While, right as While):
+        XCTAssertEqual(left.condition, right.condition)
+        XCTAssertEqual(left.statement, right.statement)
     case let (left as For, right as For):
         XCTAssertEqual(left.variable, right.variable)
         XCTAssertEqual(left.startValue, right.startValue)

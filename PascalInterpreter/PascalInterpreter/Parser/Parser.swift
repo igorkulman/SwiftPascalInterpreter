@@ -279,6 +279,7 @@ public class Parser {
      | assignment_statement
      | repeat_until
      | for_loop
+     | while_loop
      | empty
      */
     private func statement() -> AST {
@@ -289,6 +290,8 @@ public class Parser {
             return ifElseStatement()
         case .repeat:
             return repeatUntilLoop()
+        case .while:
+            return whileLoop()
         case .for:
             return forLoop()
         case .id:
@@ -321,6 +324,19 @@ public class Parser {
         eat(.until)
         let condition = self.condition()
         return RepeatUntil(statement: statements.count == 1 ? statements[0] : Compound(children: statements), condition: condition)
+    }
+
+    /**
+     Rule:
+
+     for_loop : WHILE condition DO statement
+     */
+    private func whileLoop() -> While {
+        eat(.while)
+        let condition = self.condition()
+        eat(.do)
+        let statement = self.statement()
+        return While(statement: statement, condition: condition)
     }
 
     /**
