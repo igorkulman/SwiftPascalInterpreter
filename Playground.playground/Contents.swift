@@ -30,9 +30,6 @@ let program =
     writeln('Factorial');
     result := Factorial(6);
     writeln(result);
-    for i:= 1 to 10 do begin
-    writeln(i);
-    end;
     end.  { Main }
     """
 
