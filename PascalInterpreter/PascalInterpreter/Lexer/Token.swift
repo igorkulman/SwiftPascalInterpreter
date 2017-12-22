@@ -65,4 +65,5 @@ public enum Token {
     case `for`
     case to
     case `do`
+    case `while`
 }

@@ -120,6 +120,8 @@ extension AST {
             return "REPEAT"
         case is For:
             return "FOR"
+        case is While:
+            return "WHILE"
         default:
             fatalError("Missed AST case \(self)")
         }
@@ -185,6 +187,8 @@ extension AST {
             return []
         case let repeatUntil as RepeatUntil:
             return [repeatUntil.condition, repeatUntil.statement]
+        case let whileLoop as While:
+            return [whileLoop.condition, whileLoop.statement]
         case let forLoop as For:
             return [forLoop.variable, forLoop.startValue, forLoop.endValue, forLoop.statement]
         default:

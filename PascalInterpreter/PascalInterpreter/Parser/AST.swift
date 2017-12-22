@@ -198,7 +198,22 @@ class IfElse: AST {
     }
 }
 
-class RepeatUntil: AST {
+protocol Loop: AST {
+    var statement: AST { get }
+    var condition: Condition { get }
+}
+
+class RepeatUntil: Loop {
+    let statement: AST
+    let condition: Condition
+
+    init(statement: AST, condition: Condition) {
+        self.statement = statement
+        self.condition = condition
+    }
+}
+
+class While: Loop {
     let statement: AST
     let condition: Condition
 

@@ -69,6 +69,8 @@ extension Token: Equatable {
             return true
         case (.do, .do):
             return true
+        case (.while, .while):
+            return true
         default:
             return false
         }
@@ -211,6 +213,8 @@ extension Token: CustomStringConvertible {
             return "TO"
         case .do:
             return "DO"
+        case .while:
+            return "WHILE"
         }
     }
 }

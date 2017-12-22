@@ -325,7 +325,7 @@ public class Parser {
 
     /**
      Rule:
-     
+
      for_loop : FOR variable ASSIGN expression TO expression DO statement
      */
     private func forLoop() -> For {
