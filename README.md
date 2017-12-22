@@ -56,6 +56,12 @@ At the end of the Pascal program interpretation you can check the resulting memo
 
 ## Try it out
 
+### CLI
+
+When you build the [SPI project](SPI) in the workspace you will get command line utility that can run any Pascal program given as argument, as shown in the GIF at the top of this README.
+
+### Playground
+
 There is a Swift playground in the project where you can try out the lexer, parser and the interpreter. The Playground interprets then following Pascal program defining and calling a factorial function
 
 ```` Pascal
