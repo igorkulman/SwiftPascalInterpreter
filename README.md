@@ -14,7 +14,7 @@ Simple Swift interpreter for the Pascal language inspired by the [Let’s Build 
 * function calls
 * procedure calls
 * recursion
-* loops (for, repet until)
+* loops (for, repet until, while)
 * logical conditions (if)
 * standard Pascal functions (writeln, write, readln, read, random)
 

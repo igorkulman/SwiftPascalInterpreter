@@ -27,7 +27,7 @@ protocol Visitor: class {
     func visit(call: FunctionCall)
     func visit(condition: Condition)
     func visit(ifElse: IfElse)
-    func visit(repeatUntil: RepeatUntil)
+    func visit(loop: Loop)
     func visit(forLoop: For)
 }
 
@@ -68,8 +68,8 @@ extension Visitor {
             visit(condition: condition)
         case let ifElse as IfElse:
             visit(ifElse: ifElse)
-        case let repeatUntil as RepeatUntil:
-            visit(repeatUntil: repeatUntil)
+        case let loop as Loop:
+            visit(loop: loop)
         case let forLoop as For:
             visit(forLoop: forLoop)
         default:
@@ -163,9 +163,9 @@ extension Visitor {
         }
     }
 
-    func visit(repeatUntil: RepeatUntil) {
-        visit(node: repeatUntil.statement)
-        visit(node: repeatUntil.condition)
+    func visit(loop: Loop) {
+        visit(node: loop.statement)
+        visit(node: loop.condition)
     }
 
     func visit(forLoop: For) {

@@ -469,4 +469,27 @@ class ParserTests: XCTestCase {
         let node = Program(name: "Main", block: block)
         XCTAssertEqual(result, node)
     }
+
+    func testProgramWithWhileLoop() {
+        let program =
+            """
+            program Main;
+            var x: integer;
+
+            begin
+            x:=0;
+            while x < 6 do
+                x:=x+1;
+            writeln(x);
+            end.  { Main }
+            """
+
+        let parser = Parser(program)
+        let result = parser.parse()
+        let xDec = VariableDeclaration(variable: Variable(name: "x"), type: VariableType(type: .integer))
+        let compound = Compound(children: [Assignment(left: Variable(name: "x"), right: Number.integer(0)), While(statement: Assignment(left: Variable(name: "x"), right: BinaryOperation(left: Variable(name: "x"), operation: BinaryOperationType.plus, right: Number.integer(1))), condition: Condition(type: .lessThan, leftSide: Variable(name: "x"), rightSide: Number.integer(6))), FunctionCall(name: "writeln", actualParameters: [Variable(name: "x")]), NoOp()])
+        let block = Block(declarations: [xDec], compound: compound)
+        let node = Program(name: "Main", block: block)
+        XCTAssertEqual(result, node)
+    }
 }

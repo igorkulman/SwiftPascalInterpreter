@@ -465,4 +465,19 @@ class LexerTests: XCTestCase {
         XCTAssert(lexer.getNextToken() == .parenthesis(.right))
         XCTAssert(lexer.getNextToken() == .eof)
     }
+
+    func testWhileTokens() {
+        let lexer = Lexer("while x<5 do x:= x+1 ")
+        XCTAssert(lexer.getNextToken() == .while)
+        XCTAssert(lexer.getNextToken() == .id("x"))
+        XCTAssert(lexer.getNextToken() == .lessThan)
+        XCTAssert(lexer.getNextToken() == .constant(.integer(5)))
+        XCTAssert(lexer.getNextToken() == .do)
+        XCTAssert(lexer.getNextToken() == .id("x"))
+        XCTAssert(lexer.getNextToken() == .assign)
+        XCTAssert(lexer.getNextToken() == .id("x"))
+        XCTAssert(lexer.getNextToken() == .operation(.plus))
+        XCTAssert(lexer.getNextToken() == .constant(.integer(1)))
+        XCTAssert(lexer.getNextToken() == .eof)
+    }
 }

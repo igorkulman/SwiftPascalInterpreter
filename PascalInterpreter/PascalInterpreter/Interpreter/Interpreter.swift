@@ -48,6 +48,8 @@ public class Interpreter {
             return eval(ifElse: ifElse)
         case let repeatUntil as RepeatUntil:
             return eval(repeatUntil: repeatUntil)
+        case let whileLoop as While:
+            return eval(whileLoop: whileLoop)
         case let forLoop as For:
             return eval(forLoop: forLoop)
         default:
@@ -177,6 +179,14 @@ public class Interpreter {
         while case .boolean(false) = value {
             eval(node: repeatUntil.statement)
             value = eval(condition: repeatUntil.condition)
+        }
+
+        return .none
+    }
+
+    func eval(whileLoop: While) -> Value {
+        while case .boolean(true) = eval(condition: whileLoop.condition) {
+            eval(node: whileLoop.statement)
         }
 
         return .none
