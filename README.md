@@ -50,7 +50,7 @@ Implemented checks
 
 ### Interpreter
 
-The [Interpreter](PascalInterpreter/PascalInterpreter/Interpreter/Interpreter.swift) reads the AST representing the Pascal program from Parser and interprets it by walking the AST recursively. It can handle basic Pascal programs with declarations and arithmetics on integers and reals. 
+The [Interpreter](PascalInterpreter/PascalInterpreter/Interpreter/Interpreter.swift) reads the AST representing the Pascal program from Parser and interprets it by walking the AST recursively. It can handle basic Pascal programs.
 
 At the end of the Pascal program interpretation you can check the resulting memory state (see [unit tests](PascalInterpreter/PascalInterpreterTests/InterpreterTests.swift)) or print it in the Playground using `printState()`.
 
