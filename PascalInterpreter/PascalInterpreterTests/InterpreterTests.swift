@@ -25,11 +25,8 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
-        let (integerState, realState, boolState, stringState) = interpeter.getState()
-        XCTAssert(integerState == ["a": 2])
-        XCTAssert(realState == [:])
-        XCTAssert(boolState == [:])
-        XCTAssert(stringState == [:])
+        let state = interpeter.getState()
+        XCTAssert(state == ["a": Value.number(.integer(2))])
     }
 
     func testMoreComplexProgram() {
@@ -51,11 +48,8 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
-        let (integerState, realState, boolState, stringState) = interpeter.getState()
-        XCTAssert(integerState == ["b": 25, "number": 2, "a": 2, "x": 11, "c": 27])
-        XCTAssert(realState == [:])
-        XCTAssert(boolState == [:])
-        XCTAssert(stringState == [:])
+        let state = interpeter.getState()
+        XCTAssert(state == ["b": Value.number(.integer(25)), "number": Value.number(.integer(2)), "a": Value.number(.integer(2)), "x": Value.number(.integer(11)), "c": Value.number(.integer(27))])
     }
 
     func testProgramWithDeclarations() {
@@ -75,11 +69,8 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
-        let (integerState, realState, boolState, stringState) = interpeter.getState()
-        XCTAssert(integerState == ["b": 25, "a": 2])
-        XCTAssert(realState == ["y": 5.9971428571428573])
-        XCTAssert(boolState == [:])
-        XCTAssert(stringState == [:])
+        let state = interpeter.getState()
+        XCTAssert(state == ["b": Value.number(.integer(25)), "a": Value.number(.integer(2)), "y": Value.number(.real( 5.9971428571428573))])
     }
 
     func testProgramWithProcedureCallAndNoParameters() {
@@ -103,11 +94,8 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
-        let (integerState, realState, boolState, stringState) = interpeter.getState()
-        XCTAssert(integerState == [:])
-        XCTAssert(realState == ["x": 7, "y": 5])
-        XCTAssert(boolState == [:])
-        XCTAssert(stringState == [:])
+        let state = interpeter.getState()
+        XCTAssert(state == ["x": Value.number(.real(7)), "y": Value.number(.real( 5))])
     }
 
     func testProgramWithProcedureCallAndParameters() {
@@ -129,11 +117,8 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
-        let (integerState, realState, boolState, stringState) = interpeter.getState()
-        XCTAssert(integerState == [:])
-        XCTAssert(realState == ["x": 5, "y": 3])
-        XCTAssert(boolState == [:])
-        XCTAssert(stringState == [:])
+        let state = interpeter.getState()
+        XCTAssert(state == ["x": Value.number(.real(5)), "y": Value.number(.real(3))])
     }
 
     func testProgramWithRecursiveFunction() {
@@ -157,11 +142,8 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
-        let (integerState, realState, boolState, stringState) = interpeter.getState()
-        XCTAssert(realState == [:])
-        XCTAssert(integerState == ["result": 720])
-        XCTAssert(boolState == [:])
-        XCTAssert(stringState == [:])
+        let state = interpeter.getState()
+        XCTAssert(state == ["result": Value.number(.integer(720))])
     }
 
     func testProgramWithRecursiveAndBuiltInFunctions() {
@@ -186,11 +168,8 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
-        let (integerState, realState, boolState, stringState) = interpeter.getState()
-        XCTAssert(realState == [:])
-        XCTAssert(integerState == ["result": 720])
-        XCTAssert(boolState == [:])
-        XCTAssert(stringState == [:])
+        let state = interpeter.getState()
+        XCTAssert(state == ["result": Value.number(.integer(720))])
     }
 
     func testProgramWithRecursiveFunctionsAndParameterTheSameName() {
@@ -215,11 +194,8 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
-        let (integerState, realState, boolState, stringState) = interpeter.getState()
-        XCTAssert(realState == [:])
-        XCTAssert(integerState == ["result": 720, "number": 6])
-        XCTAssert(boolState == [:])
-        XCTAssert(stringState == [:])
+        let state = interpeter.getState()
+        XCTAssert(state == ["result": Value.number(.integer(720)), "number": Value.number(.integer(6))])
     }
 
     func testProgramWithRepeatUntil() {
@@ -239,11 +215,8 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
-        let (integerState, realState, boolState, stringState) = interpeter.getState()
-        XCTAssert(realState == [:])
-        XCTAssert(integerState == ["x": 6])
-        XCTAssert(boolState == [:])
-        XCTAssert(stringState == [:])
+        let state = interpeter.getState()
+        XCTAssert(state == ["x": Value.number(.integer(6))])
     }
 
     func testProgramWithForLoop() {
@@ -262,10 +235,7 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
-        let (integerState, realState, boolState, stringState) = interpeter.getState()
-        XCTAssert(realState == [:])
-        XCTAssert(integerState == ["x": 6])
-        XCTAssert(boolState == [:])
-        XCTAssert(stringState == [:])
+        let state = interpeter.getState()
+        XCTAssert(state == ["x": Value.number(.integer(6))])
     }
 }

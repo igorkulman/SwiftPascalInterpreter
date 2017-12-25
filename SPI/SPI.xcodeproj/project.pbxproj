@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F385A7DD1FF10A0E004BAD6F /* Value+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F385A7DC1FF10A0E004BAD6F /* Value+Extensions.swift */; };
 		F385B5C41FE6CBB9001B57F4 /* Interpreter+Standard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F385B5C31FE6CBB9001B57F4 /* Interpreter+Standard.swift */; };
 		F3D90DD91FE68E4C00FA79B3 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DD81FE68E4C00FA79B3 /* main.swift */; };
 		F3D90E001FE68EE300FA79B3 /* AST+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DEA1FE68EE300FA79B3 /* AST+Extensions.swift */; };
@@ -42,6 +43,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F385A7DC1FF10A0E004BAD6F /* Value+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Value+Extensions.swift"; sourceTree = "<group>"; };
 		F385B5C31FE6CBB9001B57F4 /* Interpreter+Standard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Interpreter+Standard.swift"; sourceTree = "<group>"; };
 		F3D90DD51FE68E4C00FA79B3 /* SPI */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SPI; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3D90DD81FE68E4C00FA79B3 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				F385B5C31FE6CBB9001B57F4 /* Interpreter+Standard.swift */,
 				F3D90DF81FE68EE300FA79B3 /* Stack.swift */,
 				F3D90DF91FE68EE300FA79B3 /* Value.swift */,
+				F385A7DC1FF10A0E004BAD6F /* Value+Extensions.swift */,
 			);
 			name = Interpreter;
 			path = ../PascalInterpreter/PascalInterpreter/Interpreter;
@@ -242,6 +245,7 @@
 				F3D90E091FE68EE300FA79B3 /* Arithmetics.swift in Sources */,
 				F3D90E101FE68EE300FA79B3 /* Token.swift in Sources */,
 				F3D90E0B1FE68EE300FA79B3 /* Interpreter.swift in Sources */,
+				F385A7DD1FF10A0E004BAD6F /* Value+Extensions.swift in Sources */,
 				F3D90E111FE68EE300FA79B3 /* Naming+Extensions.swift in Sources */,
 				F3D90E001FE68EE300FA79B3 /* AST+Extensions.swift in Sources */,
 				F3D90E081FE68EE300FA79B3 /* Utils.swift in Sources */,

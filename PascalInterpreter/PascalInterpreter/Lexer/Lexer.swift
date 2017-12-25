@@ -43,7 +43,7 @@ public class Lexer {
         "FOR": .for,
         "TO": .to,
         "DO": .do,
-        "WHILE": .while,
+        "WHILE": .while
     ]
 
     public init(_ text: String) {

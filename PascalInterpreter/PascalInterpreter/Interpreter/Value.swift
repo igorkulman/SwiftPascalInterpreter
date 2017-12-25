@@ -14,18 +14,3 @@ enum Value {
     case boolean(Bool)
     case string(String)
 }
-
-extension Value: Equatable {
-    static func == (lhs: Value, rhs: Value) -> Bool {
-        switch (lhs, rhs) {
-        case let (.number(left), .number(right)):
-            return left == right
-        case let (.boolean(left), .boolean(right)):
-            return left == right
-        case let (.string(left), .string(right)):
-            return left == right
-        default:
-            return false
-        }
-    }
-}

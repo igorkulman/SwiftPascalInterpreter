@@ -9,10 +9,7 @@
 import Foundation
 
 class Frame {
-    var integerMemory: [String: Int] = [:]
-    var realMemory: [String: Double] = [:]
-    var booleanMemory: [String: Bool] = [:]
-    var stringMemory: [String: String] = [:]
+    var memory: [String: Value] = [:]
     let scope: ScopedSymbolTable
     let previousFrame: Frame?
     var returnValue: Value = .none
@@ -23,21 +20,7 @@ class Frame {
     }
 
     func remove(variable: String) {
-        if let symbol = scope.lookup(variable, currentScopeOnly: true),
-            let variableSymbol = symbol as? VariableSymbol,
-            let type = variableSymbol.type as? BuiltInTypeSymbol {
-
-            switch type {
-            case .integer:
-                integerMemory.removeValue(forKey: variable)
-            case .real:
-                realMemory.removeValue(forKey: variable)
-            case .boolean:
-                booleanMemory.removeValue(forKey: variable)
-            case .string:
-                stringMemory.removeValue(forKey: variable)
-            }
-        }
+        memory.removeValue(forKey: variable)
     }
 
     func set(variable: String, value: Value) {
@@ -52,46 +35,21 @@ class Frame {
             let variableSymbol = symbol as? VariableSymbol,
             let type = variableSymbol.type as? BuiltInTypeSymbol {
 
-            switch type {
-            case .integer:
-                switch value {
-                case let .number(number):
-                    switch number {
-                    case let .integer(value):
-                        integerMemory[variable] = value
-                    case .real:
-                        fatalError("Cannot assign Real value to Int variable \(variable)")
-                    }
-                default:
-                    fatalError("Cannot assign \(value) to Int variable \(variable)")
-                }
-            case .real:
-                switch value {
-                case let .number(number):
-                    switch number {
-                    case let .integer(value):
-                        realMemory[variable] = Double(value)
-                    case let .real(value):
-                        realMemory[variable] = value
-                    }
-                default:
-                    fatalError("Cannot assign \(value) to Real variable \(variable)")
-                }
-            case .boolean:
-                switch value {
-                case let .boolean(boolean):
-                    booleanMemory[variable] = boolean
-                default:
-                    fatalError("Cannot assign \(value) value to Boolean variable \(variable)")
-                }
-            case .string:
-                switch value {
-                case let .string(string):
-                    stringMemory[variable] = string
-                default:
-                    fatalError("Cannot assign \(value) value to String variable \(variable)")
-                }
+            switch (value, type) {
+            case (.number(.integer), .integer ):
+                memory[variable] = value
+            case (.number(.integer(let value)), .real ):
+                memory[variable] = .number(.real(Double(value)))
+            case (.number(.real), .real ):
+                memory[variable] = value
+            case (.boolean, .boolean ):
+                memory[variable] = value
+            case (.string, .string ):
+                memory[variable] = value
+            default:
+               fatalError("Cannot assing \(value) to \(type)")
             }
+
             return
         }
 
@@ -101,20 +59,8 @@ class Frame {
 
     func get(variable: String) -> Value {
         // variable define in current scole (procedure declataion, etc)
-        if let symbol = scope.lookup(variable, currentScopeOnly: true),
-            let variableSymbol = symbol as? VariableSymbol,
-            let type = variableSymbol.type as? BuiltInTypeSymbol {
-
-            switch type {
-            case .integer:
-                return .number(.integer(integerMemory[variable]!))
-            case .real:
-                return .number(.real(realMemory[variable]!))
-            case .boolean:
-                return .boolean(booleanMemory[variable]!)
-            case .string:
-                return .string(stringMemory[variable]!)
-            }
+        if scope.lookup(variable, currentScopeOnly: true) != nil {
+            return memory[variable]!
         }
 
         // previous scope, eg global
