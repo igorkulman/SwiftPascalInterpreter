@@ -109,11 +109,16 @@ public class Interpreter {
             fatalError("No call stack frame")
         }
 
-        if let expression = assignment.index, case let .number(.integer(index)) = eval(node: expression) {
+        switch assignment.left {
+        case let array as ArrayVariable:
+            guard case let .number(.integer(index)) = eval(node: array.index) else {
+                fatalError("Cannot use non-Integer index with array '\(array.name)'")
+            }
             currentFrame.set(variable: assignment.left.name, value: eval(node: assignment.right), index: index)
-        } else {
+        default:
             currentFrame.set(variable: assignment.left.name, value: eval(node: assignment.right))
         }
+
         return .none
     }
 
@@ -121,7 +126,16 @@ public class Interpreter {
         guard let currentFrame = callStack.peek() else {
             fatalError("No call stack frame")
         }
-        return currentFrame.get(variable: variable.name)
+
+        switch variable {
+        case let array as ArrayVariable:
+            guard case let .number(.integer(index)) = eval(node: array.index) else {
+                fatalError("Cannot use non-Integer index with array '\(array.name)'")
+            }
+            return currentFrame.get(variable: array.name, index: index)
+        default:
+            return currentFrame.get(variable: variable.name)
+        }
     }
 
     func eval(block: Block) -> Value {

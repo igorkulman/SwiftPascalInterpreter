@@ -77,12 +77,10 @@ class Compound: AST {
 class Assignment: AST {
     let left: Variable
     let right: AST
-    let index: AST?
 
-    init(left: Variable, right: AST, index: AST? = nil) {
+    init(left: Variable, right: AST) {
         self.left = left
         self.right = right
-        self.index = index
     }
 }
 
@@ -91,6 +89,15 @@ class Variable: AST {
 
     init(name: String) {
         self.name = name
+    }
+}
+
+class ArrayVariable: Variable {
+    let index: AST
+
+    init(name: String, index: AST) {
+        self.index = index
+        super.init(name: name)
     }
 }
 

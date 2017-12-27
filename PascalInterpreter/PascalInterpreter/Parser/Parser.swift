@@ -476,7 +476,7 @@ public class Parser {
             eat(.bracket(.right))
             eat(.assign)
             let right = expr()
-            return Assignment(left: left, right: right, index: indexExpression)
+            return Assignment(left: left, right: right)
         }
         eat(.assign)
         let right = expr()
@@ -547,6 +547,12 @@ public class Parser {
         switch currentToken {
         case let .id(value):
             eat(.id(value))
+            if currentToken == .bracket(.left) {
+                eat(.bracket(.left))
+                let index = expr()
+                eat(.bracket(.right))
+                return ArrayVariable(name: value, index: index)
+            }
             return Variable(name: value)
         default:
             fatalError("Syntax error, expected variable, found \(currentToken)")
@@ -585,8 +591,13 @@ public class Parser {
             let result = expr()
             eat(.parenthesis(.right))
             return result
-        case let .constant(.string(value)):
+        case .apostrophe:
+            eat(.apostrophe)
+            guard case let .constant(.string(value)) = currentToken else {
+                fatalError("Expected string literal after '")
+            }
             eat(.constant(.string(value)))
+            eat(.apostrophe)
             return value
         case let .constant(.boolean(value)):
             eat(.constant(.boolean(value)))

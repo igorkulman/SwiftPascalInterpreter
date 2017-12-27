@@ -260,6 +260,7 @@ class InterpreterTests: XCTestCase {
             begin
                 data[i] := i;
             end;
+            writeln(data[2]);
             end.
             """
 
@@ -267,7 +268,7 @@ class InterpreterTests: XCTestCase {
         interpeter.interpret()
         let (scalars, arrays) = interpeter.getState()
         XCTAssert(scalars == [:])
-        XCTAssert(arrays.count==1)
+        XCTAssert(arrays.count == 1)
         XCTAssert(arrays["DATA"]! == [Value.number(.integer(1)), Value.number(.integer(2)), Value.number(.integer(3)), Value.number(.integer(4)), Value.number(.integer(5))])
     }
 }

@@ -18,6 +18,8 @@ public class Lexer {
     private let text: String
     private var currentPosition: Int
     private var currentCharacter: Character?
+    private var isStringStart = false
+    private var wasStringLast = false
 
     // MARK: - Constants
 
@@ -150,13 +152,11 @@ public class Lexer {
     }
 
     private func string() -> Token {
-        advance()
         var lexem = ""
         while let character = currentCharacter, character != "'" {
             lexem += String(character)
             advance()
         }
-        advance()
         return .constant(.string(lexem))
     }
 
@@ -171,6 +171,20 @@ public class Lexer {
 
         while let currentCharacter = currentCharacter {
 
+            if wasStringLast {
+                wasStringLast = false
+                if currentCharacter == "'" {
+                    advance()
+                }
+                return .apostrophe
+            }
+
+            if isStringStart {
+                wasStringLast = true
+                isStringStart = false
+                return string()
+            }
+
             if CharacterSet.whitespacesAndNewlines.contains(currentCharacter.unicodeScalars.first!) {
                 skipWhitestace()
                 continue
@@ -183,7 +197,9 @@ public class Lexer {
             }
 
             if currentCharacter == "'" {
-                return string()
+                advance()
+                isStringStart = !isStringStart
+                return .apostrophe
             }
 
             // if the character is a digit, convert it to int, create an integer token and move position
