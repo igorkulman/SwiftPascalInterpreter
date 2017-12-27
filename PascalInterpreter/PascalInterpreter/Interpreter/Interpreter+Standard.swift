@@ -25,9 +25,19 @@ extension Interpreter {
             return .none
         case "RANDOM":
             return random(params: params)
+        case "LENGTH":
+            return length(params: params, frame: frame)
         default:
             fatalError("Implement built in procedure \(procedure)")
         }
+    }
+
+    private func length(params: [AST], frame: Frame) -> Value {
+        guard params.count == 1, let first = params.first, let variable = first as? Variable, let definition = frame.scope.lookup(variable.name) as? ArraySymbol else {
+            fatalError("Length called with invalid parameters")
+        }
+
+        return .number(.integer(definition.endIndex - definition.startIndex + 1))
     }
 
     private func random(params: [AST]) -> Value {

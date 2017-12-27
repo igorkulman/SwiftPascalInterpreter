@@ -234,9 +234,11 @@ public class Parser {
             }
             eat(.bracket(.right))
             eat(.of)
-            return variableNames.map({ ArrayDeclaration(variable: Variable(name: $0), type: typeSpec(), startIndex: startIndex, endIndex: endIndex) })
+            let type = typeSpec()
+            return variableNames.map({ ArrayDeclaration(variable: Variable(name: $0), type: type, startIndex: startIndex, endIndex: endIndex) })
         } else {
-            return variableNames.map({ VariableDeclaration(variable: Variable(name: $0), type: typeSpec()) })
+            let type = typeSpec()
+            return variableNames.map({ VariableDeclaration(variable: Variable(name: $0), type: type) })
         }
     }
 

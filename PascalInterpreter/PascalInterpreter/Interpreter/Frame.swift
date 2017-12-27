@@ -30,9 +30,9 @@ class Frame {
             case .real:
                 arrays[symbol.key.uppercased()] = Array(repeating: .number(.real(0)), count: arraySymbol.endIndex - arraySymbol.startIndex + 1)
             case .boolean:
-                 arrays[symbol.key.uppercased()] = Array(repeating: .boolean(false), count: arraySymbol.endIndex - arraySymbol.startIndex + 1)
+                arrays[symbol.key.uppercased()] = Array(repeating: .boolean(false), count: arraySymbol.endIndex - arraySymbol.startIndex + 1)
             case .string:
-                 arrays[symbol.key.uppercased()] = Array(repeating: .string(""), count: arraySymbol.endIndex - arraySymbol.startIndex + 1)
+                arrays[symbol.key.uppercased()] = Array(repeating: .string(""), count: arraySymbol.endIndex - arraySymbol.startIndex + 1)
             }
         }
     }
@@ -46,7 +46,7 @@ class Frame {
             let arraySymbol = symbol as? ArraySymbol,
             let type = arraySymbol.type as? BuiltInTypeSymbol {
 
-            let computedIndex =  index - arraySymbol.startIndex
+            let computedIndex = index - arraySymbol.startIndex
             switch (value, type) {
             case (.number(.integer), .integer):
                 arrays[variable.uppercased()]![computedIndex] = value
@@ -116,7 +116,7 @@ class Frame {
     func get(variable: String, index: Int) -> Value {
         // variable define in current scole (procedure declataion, etc)
         if let symbol = scope.lookup(variable, currentScopeOnly: true), let arraySymbol = symbol as? ArraySymbol {
-            let computedIndex =  index - arraySymbol.startIndex
+            let computedIndex = index - arraySymbol.startIndex
             return arrays[variable.uppercased()]![computedIndex]
         }
 

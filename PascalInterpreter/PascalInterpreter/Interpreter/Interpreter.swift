@@ -240,8 +240,8 @@ public class Interpreter {
         eval(node: tree)
     }
 
-    func getState() -> ([String: Value]) {
-        return (callStack.peek()!.scalars)
+    func getState() -> ([String: Value], [String: [Value]]) {
+        return (callStack.peek()!.scalars, callStack.peek()!.arrays)
     }
 
     public func printState() {

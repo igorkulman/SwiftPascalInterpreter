@@ -480,4 +480,21 @@ class LexerTests: XCTestCase {
         XCTAssert(lexer.getNextToken() == .constant(.integer(1)))
         XCTAssert(lexer.getNextToken() == .eof)
     }
+
+    func testArrayTokens() {
+        let lexer = Lexer("var x: array [1..5] of Integer")
+        XCTAssert(lexer.getNextToken() == .varDef)
+        XCTAssert(lexer.getNextToken() == .id("x"))
+        XCTAssert(lexer.getNextToken() == .colon)
+        XCTAssert(lexer.getNextToken() == .array)
+        XCTAssert(lexer.getNextToken() == .bracket(.left))
+        XCTAssert(lexer.getNextToken() == .constant(.integer(1)))
+        XCTAssert(lexer.getNextToken() == .dot)
+        XCTAssert(lexer.getNextToken() == .dot)
+        XCTAssert(lexer.getNextToken() == .constant(.integer(5)))
+        XCTAssert(lexer.getNextToken() == .bracket(.right))
+        XCTAssert(lexer.getNextToken() == .of)
+        XCTAssert(lexer.getNextToken() == .type(.integer))
+        XCTAssert(lexer.getNextToken() == .eof)
+    }
 }

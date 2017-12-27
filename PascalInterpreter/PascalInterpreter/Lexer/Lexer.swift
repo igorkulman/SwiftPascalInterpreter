@@ -115,7 +115,7 @@ public class Lexer {
             advance()
         }
 
-        if let character = currentCharacter, character == ".", text[text.index(text.startIndex, offsetBy: currentPosition)] != "." {
+        if let character = currentCharacter, character == ".", text[text.index(text.startIndex, offsetBy: currentPosition + 1)] != "." {
             lexem += "."
             advance()
 
