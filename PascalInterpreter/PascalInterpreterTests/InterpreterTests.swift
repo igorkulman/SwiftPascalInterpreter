@@ -70,7 +70,7 @@ class InterpreterTests: XCTestCase {
         let interpeter = Interpreter(program)
         interpeter.interpret()
         let state = interpeter.getState()
-        XCTAssert(state == ["b": Value.number(.integer(25)), "a": Value.number(.integer(2)), "y": Value.number(.real( 5.9971428571428573))])
+        XCTAssert(state == ["b": Value.number(.integer(25)), "a": Value.number(.integer(2)), "y": Value.number(.real(5.9971428571428573))])
     }
 
     func testProgramWithProcedureCallAndNoParameters() {
@@ -95,7 +95,7 @@ class InterpreterTests: XCTestCase {
         let interpeter = Interpreter(program)
         interpeter.interpret()
         let state = interpeter.getState()
-        XCTAssert(state == ["x": Value.number(.real(7)), "y": Value.number(.real( 5))])
+        XCTAssert(state == ["x": Value.number(.real(7)), "y": Value.number(.real(5))])
     }
 
     func testProgramWithProcedureCallAndParameters() {
@@ -237,5 +237,23 @@ class InterpreterTests: XCTestCase {
         interpeter.interpret()
         let state = interpeter.getState()
         XCTAssert(state == ["x": Value.number(.integer(6))])
+    }
+
+    func testProgramWithArray() {
+    let program =
+    """
+    program Main;
+    var data: array [1..5] of Integer;
+
+    begin
+    for i:=1 to 5 do
+    begin
+        data[i] := i;
+    end;
+    end.
+    """
+
+        let interpeter = Interpreter(program)
+        interpeter.interpret()
     }
 }

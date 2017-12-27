@@ -191,6 +191,7 @@ public class Parser {
 
     /**
      variable_declaration : ID (COMMA ID)* COLON type_spec
+     | ID (COMMA ID)* COLON ARRAY LBRACKET startIndex DOT DOT endIdex RBRACKE OF type_spec
      */
     private func variableDeclaration() -> [VariableDeclaration] {
         guard case let .id(name) = currentToken else {
@@ -212,13 +213,38 @@ public class Parser {
 
         eat(.colon)
 
-        let type = typeSpec()
-        return variableNames.map({ VariableDeclaration(variable: Variable(name: $0), type: type) })
+        if currentToken == .array {
+            eat(.array)
+            eat(.bracket(.left))
+            var startIndex = 0
+            var endIndex = 0
+            if case let .constant(.integer(start)) = currentToken {
+                eat(.constant(.integer(start)))
+                startIndex = start
+            } else {
+                fatalError("Start index of array expected, got \(currentToken)")
+            }
+            eat(.dot)
+            eat(.dot)
+            if case let .constant(.integer(end)) = currentToken {
+                eat(.constant(.integer(end)))
+                endIndex = end
+            } else {
+                fatalError("End index of array expected, got \(currentToken)")
+            }
+            eat(.bracket(.right))
+            eat(.of)
+            return variableNames.map({ ArrayDeclaration(variable: Variable(name: $0), type: typeSpec(), startIndex: startIndex, endIndex: endIndex) })
+        } else {
+            return variableNames.map({ VariableDeclaration(variable: Variable(name: $0), type: typeSpec()) })
+        }
     }
 
     /**
      type_spec : INTEGER
      | REAL
+     | STRING
+     | BOOLEAN
      */
     private func typeSpec() -> VariableType {
         switch currentToken {
@@ -442,6 +468,14 @@ public class Parser {
      */
     private func assignmentStatement() -> Assignment {
         let left = variable()
+        if currentToken == .bracket(.left) {
+            eat(.bracket(.left))
+            let indexExpression = expr()
+            eat(.bracket(.right))
+            eat(.assign)
+            let right = expr()
+            return Assignment(left: left, right: right, index: indexExpression)
+        }
         eat(.assign)
         let right = expr()
         return Assignment(left: left, right: right)

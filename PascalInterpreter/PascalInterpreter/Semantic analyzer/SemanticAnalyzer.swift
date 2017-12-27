@@ -50,7 +50,12 @@ public class SemanticAnalyzer: Visitor {
             fatalError("Type not found '\(variableDeclaration.type.type.description)'")
         }
 
-        scope.insert(VariableSymbol(name: variableDeclaration.variable.name, type: symbolType))
+        switch variableDeclaration {
+        case let arrayDeclaration as ArrayDeclaration:
+            scope.insert(ArraySymbol(name: arrayDeclaration.variable.name, type: symbolType, startIndex: arrayDeclaration.startIndex, endIndex: arrayDeclaration.endIndex))
+        default:
+            scope.insert(VariableSymbol(name: variableDeclaration.variable.name, type: symbolType))
+        }
     }
 
     func visit(function: Function) {

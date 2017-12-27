@@ -43,7 +43,9 @@ public class Lexer {
         "FOR": .for,
         "TO": .to,
         "DO": .do,
-        "WHILE": .while
+        "WHILE": .while,
+        "OF": .of,
+        "ARRAY": .array
     ]
 
     public init(_ text: String) {
@@ -113,7 +115,7 @@ public class Lexer {
             advance()
         }
 
-        if let character = currentCharacter, character == "." {
+        if let character = currentCharacter, character == ".", text[text.index(text.startIndex, offsetBy: currentPosition)] != "." {
             lexem += "."
             advance()
 
@@ -247,6 +249,16 @@ public class Lexer {
             if currentCharacter == ")" {
                 advance()
                 return .parenthesis(.right)
+            }
+
+            if currentCharacter == "[" {
+                advance()
+                return .bracket(.left)
+            }
+
+            if currentCharacter == "]" {
+                advance()
+                return .bracket(.right)
             }
 
             if currentCharacter == "=" {

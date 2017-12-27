@@ -77,10 +77,12 @@ class Compound: AST {
 class Assignment: AST {
     let left: Variable
     let right: AST
+    let index: AST?
 
-    init(left: Variable, right: AST) {
+    init(left: Variable, right: AST, index: AST? = nil) {
         self.left = left
         self.right = right
+        self.index = index
     }
 }
 
@@ -120,6 +122,18 @@ class VariableDeclaration: Declaration {
     init(variable: Variable, type: VariableType) {
         self.variable = variable
         self.type = type
+    }
+}
+
+class ArrayDeclaration: VariableDeclaration {
+    let startIndex: Int
+    let endIndex: Int
+
+    init(variable: Variable, type: VariableType, startIndex: Int, endIndex: Int) {
+        self.startIndex = startIndex
+        self.endIndex = endIndex
+
+        super.init(variable: variable, type: type)
     }
 }
 

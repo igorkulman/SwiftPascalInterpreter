@@ -109,7 +109,11 @@ public class Interpreter {
             fatalError("No call stack frame")
         }
 
-        currentFrame.set(variable: assignment.left.name, value: eval(node: assignment.right))
+        if let expression = assignment.index, case let .number(.integer(index)) = eval(node: expression) {
+            currentFrame.set(variable: assignment.left.name, value: eval(node: assignment.right), index: index)
+        } else {
+            currentFrame.set(variable: assignment.left.name, value: eval(node: assignment.right))
+        }
         return .none
     }
 
@@ -237,11 +241,12 @@ public class Interpreter {
     }
 
     func getState() -> ([String: Value]) {
-        return (callStack.peek()!.memory)
+        return (callStack.peek()!.scalars)
     }
 
     public func printState() {
         print("Final interpreter memory state (\(callStack.peek()!.scope.name)):")
-        print(callStack.peek()!.memory)
+        print(callStack.peek()!.scalars)
+        print(callStack.peek()!.arrays)
     }
 }

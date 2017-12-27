@@ -16,7 +16,12 @@ extension BuiltInTypeSymbol: CustomStringConvertible {
 
 extension VariableSymbol: CustomStringConvertible {
     public var description: String {
-        return "<VarSymbol(name='\(name)', type='\(type.name)')>"
+        switch self {
+        case let arraySymbol as ArraySymbol:
+            return "<ArrayVarSymbol(name='\(arraySymbol.name)', type='\(arraySymbol.type.name)', start='\(arraySymbol.startIndex)', end='\(arraySymbol.endIndex)')>"
+        default:
+            return "<VarSymbol(name='\(name)', type='\(type.name)')>"
+        }
     }
 }
 

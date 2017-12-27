@@ -9,7 +9,7 @@
 import Foundation
 
 public class ScopedSymbolTable {
-    private var symbols: [String: Symbol] = [:]
+    private(set) var symbols: [String: Symbol] = [:]
 
     let name: String
     let level: Int

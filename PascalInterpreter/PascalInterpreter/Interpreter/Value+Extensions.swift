@@ -28,16 +28,16 @@ extension Value: CustomStringConvertible {
         switch self {
         case .none:
             return "NIL"
-        case .boolean(let value):
+        case let .boolean(value):
             return "BOOLEAN(\(value))"
-        case .string(let value):
+        case let .string(value):
             return "STRING(\(value))"
-        case .number(let number):
+        case let .number(number):
             switch number {
-            case .integer(let value):
-                return "INTEGER(\(value)"
-            case .real(let value):
-                return "REAL(\(value)"
+            case let .integer(value):
+                return "INTEGER(\(value))"
+            case let .real(value):
+                return "REAL(\(value))"
             }
         }
     }

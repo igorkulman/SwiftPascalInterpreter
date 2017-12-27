@@ -71,6 +71,12 @@ extension Token: Equatable {
             return true
         case (.while, .while):
             return true
+        case (.of, .of):
+            return true
+        case (.array, .array):
+            return true
+        case let (.bracket(left), .bracket(right)):
+            return left == right
         default:
             return false
         }
@@ -133,6 +139,17 @@ extension Parenthesis: CustomStringConvertible {
             return "LPAREN"
         case .right:
             return "RPAREN"
+        }
+    }
+}
+
+extension Bracket: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .left:
+            return "LBRACKET"
+        case .right:
+            return "RBRACKET"
         }
     }
 }
@@ -215,6 +232,12 @@ extension Token: CustomStringConvertible {
             return "DO"
         case .while:
             return "WHILE"
+        case .array:
+            return "ARRAY"
+        case .of:
+            return "OF"
+        case let .bracket(bracket):
+            return bracket.description
         }
     }
 }

@@ -42,6 +42,17 @@ class VariableSymbol: Symbol {
     }
 }
 
+class ArraySymbol: VariableSymbol {
+    let startIndex: Int
+    let endIndex: Int
+
+    init(name: String, type: Symbol, startIndex: Int, endIndex: Int) {
+        self.startIndex = startIndex
+        self.endIndex = endIndex
+        super.init(name: name, type: type)
+    }
+}
+
 class ProcedureSymbol: Symbol {
     let name: String
     let params: [Symbol]
