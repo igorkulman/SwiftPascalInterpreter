@@ -470,14 +470,6 @@ public class Parser {
      */
     private func assignmentStatement() -> Assignment {
         let left = variable()
-        if currentToken == .bracket(.left) {
-            eat(.bracket(.left))
-            let indexExpression = expr()
-            eat(.bracket(.right))
-            eat(.assign)
-            let right = expr()
-            return Assignment(left: left, right: right)
-        }
         eat(.assign)
         let right = expr()
         return Assignment(left: left, right: right)
