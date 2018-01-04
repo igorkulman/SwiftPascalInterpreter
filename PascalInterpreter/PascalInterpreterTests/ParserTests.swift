@@ -492,4 +492,30 @@ class ParserTests: XCTestCase {
         let node = Program(name: "Main", block: block)
         XCTAssertEqual(result, node)
     }
+
+    func testProgramWithArray() {
+        let program =
+            """
+            program Main;
+            var data: array [1..5] of Integer;
+
+            begin
+            for i:=1 to length(data) do
+            begin
+                data[i] := i;
+            end;
+            writeln(data[2]);
+            end.
+            """
+
+        let parser = Parser(program)
+        let result = parser.parse()
+        let dataDec = ArrayDeclaration(variable: Variable(name: "data"), type: VariableType(type: .integer), startIndex: 1, endIndex: 5)
+        let writeln = FunctionCall(name: "writeln", actualParameters: [ArrayVariable(name: "data", index: Number.integer(2))])
+        let loop = For(statement: Compound(children: [Assignment(left: ArrayVariable(name: "data", index: Variable(name: "i")), right: Variable(name: "i")), NoOp()]), variable: Variable(name: "i"), startValue: Number.integer(1), endValue: FunctionCall(name: "length", actualParameters: [Variable(name: "data")]))
+        let compound = Compound(children: [loop, writeln, NoOp()])
+        let block = Block(declarations: [dataDec], compound: compound)
+        let node = Program(name: "Main", block: block)
+        XCTAssertEqual(result, node)
+    }
 }
