@@ -21,6 +21,11 @@ public enum Parenthesis {
     case right
 }
 
+public enum Bracket {
+    case left
+    case right
+}
+
 public enum Constant {
     case integer(Int)
     case real(Double)
@@ -66,4 +71,7 @@ public enum Token {
     case to
     case `do`
     case `while`
+    case array
+    case of
+    case bracket(Bracket)
 }

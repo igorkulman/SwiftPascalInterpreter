@@ -18,6 +18,8 @@ public class Lexer {
     private let text: String
     private var currentPosition: Int
     private var currentCharacter: Character?
+    private var isStringStart = false
+    private var wasStringLast = false
 
     // MARK: - Constants
 
@@ -43,7 +45,9 @@ public class Lexer {
         "FOR": .for,
         "TO": .to,
         "DO": .do,
-        "WHILE": .while
+        "WHILE": .while,
+        "OF": .of,
+        "ARRAY": .array
     ]
 
     public init(_ text: String) {
@@ -113,7 +117,7 @@ public class Lexer {
             advance()
         }
 
-        if let character = currentCharacter, character == "." {
+        if let character = currentCharacter, character == ".", text[text.index(text.startIndex, offsetBy: currentPosition + 1)] != "." {
             lexem += "."
             advance()
 
@@ -148,13 +152,11 @@ public class Lexer {
     }
 
     private func string() -> Token {
-        advance()
         var lexem = ""
         while let character = currentCharacter, character != "'" {
             lexem += String(character)
             advance()
         }
-        advance()
         return .constant(.string(lexem))
     }
 
@@ -169,6 +171,20 @@ public class Lexer {
 
         while let currentCharacter = currentCharacter {
 
+            if wasStringLast {
+                wasStringLast = false
+                if currentCharacter == "'" {
+                    advance()
+                }
+                return .apostrophe
+            }
+
+            if isStringStart {
+                wasStringLast = true
+                isStringStart = false
+                return string()
+            }
+
             if CharacterSet.whitespacesAndNewlines.contains(currentCharacter.unicodeScalars.first!) {
                 skipWhitestace()
                 continue
@@ -181,7 +197,9 @@ public class Lexer {
             }
 
             if currentCharacter == "'" {
-                return string()
+                advance()
+                isStringStart = !isStringStart
+                return .apostrophe
             }
 
             // if the character is a digit, convert it to int, create an integer token and move position
@@ -247,6 +265,16 @@ public class Lexer {
             if currentCharacter == ")" {
                 advance()
                 return .parenthesis(.right)
+            }
+
+            if currentCharacter == "[" {
+                advance()
+                return .bracket(.left)
+            }
+
+            if currentCharacter == "]" {
+                advance()
+                return .bracket(.right)
             }
 
             if currentCharacter == "=" {

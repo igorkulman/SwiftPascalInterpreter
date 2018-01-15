@@ -25,8 +25,9 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
-        let state = interpeter.getState()
-        XCTAssert(state == ["a": Value.number(.integer(2))])
+        let (scalars, arrays) = interpeter.getState()
+        XCTAssert(scalars == ["A": Value.number(.integer(2))])
+        XCTAssert(arrays.count == 0)
     }
 
     func testMoreComplexProgram() {
@@ -48,8 +49,9 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
-        let state = interpeter.getState()
-        XCTAssert(state == ["b": Value.number(.integer(25)), "number": Value.number(.integer(2)), "a": Value.number(.integer(2)), "x": Value.number(.integer(11)), "c": Value.number(.integer(27))])
+        let (scalars, arrays) = interpeter.getState()
+        XCTAssert(scalars == ["B": Value.number(.integer(25)), "NUMBER": Value.number(.integer(2)), "A": Value.number(.integer(2)), "X": Value.number(.integer(11)), "C": Value.number(.integer(27))])
+        XCTAssert(arrays.count == 0)
     }
 
     func testProgramWithDeclarations() {
@@ -69,8 +71,9 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
-        let state = interpeter.getState()
-        XCTAssert(state == ["b": Value.number(.integer(25)), "a": Value.number(.integer(2)), "y": Value.number(.real( 5.9971428571428573))])
+        let (scalars, arrays) = interpeter.getState()
+        XCTAssert(scalars == ["B": Value.number(.integer(25)), "A": Value.number(.integer(2)), "Y": Value.number(.real(5.9971428571428573))])
+        XCTAssert(arrays.count == 0)
     }
 
     func testProgramWithProcedureCallAndNoParameters() {
@@ -94,8 +97,9 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
-        let state = interpeter.getState()
-        XCTAssert(state == ["x": Value.number(.real(7)), "y": Value.number(.real( 5))])
+        let (scalars, arrays) = interpeter.getState()
+        XCTAssert(scalars == ["X": Value.number(.real(7)), "Y": Value.number(.real(5))])
+        XCTAssert(arrays.count == 0)
     }
 
     func testProgramWithProcedureCallAndParameters() {
@@ -117,8 +121,9 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
-        let state = interpeter.getState()
-        XCTAssert(state == ["x": Value.number(.real(5)), "y": Value.number(.real(3))])
+        let (scalars, arrays) = interpeter.getState()
+        XCTAssert(scalars == ["X": Value.number(.real(5)), "Y": Value.number(.real(3))])
+        XCTAssert(arrays.count == 0)
     }
 
     func testProgramWithRecursiveFunction() {
@@ -142,8 +147,9 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
-        let state = interpeter.getState()
-        XCTAssert(state == ["result": Value.number(.integer(720))])
+        let (scalars, arrays) = interpeter.getState()
+        XCTAssert(scalars == ["RESULT": Value.number(.integer(720))])
+        XCTAssert(arrays.count == 0)
     }
 
     func testProgramWithRecursiveAndBuiltInFunctions() {
@@ -168,8 +174,9 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
-        let state = interpeter.getState()
-        XCTAssert(state == ["result": Value.number(.integer(720))])
+        let (scalars, arrays) = interpeter.getState()
+        XCTAssert(scalars == ["RESULT": Value.number(.integer(720))])
+        XCTAssert(arrays.count == 0)
     }
 
     func testProgramWithRecursiveFunctionsAndParameterTheSameName() {
@@ -194,8 +201,9 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
-        let state = interpeter.getState()
-        XCTAssert(state == ["result": Value.number(.integer(720)), "number": Value.number(.integer(6))])
+        let (scalars, arrays) = interpeter.getState()
+        XCTAssert(scalars == ["RESULT": Value.number(.integer(720)), "NUMBER": Value.number(.integer(6))])
+        XCTAssert(arrays.count == 0)
     }
 
     func testProgramWithRepeatUntil() {
@@ -215,8 +223,9 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
-        let state = interpeter.getState()
-        XCTAssert(state == ["x": Value.number(.integer(6))])
+        let (scalars, arrays) = interpeter.getState()
+        XCTAssert(scalars == ["X": Value.number(.integer(6))])
+        XCTAssert(arrays.count == 0)
     }
 
     func testProgramWithForLoop() {
@@ -235,7 +244,31 @@ class InterpreterTests: XCTestCase {
 
         let interpeter = Interpreter(program)
         interpeter.interpret()
-        let state = interpeter.getState()
-        XCTAssert(state == ["x": Value.number(.integer(6))])
+        let (scalars, arrays) = interpeter.getState()
+        XCTAssert(scalars == ["X": Value.number(.integer(6))])
+        XCTAssert(arrays.count == 0)
+    }
+
+    func testProgramWithArray() {
+        let program =
+            """
+            program Main;
+            var data: array [1..5] of Integer;
+
+            begin
+            for i:=1 to length(data) do
+            begin
+                data[i] := i;
+            end;
+            writeln(data[2]);
+            end.
+            """
+
+        let interpeter = Interpreter(program)
+        interpeter.interpret()
+        let (scalars, arrays) = interpeter.getState()
+        XCTAssert(scalars == [:])
+        XCTAssert(arrays.count == 1)
+        XCTAssert(arrays["DATA"]! == [Value.number(.integer(1)), Value.number(.integer(2)), Value.number(.integer(3)), Value.number(.integer(4)), Value.number(.integer(5))])
     }
 }

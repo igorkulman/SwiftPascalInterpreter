@@ -9,7 +9,7 @@
 import Foundation
 
 public class ScopedSymbolTable {
-    private var symbols: [String: Symbol] = [:]
+    private(set) var symbols: [String: Symbol] = [:]
 
     let name: String
     let level: Int
@@ -37,6 +37,7 @@ public class ScopedSymbolTable {
         symbols["READ"] = BuiltInProcedureSymbol(name: "READ", parameters: [], hasVariableParameters: true)
         symbols["READLN"] = BuiltInProcedureSymbol(name: "READLN", parameters: [], hasVariableParameters: true)
         symbols["RANDOM"] = BuiltInProcedureSymbol(name: "RANDOM", parameters: [BuiltInTypeSymbol.integer], hasVariableParameters: false)
+        symbols["LENGTH"] = BuiltInProcedureSymbol(name: "LENGTH", parameters: [], hasVariableParameters: true)
     }
 
     func insert(_ symbol: Symbol) {

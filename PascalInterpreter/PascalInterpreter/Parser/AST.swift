@@ -92,6 +92,15 @@ class Variable: AST {
     }
 }
 
+class ArrayVariable: Variable {
+    let index: AST
+
+    init(name: String, index: AST) {
+        self.index = index
+        super.init(name: name)
+    }
+}
+
 class NoOp: AST {
 }
 
@@ -120,6 +129,18 @@ class VariableDeclaration: Declaration {
     init(variable: Variable, type: VariableType) {
         self.variable = variable
         self.type = type
+    }
+}
+
+class ArrayDeclaration: VariableDeclaration {
+    let startIndex: Int
+    let endIndex: Int
+
+    init(variable: Variable, type: VariableType, startIndex: Int, endIndex: Int) {
+        self.startIndex = startIndex
+        self.endIndex = endIndex
+
+        super.init(variable: variable, type: type)
     }
 }
 

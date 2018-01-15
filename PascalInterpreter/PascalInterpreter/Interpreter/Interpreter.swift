@@ -109,7 +109,16 @@ public class Interpreter {
             fatalError("No call stack frame")
         }
 
-        currentFrame.set(variable: assignment.left.name, value: eval(node: assignment.right))
+        switch assignment.left {
+        case let array as ArrayVariable:
+            guard case let .number(.integer(index)) = eval(node: array.index) else {
+                fatalError("Cannot use non-Integer index with array '\(array.name)'")
+            }
+            currentFrame.set(variable: assignment.left.name, value: eval(node: assignment.right), index: index)
+        default:
+            currentFrame.set(variable: assignment.left.name, value: eval(node: assignment.right))
+        }
+
         return .none
     }
 
@@ -117,7 +126,16 @@ public class Interpreter {
         guard let currentFrame = callStack.peek() else {
             fatalError("No call stack frame")
         }
-        return currentFrame.get(variable: variable.name)
+
+        switch variable {
+        case let array as ArrayVariable:
+            guard case let .number(.integer(index)) = eval(node: array.index) else {
+                fatalError("Cannot use non-Integer index with array '\(array.name)'")
+            }
+            return currentFrame.get(variable: array.name, index: index)
+        default:
+            return currentFrame.get(variable: variable.name)
+        }
     }
 
     func eval(block: Block) -> Value {
@@ -236,12 +254,13 @@ public class Interpreter {
         eval(node: tree)
     }
 
-    func getState() -> ([String: Value]) {
-        return (callStack.peek()!.memory)
+    func getState() -> ([String: Value], [String: [Value]]) {
+        return (callStack.peek()!.scalars, callStack.peek()!.arrays)
     }
 
     public func printState() {
         print("Final interpreter memory state (\(callStack.peek()!.scope.name)):")
-        print(callStack.peek()!.memory)
+        print(callStack.peek()!.scalars)
+        print(callStack.peek()!.arrays)
     }
 }

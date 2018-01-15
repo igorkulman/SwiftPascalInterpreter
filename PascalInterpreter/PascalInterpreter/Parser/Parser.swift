@@ -191,6 +191,7 @@ public class Parser {
 
     /**
      variable_declaration : ID (COMMA ID)* COLON type_spec
+     | ID (COMMA ID)* COLON ARRAY LBRACKET startIndex DOT DOT endIdex RBRACKE OF type_spec
      */
     private func variableDeclaration() -> [VariableDeclaration] {
         guard case let .id(name) = currentToken else {
@@ -212,13 +213,40 @@ public class Parser {
 
         eat(.colon)
 
-        let type = typeSpec()
-        return variableNames.map({ VariableDeclaration(variable: Variable(name: $0), type: type) })
+        if currentToken == .array {
+            eat(.array)
+            eat(.bracket(.left))
+            var startIndex = 0
+            var endIndex = 0
+            if case let .constant(.integer(start)) = currentToken {
+                eat(.constant(.integer(start)))
+                startIndex = start
+            } else {
+                fatalError("Start index of array expected, got \(currentToken)")
+            }
+            eat(.dot)
+            eat(.dot)
+            if case let .constant(.integer(end)) = currentToken {
+                eat(.constant(.integer(end)))
+                endIndex = end
+            } else {
+                fatalError("End index of array expected, got \(currentToken)")
+            }
+            eat(.bracket(.right))
+            eat(.of)
+            let type = typeSpec()
+            return variableNames.map({ ArrayDeclaration(variable: Variable(name: $0), type: type, startIndex: startIndex, endIndex: endIndex) })
+        } else {
+            let type = typeSpec()
+            return variableNames.map({ VariableDeclaration(variable: Variable(name: $0), type: type) })
+        }
     }
 
     /**
      type_spec : INTEGER
      | REAL
+     | STRING
+     | BOOLEAN
      */
     private func typeSpec() -> VariableType {
         switch currentToken {
@@ -511,6 +539,12 @@ public class Parser {
         switch currentToken {
         case let .id(value):
             eat(.id(value))
+            if currentToken == .bracket(.left) {
+                eat(.bracket(.left))
+                let index = expr()
+                eat(.bracket(.right))
+                return ArrayVariable(name: value, index: index)
+            }
             return Variable(name: value)
         default:
             fatalError("Syntax error, expected variable, found \(currentToken)")
@@ -549,8 +583,13 @@ public class Parser {
             let result = expr()
             eat(.parenthesis(.right))
             return result
-        case let .constant(.string(value)):
+        case .apostrophe:
+            eat(.apostrophe)
+            guard case let .constant(.string(value)) = currentToken else {
+                fatalError("Expected string literal after '")
+            }
             eat(.constant(.string(value)))
+            eat(.apostrophe)
             return value
         case let .constant(.boolean(value)):
             eat(.constant(.boolean(value)))

@@ -408,7 +408,7 @@ class LexerTests: XCTestCase {
     }
 
     func testDataTypes() {
-        let lexer = Lexer("a: Integer; b: Real; c: Boolean; c:= true; c:=false; d:= 'Test string'")
+        let lexer = Lexer("a: Integer; b: Real; c: Boolean; c:= true; c:=false; d:= 'Test string'; 'Another'")
         XCTAssert(lexer.getNextToken() == .id("a"))
         XCTAssert(lexer.getNextToken() == .colon)
         XCTAssert(lexer.getNextToken() == .type(.integer))
@@ -431,7 +431,13 @@ class LexerTests: XCTestCase {
         XCTAssert(lexer.getNextToken() == .semi)
         XCTAssert(lexer.getNextToken() == .id("d"))
         XCTAssert(lexer.getNextToken() == .assign)
+        XCTAssert(lexer.getNextToken() == .apostrophe)
         XCTAssert(lexer.getNextToken() == .constant(.string("Test string")))
+        XCTAssert(lexer.getNextToken() == .apostrophe)
+        XCTAssert(lexer.getNextToken() == .semi)
+        XCTAssert(lexer.getNextToken() == .apostrophe)
+        XCTAssert(lexer.getNextToken() == .constant(.string("Another")))
+        XCTAssert(lexer.getNextToken() == .apostrophe)
         XCTAssert(lexer.getNextToken() == .eof)
     }
 
@@ -478,6 +484,23 @@ class LexerTests: XCTestCase {
         XCTAssert(lexer.getNextToken() == .id("x"))
         XCTAssert(lexer.getNextToken() == .operation(.plus))
         XCTAssert(lexer.getNextToken() == .constant(.integer(1)))
+        XCTAssert(lexer.getNextToken() == .eof)
+    }
+
+    func testArrayTokens() {
+        let lexer = Lexer("var x: array [1..5] of Integer")
+        XCTAssert(lexer.getNextToken() == .varDef)
+        XCTAssert(lexer.getNextToken() == .id("x"))
+        XCTAssert(lexer.getNextToken() == .colon)
+        XCTAssert(lexer.getNextToken() == .array)
+        XCTAssert(lexer.getNextToken() == .bracket(.left))
+        XCTAssert(lexer.getNextToken() == .constant(.integer(1)))
+        XCTAssert(lexer.getNextToken() == .dot)
+        XCTAssert(lexer.getNextToken() == .dot)
+        XCTAssert(lexer.getNextToken() == .constant(.integer(5)))
+        XCTAssert(lexer.getNextToken() == .bracket(.right))
+        XCTAssert(lexer.getNextToken() == .of)
+        XCTAssert(lexer.getNextToken() == .type(.integer))
         XCTAssert(lexer.getNextToken() == .eof)
     }
 }

@@ -17,6 +17,7 @@ Simple Swift interpreter for the Pascal language inspired by the [Let’s Build 
 * loops (for, repet until, while)
 * logical conditions (if)
 * standard Pascal functions (writeln, write, readln, read, random)
+* one-dimensional arrays
 
 There are a few sample Pascal programs in the [Examples directory](Examples), like a simple [number guessing game](Examples/game.pas) and a [factorial computation](Examples/factorial.pas).
 
