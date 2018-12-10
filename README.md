@@ -85,3 +85,12 @@ end.
 ````
 
 ![Playground](Images/playground.png) 
+
+
+## Author
+
+Igor Kulman - igor@kulman.sk
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
