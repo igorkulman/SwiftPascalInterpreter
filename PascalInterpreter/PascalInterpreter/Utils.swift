@@ -119,7 +119,7 @@ func treeString<T>(_ node: T, using nodeInfo: (T) -> (String, T?, T?)) -> String
     //   * right sub line with extra leading blanks removed.
     let mergedSubLines = zip(mergeOffsets.enumerated(), indentedLeftLines)
         .map { ($0.0, $0.1, $1 + String(repeating: " ", count: max(0, $0.1))) }
-        .map { $2 + String(rightSubLines[$0].characters.dropFirst(max(0, -$1))) }
+        .map { $2 + String(rightSubLines[$0].dropFirst(max(0, -$1))) }
 
     // Assemble final result combining
     //  * node value string

@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Foundation
 @testable import PascalInterpreter
 import XCTest
 
