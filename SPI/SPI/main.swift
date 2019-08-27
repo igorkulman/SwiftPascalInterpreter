@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PascalInterpreter
 
 if CommandLine.arguments.count == 2 {
     let program = try String(contentsOfFile: CommandLine.arguments[1], encoding: String.Encoding.utf8)
