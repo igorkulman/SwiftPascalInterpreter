@@ -7,27 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F385A7DD1FF10A0E004BAD6F /* Value+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F385A7DC1FF10A0E004BAD6F /* Value+Extensions.swift */; };
-		F385B5C41FE6CBB9001B57F4 /* Interpreter+Standard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F385B5C31FE6CBB9001B57F4 /* Interpreter+Standard.swift */; };
 		F3D90DD91FE68E4C00FA79B3 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DD81FE68E4C00FA79B3 /* main.swift */; };
-		F3D90E001FE68EE300FA79B3 /* AST+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DEA1FE68EE300FA79B3 /* AST+Extensions.swift */; };
-		F3D90E011FE68EE300FA79B3 /* AST.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DEB1FE68EE300FA79B3 /* AST.swift */; };
-		F3D90E021FE68EE300FA79B3 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DEC1FE68EE300FA79B3 /* Parser.swift */; };
-		F3D90E031FE68EE300FA79B3 /* SemanticAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DEE1FE68EE300FA79B3 /* SemanticAnalyzer.swift */; };
-		F3D90E041FE68EE300FA79B3 /* Symbol+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DEF1FE68EE300FA79B3 /* Symbol+Extensions.swift */; };
-		F3D90E051FE68EE300FA79B3 /* Symbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DF01FE68EE300FA79B3 /* Symbol.swift */; };
-		F3D90E061FE68EE300FA79B3 /* SymbolTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DF11FE68EE300FA79B3 /* SymbolTable.swift */; };
-		F3D90E071FE68EE300FA79B3 /* Visitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DF21FE68EE300FA79B3 /* Visitor.swift */; };
-		F3D90E081FE68EE300FA79B3 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DF31FE68EE300FA79B3 /* Utils.swift */; };
-		F3D90E091FE68EE300FA79B3 /* Arithmetics.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DF51FE68EE300FA79B3 /* Arithmetics.swift */; };
-		F3D90E0A1FE68EE300FA79B3 /* Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DF61FE68EE300FA79B3 /* Frame.swift */; };
-		F3D90E0B1FE68EE300FA79B3 /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DF71FE68EE300FA79B3 /* Interpreter.swift */; };
-		F3D90E0C1FE68EE300FA79B3 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DF81FE68EE300FA79B3 /* Stack.swift */; };
-		F3D90E0D1FE68EE300FA79B3 /* Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DF91FE68EE300FA79B3 /* Value.swift */; };
-		F3D90E0E1FE68EE300FA79B3 /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DFB1FE68EE300FA79B3 /* Lexer.swift */; };
-		F3D90E0F1FE68EE300FA79B3 /* Token+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DFC1FE68EE300FA79B3 /* Token+Extensions.swift */; };
-		F3D90E101FE68EE300FA79B3 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DFD1FE68EE300FA79B3 /* Token.swift */; };
-		F3D90E111FE68EE300FA79B3 /* Naming+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D90DFF1FE68EE300FA79B3 /* Naming+Extensions.swift */; };
+		F3F372692315A7C000796779 /* PascalInterpreter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3F372682315A7C000796779 /* PascalInterpreter.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,28 +24,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		F385A7DC1FF10A0E004BAD6F /* Value+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Value+Extensions.swift"; sourceTree = "<group>"; };
-		F385B5C31FE6CBB9001B57F4 /* Interpreter+Standard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Interpreter+Standard.swift"; sourceTree = "<group>"; };
 		F3D90DD51FE68E4C00FA79B3 /* SPI */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SPI; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3D90DD81FE68E4C00FA79B3 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		F3D90DEA1FE68EE300FA79B3 /* AST+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AST+Extensions.swift"; sourceTree = "<group>"; };
-		F3D90DEB1FE68EE300FA79B3 /* AST.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AST.swift; sourceTree = "<group>"; };
-		F3D90DEC1FE68EE300FA79B3 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
-		F3D90DEE1FE68EE300FA79B3 /* SemanticAnalyzer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SemanticAnalyzer.swift; sourceTree = "<group>"; };
-		F3D90DEF1FE68EE300FA79B3 /* Symbol+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Symbol+Extensions.swift"; sourceTree = "<group>"; };
-		F3D90DF01FE68EE300FA79B3 /* Symbol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Symbol.swift; sourceTree = "<group>"; };
-		F3D90DF11FE68EE300FA79B3 /* SymbolTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SymbolTable.swift; sourceTree = "<group>"; };
-		F3D90DF21FE68EE300FA79B3 /* Visitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Visitor.swift; sourceTree = "<group>"; };
-		F3D90DF31FE68EE300FA79B3 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = ../PascalInterpreter/PascalInterpreter/Utils.swift; sourceTree = "<group>"; };
-		F3D90DF51FE68EE300FA79B3 /* Arithmetics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arithmetics.swift; sourceTree = "<group>"; };
-		F3D90DF61FE68EE300FA79B3 /* Frame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Frame.swift; sourceTree = "<group>"; };
-		F3D90DF71FE68EE300FA79B3 /* Interpreter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interpreter.swift; sourceTree = "<group>"; };
-		F3D90DF81FE68EE300FA79B3 /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
-		F3D90DF91FE68EE300FA79B3 /* Value.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Value.swift; sourceTree = "<group>"; };
-		F3D90DFB1FE68EE300FA79B3 /* Lexer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lexer.swift; sourceTree = "<group>"; };
-		F3D90DFC1FE68EE300FA79B3 /* Token+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Token+Extensions.swift"; sourceTree = "<group>"; };
-		F3D90DFD1FE68EE300FA79B3 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
-		F3D90DFF1FE68EE300FA79B3 /* Naming+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Naming+Extensions.swift"; sourceTree = "<group>"; };
+		F3F372682315A7C000796779 /* PascalInterpreter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PascalInterpreter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3F372692315A7C000796779 /* PascalInterpreter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,9 +44,9 @@
 		F3D90DCC1FE68E4C00FA79B3 = {
 			isa = PBXGroup;
 			children = (
-				F3D90DE11FE68E7400FA79B3 /* PascalInterpreter */,
 				F3D90DD71FE68E4C00FA79B3 /* SPI */,
 				F3D90DD61FE68E4C00FA79B3 /* Products */,
+				F3F372672315A7C000796779 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -103,76 +66,12 @@
 			path = SPI;
 			sourceTree = "<group>";
 		};
-		F3D90DE11FE68E7400FA79B3 /* PascalInterpreter */ = {
+		F3F372672315A7C000796779 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F3D90DFE1FE68EE300FA79B3 /* Extensions */,
-				F3D90DF41FE68EE300FA79B3 /* Interpreter */,
-				F3D90DFA1FE68EE300FA79B3 /* Lexer */,
-				F3D90DE91FE68EE300FA79B3 /* Parser */,
-				F3D90DED1FE68EE300FA79B3 /* Semantic analyzer */,
-				F3D90DF31FE68EE300FA79B3 /* Utils.swift */,
+				F3F372682315A7C000796779 /* PascalInterpreter.framework */,
 			);
-			name = PascalInterpreter;
-			sourceTree = "<group>";
-		};
-		F3D90DE91FE68EE300FA79B3 /* Parser */ = {
-			isa = PBXGroup;
-			children = (
-				F3D90DEA1FE68EE300FA79B3 /* AST+Extensions.swift */,
-				F3D90DEB1FE68EE300FA79B3 /* AST.swift */,
-				F3D90DEC1FE68EE300FA79B3 /* Parser.swift */,
-			);
-			name = Parser;
-			path = ../PascalInterpreter/PascalInterpreter/Parser;
-			sourceTree = "<group>";
-		};
-		F3D90DED1FE68EE300FA79B3 /* Semantic analyzer */ = {
-			isa = PBXGroup;
-			children = (
-				F3D90DEE1FE68EE300FA79B3 /* SemanticAnalyzer.swift */,
-				F3D90DEF1FE68EE300FA79B3 /* Symbol+Extensions.swift */,
-				F3D90DF01FE68EE300FA79B3 /* Symbol.swift */,
-				F3D90DF11FE68EE300FA79B3 /* SymbolTable.swift */,
-				F3D90DF21FE68EE300FA79B3 /* Visitor.swift */,
-			);
-			name = "Semantic analyzer";
-			path = "../PascalInterpreter/PascalInterpreter/Semantic analyzer";
-			sourceTree = "<group>";
-		};
-		F3D90DF41FE68EE300FA79B3 /* Interpreter */ = {
-			isa = PBXGroup;
-			children = (
-				F3D90DF51FE68EE300FA79B3 /* Arithmetics.swift */,
-				F3D90DF61FE68EE300FA79B3 /* Frame.swift */,
-				F3D90DF71FE68EE300FA79B3 /* Interpreter.swift */,
-				F385B5C31FE6CBB9001B57F4 /* Interpreter+Standard.swift */,
-				F3D90DF81FE68EE300FA79B3 /* Stack.swift */,
-				F3D90DF91FE68EE300FA79B3 /* Value.swift */,
-				F385A7DC1FF10A0E004BAD6F /* Value+Extensions.swift */,
-			);
-			name = Interpreter;
-			path = ../PascalInterpreter/PascalInterpreter/Interpreter;
-			sourceTree = "<group>";
-		};
-		F3D90DFA1FE68EE300FA79B3 /* Lexer */ = {
-			isa = PBXGroup;
-			children = (
-				F3D90DFB1FE68EE300FA79B3 /* Lexer.swift */,
-				F3D90DFC1FE68EE300FA79B3 /* Token+Extensions.swift */,
-				F3D90DFD1FE68EE300FA79B3 /* Token.swift */,
-			);
-			name = Lexer;
-			path = ../PascalInterpreter/PascalInterpreter/Lexer;
-			sourceTree = "<group>";
-		};
-		F3D90DFE1FE68EE300FA79B3 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				F3D90DFF1FE68EE300FA79B3 /* Naming+Extensions.swift */,
-			);
-			name = Extensions;
-			path = ../PascalInterpreter/PascalInterpreter/Extensions;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,27 +134,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F3D90E031FE68EE300FA79B3 /* SemanticAnalyzer.swift in Sources */,
-				F3D90E0F1FE68EE300FA79B3 /* Token+Extensions.swift in Sources */,
-				F3D90E021FE68EE300FA79B3 /* Parser.swift in Sources */,
-				F3D90E0D1FE68EE300FA79B3 /* Value.swift in Sources */,
-				F3D90E0C1FE68EE300FA79B3 /* Stack.swift in Sources */,
-				F385B5C41FE6CBB9001B57F4 /* Interpreter+Standard.swift in Sources */,
-				F3D90E061FE68EE300FA79B3 /* SymbolTable.swift in Sources */,
-				F3D90E011FE68EE300FA79B3 /* AST.swift in Sources */,
-				F3D90E0E1FE68EE300FA79B3 /* Lexer.swift in Sources */,
-				F3D90E091FE68EE300FA79B3 /* Arithmetics.swift in Sources */,
-				F3D90E101FE68EE300FA79B3 /* Token.swift in Sources */,
-				F3D90E0B1FE68EE300FA79B3 /* Interpreter.swift in Sources */,
-				F385A7DD1FF10A0E004BAD6F /* Value+Extensions.swift in Sources */,
-				F3D90E111FE68EE300FA79B3 /* Naming+Extensions.swift in Sources */,
-				F3D90E001FE68EE300FA79B3 /* AST+Extensions.swift in Sources */,
-				F3D90E081FE68EE300FA79B3 /* Utils.swift in Sources */,
-				F3D90E051FE68EE300FA79B3 /* Symbol.swift in Sources */,
 				F3D90DD91FE68E4C00FA79B3 /* main.swift in Sources */,
-				F3D90E0A1FE68EE300FA79B3 /* Frame.swift in Sources */,
-				F3D90E071FE68EE300FA79B3 /* Visitor.swift in Sources */,
-				F3D90E041FE68EE300FA79B3 /* Symbol+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
