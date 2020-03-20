@@ -25,7 +25,7 @@ There are a few sample Pascal programs in the [Examples directory](Examples), li
 
 ### Lexer
 
-The [Lexer](PascalInterpreter/PascalInterpreter/Lexer/Lexer.swift) reads the Pascal program as `String` (a sequence of characters) and converts it into a sequence of [Tokens](PascalInterpreter/PascalInterpreter/Lexer/Token.swift). You can see the result by trying it our in the Playground or on the [unit tests](PascalInterpreter/PascalInterpreterTests/LexerTests.swift).
+The [Lexer](PascalInterpreter/PascalInterpreter/Lexer/Lexer.swift) reads the Pascal program as `String` (a sequence of characters) and converts it into a sequence of [Tokens](PascalInterpreter/PascalInterpreter/Lexer/Token.swift). You can see the result by trying it out in the Playground or on the [unit tests](PascalInterpreter/PascalInterpreterTests/LexerTests.swift).
 
 ![Lexer](Images/lexer.png)
 
