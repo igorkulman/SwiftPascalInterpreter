@@ -44,7 +44,7 @@ extension Interpreter {
         guard params.count == 1, let first = params.first, case let .number(.integer(l)) = eval(node: first) else {
             fatalError("Random called with invalid parameters")
         }
-        
+
         let value = Int.random(in: 0...l)
         return .number(.integer(value))
     }
